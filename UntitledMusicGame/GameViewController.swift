@@ -11,7 +11,11 @@ import SpriteKit
 
 // 表示游戏阶段的枚举
 enum GameStage {
-    case StartUp, Analyze, Game, Result
+    case StartUp, Setting, Analyze, Game, Result
+}
+// 表示可视化类型的枚举
+enum visualization {
+    case Spectrum, None
 }
 // 全局变量
 var Stage = GameStage.StartUp                       // 游戏阶段
@@ -30,6 +34,8 @@ var combo: Int = 0
 var maxCombo: Int = 0
 var fullCombo = true
 var differentJudges = [0, 0, 0, 0, 0]
+
+var visualizationType = visualization.Spectrum
 
 var View = SKView()
 

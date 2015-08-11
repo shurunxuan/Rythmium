@@ -101,26 +101,30 @@ class AnalyzeScene: SKScene {
                 analyzingLabels[0].runAction(SKAction.sequence([SKAction.waitForDuration(0.5), staticNodesAppearAction]))
                 analyzingLabels[1].runAction(SKAction.sequence([SKAction.waitForDuration(0.5), staticNodesAppearAction]))
             }
+            
             if Double(currentTime) - startTime > 1 && Background.alpha > 0.95 {
-                exporter.Export()
-                Left.removeAll()
-                CafFile.OpenFile("export-pcm.caf")
-                CafFile.Peek(4088)
-                let fileLength = 256 * 256 * 256 * CafFile.ReadBinary(1) + 256 * 256 * CafFile.ReadBinary(1) +
-                    256 * CafFile.ReadBinary(1) + CafFile.ReadBinary(1) + 4092
-                CafFile.Peek(4096)
-                
-                Left.reserveCapacity(fileLength / 4)
-                while CafFile.OFFSET() != fileLength {
-                    var d = CafFile.ReadBinary()
-                    CafFile.Peek(CafFile.OFFSET() + 2)
-                    if d / 256 / 128 == 1 {
-                        d -= 65536
+                if needFFT || visualizationType != visualization.None {
+                    exporter.Export()
+                    Left.removeAll()
+                    CafFile.OpenFile("export-pcm.caf")
+                    CafFile.Peek(4088)
+                    let fileLength = 256 * 256 * 256 * CafFile.ReadBinary(1) + 256 * 256 * CafFile.ReadBinary(1) +
+                        256 * CafFile.ReadBinary(1) + CafFile.ReadBinary(1) + 4092
+                    CafFile.Peek(4096)
+                    
+                    Left.reserveCapacity(fileLength / 4)
+                    while CafFile.OFFSET() != fileLength {
+                        var d = CafFile.ReadBinary()
+                        CafFile.Peek(CafFile.OFFSET() + 2)
+                        if d / 256 / 128 == 1 {
+                            d -= 65536
+                        }
+                        Left.append(Double(d))
                     }
-                    Left.append(Double(d))
-                }
-                if needFFT {
-                    FFT(String(exporter.songID())+".mss", fileLength: fileLength)
+                    
+                    if needFFT {
+                        FFT(String(exporter.songID())+".mss", fileLength: fileLength)
+                    }
                 }
                 for label in analyzingLabels {
                     label.runAction(SKAction.sequence([SKAction.waitForDuration(0.5), staticNodesDisappearAction]))
@@ -128,6 +132,7 @@ class AnalyzeScene: SKScene {
                 //needFFT = false
                 state = 1
                 Init = true
+                
             }
         }
         if state == 1 {
