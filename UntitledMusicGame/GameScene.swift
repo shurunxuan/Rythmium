@@ -59,8 +59,7 @@
         var loadDone = false
         
         var max: Double = 0.0
-        
-        var waveCurve = WaveCurve()
+
         var spectrumBars = [SKShapeNode]()
         
         let barCount = 32
@@ -72,8 +71,6 @@
             Background = background.copy() as! SKSpriteNode
             Background.alpha = 1
             self.addChild(Background)
-            
-            //self.addChild(waveCurve)
             
             spectrumBars.reserveCapacity(barCount)
             for var bar: Int = 0; bar < barCount; ++bar {
@@ -376,7 +373,6 @@
                         CurrentTime = CMTimeGetSeconds(exporter.player().currentTime())
                         var i = Int(CurrentTime * 44100.0)
                         if i < 0 { i = 0 }
-                        //waveCurve.setCurveData(Array(Left[i ..< i + 128]))
                         
                         
                         // visualization
