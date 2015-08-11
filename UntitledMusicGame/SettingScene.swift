@@ -83,7 +83,6 @@ class SettingScene: SKScene {
             if node.name != nil {
                 switch node.name!{
                 case  "backButton":
-                    background.removeFromParent()
                     Scene = StartUpScene(size : CGSizeMake(width, height))
                     View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
                 case  "visualizationSpectrumButton":
