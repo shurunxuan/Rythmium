@@ -59,7 +59,7 @@
         var loadDone = false
         
         var max: Double = 0.0
-
+        
         var spectrumBars = [SKShapeNode]()
         
         let barCount = 32
@@ -74,15 +74,17 @@
             Background.alpha = 1
             self.addChild(Background)
             
-            spectrumBars.reserveCapacity(barCount)
-            for var bar: Int = 0; bar < barCount; ++bar {
-                spectrumBars.append(SKShapeNode(rect: CGRect(x: width / CGFloat(barCount) * CGFloat(bar), y: 0, width: width * 0.8 / CGFloat(barCount), height: 1)))
-                
-                spectrumBars[bar].alpha = 0.1
-                spectrumBars[bar].zPosition = -500
-                spectrumBars[bar].strokeColor = SKColor.clearColor()
-                spectrumBars[bar].fillColor = SKColor.whiteColor()
-                self.addChild(spectrumBars[bar])
+            if visualizationType == visualization.Spectrum {
+                spectrumBars.reserveCapacity(barCount)
+                for var bar: Int = 0; bar < barCount; ++bar {
+                    spectrumBars.append(SKShapeNode(rect: CGRect(x: width / CGFloat(barCount) * CGFloat(bar), y: 0, width: width * 0.8 / CGFloat(barCount), height: 1)))
+                    
+                    spectrumBars[bar].alpha = 0.1
+                    spectrumBars[bar].zPosition = -500
+                    spectrumBars[bar].strokeColor = SKColor.clearColor()
+                    spectrumBars[bar].fillColor = SKColor.whiteColor()
+                    self.addChild(spectrumBars[bar])
+                }
             }
             
             
@@ -265,7 +267,7 @@
                 
             }
         }
-       
+        
         override func update(currentTime: CFTimeInterval) {
             /* Called before each frame is rendered */
             if Init { startTime = Double(currentTime) + 3.9; Init = false }
@@ -376,32 +378,31 @@
                         var i = Int(CurrentTime * 44100.0)
                         if i < 0 { i = 0 }
                         
-                        
-                        // visualization
-                        let q: CGFloat = pow(2.0, 1.0 / 4.0)
-                        var a1: CGFloat = 1
-                        let s = Int(a1 / (q - 1) * (pow(q, CGFloat(barCount)) - 1)) * 2
-                        let block = fft(Array(Left[i ..< i + s]))
-                        
                         // static nodes scale change
                         for var i = 0; i < 4; ++i {
                             staticNodeScale[i] = (staticNodeScale[i] - 0.5) * 0.8 + 0.5
                             staticNodes[i].runAction(SKAction.scaleTo(staticNodeScale[i], duration: 0.05))
                         }
                         
-
-                        for var bar: Int = 0; bar < barCount; ++bar {
-                            //let a = Int(512 / Double(barCount) * Double(bar))
-                            //let b = Int(512.0 / Double(barCount) * Double(bar + 1))
-                            var x = sum(Array(block[Int(a1) - 1 ..< Int(a1 * q)]))
-                            x -= block[Int(a1) - 1] * Double(a1 - floor(a1))
-                            x += block[Int(a1 * q)] * Double(a1 * q - floor(a1 * q))
-                            //spectrumBars[bar].yScale = CGFloat(x) / 15000.0 * height
-                            //spectrumBars[bar].removeAllActions()
-                            spectrumBars[bar].runAction(SKAction.scaleYTo(CGFloat(x) / CGFloat(barCount) * 2 / 1500.0 * height, duration: 0.1))
-                            a1 *= q
+                        // visualization
+                        if visualizationType == visualization.Spectrum {
+                            let q: CGFloat = pow(2.0, 1.0 / 4.0)
+                            var a1: CGFloat = 1
+                            let s = Int(a1 / (q - 1) * (pow(q, CGFloat(barCount)) - 1)) * 2
+                            let block = fft(Array(Left[i ..< i + s]))
+                            
+                            for var bar: Int = 0; bar < barCount; ++bar {
+                                //let a = Int(512 / Double(barCount) * Double(bar))
+                                //let b = Int(512.0 / Double(barCount) * Double(bar + 1))
+                                var x = sum(Array(block[Int(a1) - 1 ..< Int(a1 * q)]))
+                                x -= block[Int(a1) - 1] * Double(a1 - floor(a1))
+                                x += block[Int(a1 * q)] * Double(a1 * q - floor(a1 * q))
+                                //spectrumBars[bar].yScale = CGFloat(x) / 15000.0 * height
+                                //spectrumBars[bar].removeAllActions()
+                                spectrumBars[bar].runAction(SKAction.scaleYTo(CGFloat(x) / CGFloat(barCount) * 2 / 1500.0 * height, duration: 0.1))
+                                a1 *= q
+                            }
                         }
-                        
                         
                         // note appear
                         for var pos: Int = 0; pos < 4; pos++ {
@@ -457,7 +458,7 @@
         }
         
         
-
+        
         override func didFinishUpdate() {
             /* Put the code here after each frame is rendered. */
             

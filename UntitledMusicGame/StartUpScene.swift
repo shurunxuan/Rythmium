@@ -57,8 +57,11 @@ class StartUpScene: SKScene {
             // SKScene跳转
             if node.name != nil {
                 switch node.name!{
-                case  "startGameButton":
+                case "startGameButton":
                     Scene = AnalyzeScene(size : CGSizeMake(width, height))
+                    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                case "settingButton":
+                    Scene = SettingScene(size : CGSizeMake(width, height))
                     View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
                 default:
                     break
