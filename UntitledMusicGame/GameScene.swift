@@ -64,6 +64,8 @@
         
         let barCount = 32
         
+        var staticNodeScale: [CGFloat] = [0.5, 0.5, 0.5, 0.5]
+        
         override func didMoveToView(view: SKView) {
             Stage = GameStage.Game
             
@@ -118,9 +120,9 @@
                 SKAction.group([SKAction.moveTo(CGPointMake(width / 4, height / 4), duration: AppearDelay), SKAction.scaleTo(1.0, duration: AppearDelay), SKAction.fadeAlphaTo(0.8, duration: 0.5)]),
                 SKAction.group([SKAction.moveTo(CGPointMake(width * 3 / 4, height / 4), duration: AppearDelay), SKAction.scaleTo(1.0, duration: AppearDelay), SKAction.fadeAlphaTo(0.8, duration: 0.5)])]
             
-            staticNodes = [Note(time: 0, center: CGPointMake(CGFloat(width / 4),CGFloat(height / 4 * 3)), radius: 140 * ratio),
+            staticNodes = [Note(time: 0, center: CGPointMake(CGFloat(width / 4 * 3),CGFloat(height / 4 * 3)), radius: 140 * ratio),
+                Note(time: 0, center: CGPointMake(CGFloat(width / 4),CGFloat(height / 4 * 3)), radius: 140 * ratio),
                 Note(time: 0, center: CGPointMake(CGFloat(width / 4),CGFloat(height / 4)), radius: 140 * ratio),
-                Note(time: 0, center: CGPointMake(CGFloat(width / 4 * 3),CGFloat(height / 4 * 3)), radius: 140 * ratio),
                 Note(time: 0, center: CGPointMake(CGFloat(width / 4 * 3),CGFloat(height / 4)), radius: 140 * ratio)]
             
             for node in staticNodes {
@@ -381,7 +383,11 @@
                         let s = Int(a1 / (q - 1) * (pow(q, CGFloat(barCount)) - 1)) * 2
                         let block = fft(Array(Left[i ..< i + s]))
                         
-                        
+                        // static nodes scale change
+                        for var i = 0; i < 4; ++i {
+                            staticNodeScale[i] = (staticNodeScale[i] - 0.5) * 0.8 + 0.5
+                            staticNodes[i].runAction(SKAction.scaleTo(staticNodeScale[i], duration: 0.05))
+                        }
                         
 
                         for var bar: Int = 0; bar < barCount; ++bar {
@@ -463,6 +469,9 @@
             gameNode.addChild(judge)
             judge.runAction()
             if judge.judge > 2 {
+                staticNodeScale[type] = CGFloat(judge.judge) / 6.0
+                staticNodes[type].xScale = CGFloat(judge.judge) / 6.0
+                staticNodes[type].yScale = CGFloat(judge.judge) / 6.0
                 combo += 1
                 if combo > maxCombo { maxCombo = combo }
             } else {
