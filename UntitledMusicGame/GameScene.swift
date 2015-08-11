@@ -63,7 +63,7 @@
         var waveCurve = WaveCurve()
         var spectrumBars = [SKShapeNode]()
         
-        let barCount = 32
+        let barCount = 30
         
         override func didMoveToView(view: SKView) {
             Stage = GameStage.Game
