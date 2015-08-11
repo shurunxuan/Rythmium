@@ -40,10 +40,12 @@ class SettingScene: SKScene {
         visualizationNoneButton.fontName = "Helvetica Neue UltraLight"
         visualizationNoneButton.name = "visualizationNoneButton"
         visualizationNoneButton.fontSize = 32 * ratio
-        visualizationNoneButton.position = CGPointMake(width / 8 * 7, height / 2 - visualizationNoneButton.frame.height / 2)
+        visualizationNoneButton.position = CGPointMake(width / 8 * 7, height / 2 - visualizationSpectrumButton.frame.height / 2)
         
-        visualizationIndicator[0] = SKShapeNode(rect: visualizationSpectrumButton.frame, cornerRadius: 5)
-        visualizationIndicator[1] = SKShapeNode(rect: visualizationNoneButton.frame, cornerRadius: 5)
+        let SpectrumIndicatorRect = CGRectMake(visualizationSpectrumButton.position.x - visualizationSpectrumButton.frame.width / 2 - 5 * ratio, visualizationSpectrumButton.position.y - visualizationSpectrumButton.frame.height / 2 + 5 * ratio, visualizationSpectrumButton.frame.width + 10 * ratio, visualizationSpectrumButton.frame.height + 10 * ratio)
+        let NoneIndicatorRect = CGRectMake(visualizationNoneButton.position.x - visualizationNoneButton.frame.width / 2 - 5 * ratio, visualizationNoneButton.position.y - visualizationNoneButton.frame.height / 2 + 5 * ratio, visualizationNoneButton.frame.width + 10 * ratio, visualizationSpectrumButton.frame.height + 10 * ratio)
+        visualizationIndicator[0] = SKShapeNode(rect: SpectrumIndicatorRect, cornerRadius: 5)
+        visualizationIndicator[1] = SKShapeNode(rect: NoneIndicatorRect, cornerRadius: 5)
         visualizationIndicator[0].name = "visualizationIndicatorSpectrum"
         visualizationIndicator[1].name = "visualizationIndicatorNone"
         for indicator in visualizationIndicator {
