@@ -6,3 +6,6 @@ You can play with all the music from your music library.
 <p>
 This is an iOS app. Android version and Windows version will be added in the future.
 <p/>
+<p>
+Copyright 2015 Runxuan Shu
+<p/>
