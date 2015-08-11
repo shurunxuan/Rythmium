@@ -28,6 +28,8 @@ let staticNodesAppearAction = SKAction.fadeAlphaTo(1, duration: 0.5)
 let staticNodesDisappearAction = SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.5), SKAction.removeFromParent()])
 var background = SKSpriteNode()
 
+var backgrounds = [SKSpriteNode(texture: SKTexture(imageNamed: "Background1")), SKSpriteNode(texture: SKTexture(imageNamed: "Background2")), SKSpriteNode(texture: SKTexture(imageNamed: "Background3")), SKSpriteNode(texture: SKTexture(imageNamed: "Background4")), SKSpriteNode(texture: SKTexture(imageNamed: "Background5"))]
+
 var score: Int = 0
 var totalScore: Int = 0
 var combo: Int = 0
@@ -64,6 +66,13 @@ class GameViewController: UIViewController {
         width = Scene.frame.width
         height = Scene.frame.height
         ratio = width / 736.0
+        
+        // 设置背景
+        for child in backgrounds {
+            child.size = CGSizeMake(width, height)
+            child.position = CGPointMake(width / 2, height / 2)
+            child.zPosition = -1000
+        }
         
         /* Set the scale mode to scale to fit the window */
         Scene.scaleMode = .AspectFill

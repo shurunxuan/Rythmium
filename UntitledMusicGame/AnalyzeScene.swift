@@ -84,6 +84,11 @@ class AnalyzeScene: SKScene {
                 
                 self.addChild(Background)
                 
+            } else {
+                Background = backgrounds[Int(arc4random() % 5)].copy() as! SKSpriteNode
+                Background.alpha = 0
+                Background.runAction(SKAction.sequence([SKAction.waitForDuration(0.5), staticNodesAppearAction]))
+                self.addChild(Background)
             }
             
         }

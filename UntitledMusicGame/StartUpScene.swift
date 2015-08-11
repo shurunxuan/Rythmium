@@ -15,6 +15,7 @@ class StartUpScene: SKScene {
     var settingButton = SKLabelNode(text: "SETTINGS")
     var aboutButton = SKLabelNode(text: "ABOUT")
     
+    var Background = SKSpriteNode()
     
     override func didMoveToView(view: SKView) {
         
@@ -40,6 +41,12 @@ class StartUpScene: SKScene {
         startGameButton.position = CGPointMake(width / 2, settingButton.position.y + settingButton.frame.height * 1.5)
         aboutButton.position = CGPointMake(width / 2, settingButton.position.y - settingButton.frame.height * 1.5)
         
+        if background.texture == nil {
+            background = backgrounds[Int(arc4random() % 5)].copy() as! SKSpriteNode
+        }
+        Background = background.copy() as! SKSpriteNode
+        
+        self.addChild(Background)
         self.addChild(titleLabel)
         self.addChild(settingButton)
         self.addChild(startGameButton)
@@ -47,7 +54,7 @@ class StartUpScene: SKScene {
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-       /* Called when a touch begins */
+        /* Called when a touch begins */
         
         for touch in touches {
             let location = touch.locationInNode(self)
@@ -71,7 +78,7 @@ class StartUpScene: SKScene {
             
         }
     }
-   
+    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
     }
