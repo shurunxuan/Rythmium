@@ -17,6 +17,7 @@ class SettingScene: SKScene {
     var visualizationNoneButton = SKLabelNode(text: "None")
     var visualizationIndicator = [SKShapeNode(), SKShapeNode()]
     
+    var Background = SKSpriteNode()
     
     override func didMoveToView(view: SKView) {
         
@@ -61,6 +62,8 @@ class SettingScene: SKScene {
             addChild(visualizationIndicator[1])
         }
         
+        Background = background.copy() as! SKSpriteNode
+        addChild(Background)
         addChild(backButton)
         addChild(visualizationLabel)
         addChild(visualizationSpectrumButton)
