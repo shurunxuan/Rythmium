@@ -118,6 +118,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
+      customArchiveName = "Rythmium"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>
