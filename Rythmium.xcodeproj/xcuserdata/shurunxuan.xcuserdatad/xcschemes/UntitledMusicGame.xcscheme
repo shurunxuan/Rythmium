@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B57705791B4B899500CC13E1"
-               BuildableName = "UntitledMusicGame.app"
-               BlueprintName = "UntitledMusicGame"
-               ReferencedContainer = "container:UntitledMusicGame.xcodeproj">
+               BuildableName = "Rythmium.app"
+               BlueprintName = "Rythmium"
+               ReferencedContainer = "container:Rythmium.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B57705911B4B899500CC13E1"
-               BuildableName = "UntitledMusicGameTests.xctest"
-               BlueprintName = "UntitledMusicGameTests"
-               ReferencedContainer = "container:UntitledMusicGame.xcodeproj">
+               BuildableName = "Rythmium.xctest"
+               BlueprintName = "RythmiumTests"
+               ReferencedContainer = "container:Rythmium.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B577059C1B4B899600CC13E1"
-               BuildableName = "UntitledMusicGameUITests.xctest"
-               BlueprintName = "UntitledMusicGameUITests"
-               ReferencedContainer = "container:UntitledMusicGame.xcodeproj">
+               BuildableName = "Rythmium.xctest"
+               BlueprintName = "RythmiumUITests"
+               ReferencedContainer = "container:Rythmium.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -53,9 +53,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B57705791B4B899500CC13E1"
-            BuildableName = "UntitledMusicGame.app"
-            BlueprintName = "UntitledMusicGame"
-            ReferencedContainer = "container:UntitledMusicGame.xcodeproj">
+            BuildableName = "Rythmium.app"
+            BlueprintName = "Rythmium"
+            ReferencedContainer = "container:Rythmium.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -76,9 +76,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B57705791B4B899500CC13E1"
-            BuildableName = "UntitledMusicGame.app"
-            BlueprintName = "UntitledMusicGame"
-            ReferencedContainer = "container:UntitledMusicGame.xcodeproj">
+            BuildableName = "Rythmium.app"
+            BlueprintName = "Rythmium"
+            ReferencedContainer = "container:Rythmium.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <EnvironmentVariables>
@@ -107,9 +107,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B57705791B4B899500CC13E1"
-            BuildableName = "UntitledMusicGame.app"
-            BlueprintName = "UntitledMusicGame"
-            ReferencedContainer = "container:UntitledMusicGame.xcodeproj">
+            BuildableName = "Rythmium.app"
+            BlueprintName = "Rythmium"
+            ReferencedContainer = "container:Rythmium.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

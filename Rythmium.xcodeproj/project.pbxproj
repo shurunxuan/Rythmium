@@ -14,8 +14,8 @@
 		B57705841B4B899500CC13E1 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57705831B4B899500CC13E1 /* GameViewController.swift */; };
 		B57705891B4B899500CC13E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B57705881B4B899500CC13E1 /* Assets.xcassets */; };
 		B577058C1B4B899500CC13E1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B577058A1B4B899500CC13E1 /* LaunchScreen.storyboard */; };
-		B57705971B4B899500CC13E1 /* UntitledMusicGameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57705961B4B899500CC13E1 /* UntitledMusicGameTests.swift */; };
-		B57705A21B4B899600CC13E1 /* UntitledMusicGameUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57705A11B4B899600CC13E1 /* UntitledMusicGameUITests.swift */; };
+		B57705971B4B899500CC13E1 /* RythmiumTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57705961B4B899500CC13E1 /* RythmiumTests.swift */; };
+		B57705A21B4B899600CC13E1 /* RythmiumUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57705A11B4B899600CC13E1 /* RythmiumUITests.swift */; };
 		B57705BF1B4B949800CC13E1 /* FileClass.m in Sources */ = {isa = PBXBuildFile; fileRef = B57705B81B4B949800CC13E1 /* FileClass.m */; };
 		B57705C01B4B949800CC13E1 /* MediaLibExport.m in Sources */ = {isa = PBXBuildFile; fileRef = B57705B91B4B949800CC13E1 /* MediaLibExport.m */; };
 		B57705C11B4B949800CC13E1 /* MPMediaItemArtwork+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = B57705BA1B4B949800CC13E1 /* MPMediaItemArtwork+Resize.m */; };
@@ -51,18 +51,18 @@
 /* Begin PBXFileReference section */
 		B546E5F21B62153B00B82D58 /* FFT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FFT.swift; sourceTree = "<group>"; };
 		B54723B11B7668260012678B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		B577057A1B4B899500CC13E1 /* UntitledMusicGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UntitledMusicGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B577057A1B4B899500CC13E1 /* Rythmium.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rythmium.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B577057D1B4B899500CC13E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B57705811B4B899500CC13E1 /* StartUpScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartUpScene.swift; sourceTree = "<group>"; };
 		B57705831B4B899500CC13E1 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		B57705881B4B899500CC13E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B577058B1B4B899500CC13E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B577058D1B4B899500CC13E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B57705921B4B899500CC13E1 /* UntitledMusicGameTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UntitledMusicGameTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B57705961B4B899500CC13E1 /* UntitledMusicGameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UntitledMusicGameTests.swift; sourceTree = "<group>"; };
+		B57705921B4B899500CC13E1 /* Rythmium.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Rythmium.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B57705961B4B899500CC13E1 /* RythmiumTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RythmiumTests.swift; sourceTree = "<group>"; };
 		B57705981B4B899500CC13E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B577059D1B4B899600CC13E1 /* UntitledMusicGameUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UntitledMusicGameUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B57705A11B4B899600CC13E1 /* UntitledMusicGameUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UntitledMusicGameUITests.swift; sourceTree = "<group>"; };
+		B577059D1B4B899600CC13E1 /* Rythmium.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Rythmium.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B57705A11B4B899600CC13E1 /* RythmiumUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RythmiumUITests.swift; sourceTree = "<group>"; };
 		B57705A31B4B899600CC13E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B57705AF1B4B949700CC13E1 /* UntitledMusicGame-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UntitledMusicGame-Bridging-Header.h"; sourceTree = "<group>"; };
 		B57705B01B4B949800CC13E1 /* FileClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileClass.h; sourceTree = "<group>"; };
@@ -115,9 +115,9 @@
 		B57705711B4B899500CC13E1 = {
 			isa = PBXGroup;
 			children = (
-				B577057C1B4B899500CC13E1 /* UntitledMusicGame */,
-				B57705951B4B899500CC13E1 /* UntitledMusicGameTests */,
-				B57705A01B4B899600CC13E1 /* UntitledMusicGameUITests */,
+				B577057C1B4B899500CC13E1 /* Rythmium */,
+				B57705951B4B899500CC13E1 /* RythmiumTests */,
+				B57705A01B4B899600CC13E1 /* RythmiumUITests */,
 				B577057B1B4B899500CC13E1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -125,14 +125,14 @@
 		B577057B1B4B899500CC13E1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B577057A1B4B899500CC13E1 /* UntitledMusicGame.app */,
-				B57705921B4B899500CC13E1 /* UntitledMusicGameTests.xctest */,
-				B577059D1B4B899600CC13E1 /* UntitledMusicGameUITests.xctest */,
+				B577057A1B4B899500CC13E1 /* Rythmium.app */,
+				B57705921B4B899500CC13E1 /* Rythmium.xctest */,
+				B577059D1B4B899600CC13E1 /* Rythmium.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B577057C1B4B899500CC13E1 /* UntitledMusicGame */ = {
+		B577057C1B4B899500CC13E1 /* Rythmium */ = {
 			isa = PBXGroup;
 			children = (
 				B54723B01B7668260012678B /* Main.storyboard */,
@@ -165,33 +165,36 @@
 				B57705B71B4B949800CC13E1 /* UIImage+RoundedCorner.h */,
 				B57705BE1B4B949800CC13E1 /* UIImage+RoundedCorner.m */,
 			);
+			name = Rythmium;
 			path = UntitledMusicGame;
 			sourceTree = "<group>";
 		};
-		B57705951B4B899500CC13E1 /* UntitledMusicGameTests */ = {
+		B57705951B4B899500CC13E1 /* RythmiumTests */ = {
 			isa = PBXGroup;
 			children = (
-				B57705961B4B899500CC13E1 /* UntitledMusicGameTests.swift */,
+				B57705961B4B899500CC13E1 /* RythmiumTests.swift */,
 				B57705981B4B899500CC13E1 /* Info.plist */,
 			);
+			name = RythmiumTests;
 			path = UntitledMusicGameTests;
 			sourceTree = "<group>";
 		};
-		B57705A01B4B899600CC13E1 /* UntitledMusicGameUITests */ = {
+		B57705A01B4B899600CC13E1 /* RythmiumUITests */ = {
 			isa = PBXGroup;
 			children = (
-				B57705A11B4B899600CC13E1 /* UntitledMusicGameUITests.swift */,
+				B57705A11B4B899600CC13E1 /* RythmiumUITests.swift */,
 				B57705A31B4B899600CC13E1 /* Info.plist */,
 			);
+			name = RythmiumUITests;
 			path = UntitledMusicGameUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B57705791B4B899500CC13E1 /* UntitledMusicGame */ = {
+		B57705791B4B899500CC13E1 /* Rythmium */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B57705A61B4B899600CC13E1 /* Build configuration list for PBXNativeTarget "UntitledMusicGame" */;
+			buildConfigurationList = B57705A61B4B899600CC13E1 /* Build configuration list for PBXNativeTarget "Rythmium" */;
 			buildPhases = (
 				B57705761B4B899500CC13E1 /* Sources */,
 				B57705771B4B899500CC13E1 /* Frameworks */,
@@ -201,14 +204,14 @@
 			);
 			dependencies = (
 			);
-			name = UntitledMusicGame;
+			name = Rythmium;
 			productName = UntitledMusicGame;
-			productReference = B577057A1B4B899500CC13E1 /* UntitledMusicGame.app */;
+			productReference = B577057A1B4B899500CC13E1 /* Rythmium.app */;
 			productType = "com.apple.product-type.application";
 		};
-		B57705911B4B899500CC13E1 /* UntitledMusicGameTests */ = {
+		B57705911B4B899500CC13E1 /* RythmiumTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B57705A91B4B899600CC13E1 /* Build configuration list for PBXNativeTarget "UntitledMusicGameTests" */;
+			buildConfigurationList = B57705A91B4B899600CC13E1 /* Build configuration list for PBXNativeTarget "RythmiumTests" */;
 			buildPhases = (
 				B577058E1B4B899500CC13E1 /* Sources */,
 				B577058F1B4B899500CC13E1 /* Frameworks */,
@@ -219,14 +222,14 @@
 			dependencies = (
 				B57705941B4B899500CC13E1 /* PBXTargetDependency */,
 			);
-			name = UntitledMusicGameTests;
+			name = RythmiumTests;
 			productName = UntitledMusicGameTests;
-			productReference = B57705921B4B899500CC13E1 /* UntitledMusicGameTests.xctest */;
+			productReference = B57705921B4B899500CC13E1 /* Rythmium.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		B577059C1B4B899600CC13E1 /* UntitledMusicGameUITests */ = {
+		B577059C1B4B899600CC13E1 /* RythmiumUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B57705AC1B4B899600CC13E1 /* Build configuration list for PBXNativeTarget "UntitledMusicGameUITests" */;
+			buildConfigurationList = B57705AC1B4B899600CC13E1 /* Build configuration list for PBXNativeTarget "RythmiumUITests" */;
 			buildPhases = (
 				B57705991B4B899600CC13E1 /* Sources */,
 				B577059A1B4B899600CC13E1 /* Frameworks */,
@@ -237,9 +240,9 @@
 			dependencies = (
 				B577059F1B4B899600CC13E1 /* PBXTargetDependency */,
 			);
-			name = UntitledMusicGameUITests;
+			name = RythmiumUITests;
 			productName = UntitledMusicGameUITests;
-			productReference = B577059D1B4B899600CC13E1 /* UntitledMusicGameUITests.xctest */;
+			productReference = B577059D1B4B899600CC13E1 /* Rythmium.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -266,7 +269,7 @@
 					};
 				};
 			};
-			buildConfigurationList = B57705751B4B899500CC13E1 /* Build configuration list for PBXProject "UntitledMusicGame" */;
+			buildConfigurationList = B57705751B4B899500CC13E1 /* Build configuration list for PBXProject "Rythmium" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -279,9 +282,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B57705791B4B899500CC13E1 /* UntitledMusicGame */,
-				B57705911B4B899500CC13E1 /* UntitledMusicGameTests */,
-				B577059C1B4B899600CC13E1 /* UntitledMusicGameUITests */,
+				B57705791B4B899500CC13E1 /* Rythmium */,
+				B57705911B4B899500CC13E1 /* RythmiumTests */,
+				B577059C1B4B899600CC13E1 /* RythmiumUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -342,7 +345,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B57705971B4B899500CC13E1 /* UntitledMusicGameTests.swift in Sources */,
+				B57705971B4B899500CC13E1 /* RythmiumTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,7 +353,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B57705A21B4B899600CC13E1 /* UntitledMusicGameUITests.swift in Sources */,
+				B57705A21B4B899600CC13E1 /* RythmiumUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,12 +362,12 @@
 /* Begin PBXTargetDependency section */
 		B57705941B4B899500CC13E1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = B57705791B4B899500CC13E1 /* UntitledMusicGame */;
+			target = B57705791B4B899500CC13E1 /* Rythmium */;
 			targetProxy = B57705931B4B899500CC13E1 /* PBXContainerItemProxy */;
 		};
 		B577059F1B4B899600CC13E1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = B57705791B4B899500CC13E1 /* UntitledMusicGame */;
+			target = B57705791B4B899500CC13E1 /* Rythmium */;
 			targetProxy = B577059E1B4B899600CC13E1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -479,8 +482,8 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = UntitledMusicGame/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = SRX.UntitledMusicGame;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = SRX.Rythmium;
+				PRODUCT_NAME = Rythmium;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "UntitledMusicGame/UntitledMusicGame-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -496,8 +499,8 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = UntitledMusicGame/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = SRX.UntitledMusicGame;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = SRX.Rythmium;
+				PRODUCT_NAME = Rythmium;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "UntitledMusicGame/UntitledMusicGame-Bridging-Header.h";
 			};
@@ -510,8 +513,8 @@
 				INFOPLIST_FILE = UntitledMusicGameTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = SRX.UntitledMusicGameTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UntitledMusicGame.app/UntitledMusicGame";
+				PRODUCT_NAME = Rythmium;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rythmium.app/Rythmium";
 			};
 			name = Debug;
 		};
@@ -522,8 +525,8 @@
 				INFOPLIST_FILE = UntitledMusicGameTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = SRX.UntitledMusicGameTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UntitledMusicGame.app/UntitledMusicGame";
+				PRODUCT_NAME = Rythmium;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rythmium.app/Rythmium";
 			};
 			name = Release;
 		};
@@ -533,7 +536,7 @@
 				INFOPLIST_FILE = UntitledMusicGameUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = SRX.UntitledMusicGameUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Rythmium;
 				TEST_TARGET_NAME = UntitledMusicGame;
 				USES_XCTRUNNER = YES;
 			};
@@ -545,7 +548,7 @@
 				INFOPLIST_FILE = UntitledMusicGameUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = SRX.UntitledMusicGameUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Rythmium;
 				TEST_TARGET_NAME = UntitledMusicGame;
 				USES_XCTRUNNER = YES;
 			};
@@ -554,7 +557,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B57705751B4B899500CC13E1 /* Build configuration list for PBXProject "UntitledMusicGame" */ = {
+		B57705751B4B899500CC13E1 /* Build configuration list for PBXProject "Rythmium" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B57705A41B4B899600CC13E1 /* Debug */,
@@ -563,7 +566,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B57705A61B4B899600CC13E1 /* Build configuration list for PBXNativeTarget "UntitledMusicGame" */ = {
+		B57705A61B4B899600CC13E1 /* Build configuration list for PBXNativeTarget "Rythmium" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B57705A71B4B899600CC13E1 /* Debug */,
@@ -572,7 +575,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B57705A91B4B899600CC13E1 /* Build configuration list for PBXNativeTarget "UntitledMusicGameTests" */ = {
+		B57705A91B4B899600CC13E1 /* Build configuration list for PBXNativeTarget "RythmiumTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B57705AA1B4B899600CC13E1 /* Debug */,
@@ -581,7 +584,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B57705AC1B4B899600CC13E1 /* Build configuration list for PBXNativeTarget "UntitledMusicGameUITests" */ = {
+		B57705AC1B4B899600CC13E1 /* Build configuration list for PBXNativeTarget "RythmiumUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B57705AD1B4B899600CC13E1 /* Debug */,

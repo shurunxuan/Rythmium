@@ -10,7 +10,7 @@ import SpriteKit
 
 class StartUpScene: SKScene {
     
-    var titleLabel = SKLabelNode(text: "Untitled")
+    var titleLabel = SKLabelNode(text: "Rythmium")
     var startGameButton = SKLabelNode(text: "START GAME")
     var settingButton = SKLabelNode(text: "SETTINGS")
     var aboutButton = SKLabelNode(text: "ABOUT")
