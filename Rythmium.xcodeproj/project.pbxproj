@@ -37,14 +37,14 @@
 			containerPortal = B57705721B4B899500CC13E1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = B57705791B4B899500CC13E1;
-			remoteInfo = UntitledMusicGame;
+			remoteInfo = Rythmium;
 		};
 		B577059E1B4B899600CC13E1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B57705721B4B899500CC13E1 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = B57705791B4B899500CC13E1;
-			remoteInfo = UntitledMusicGame;
+			remoteInfo = Rythmium;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -64,7 +64,7 @@
 		B577059D1B4B899600CC13E1 /* Rythmium.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Rythmium.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B57705A11B4B899600CC13E1 /* RythmiumUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RythmiumUITests.swift; sourceTree = "<group>"; };
 		B57705A31B4B899600CC13E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B57705AF1B4B949700CC13E1 /* UntitledMusicGame-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UntitledMusicGame-Bridging-Header.h"; sourceTree = "<group>"; };
+		B57705AF1B4B949700CC13E1 /* Rythmium-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Rythmium-Bridging-Header.h"; sourceTree = "<group>"; };
 		B57705B01B4B949800CC13E1 /* FileClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileClass.h; sourceTree = "<group>"; };
 		B57705B11B4B949800CC13E1 /* MediaLibExport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaLibExport.h; sourceTree = "<group>"; };
 		B57705B21B4B949800CC13E1 /* MPMediaItemArtwork+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MPMediaItemArtwork+Resize.h"; sourceTree = "<group>"; };
@@ -149,7 +149,7 @@
 				B5C464D41B4BB550007CD279 /* GameScene.swift */,
 				B5C464D61B4BB9CE007CD279 /* ResultScene.swift */,
 				B57705831B4B899500CC13E1 /* GameViewController.swift */,
-				B57705AF1B4B949700CC13E1 /* UntitledMusicGame-Bridging-Header.h */,
+				B57705AF1B4B949700CC13E1 /* Rythmium-Bridging-Header.h */,
 				B57705B01B4B949800CC13E1 /* FileClass.h */,
 				B57705B81B4B949800CC13E1 /* FileClass.m */,
 				B57705B11B4B949800CC13E1 /* MediaLibExport.h */,
@@ -203,7 +203,7 @@
 			dependencies = (
 			);
 			name = Rythmium;
-			productName = UntitledMusicGame;
+			productName = Rythmium;
 			productReference = B577057A1B4B899500CC13E1 /* Rythmium.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -221,7 +221,7 @@
 				B57705941B4B899500CC13E1 /* PBXTargetDependency */,
 			);
 			name = RythmiumTests;
-			productName = UntitledMusicGameTests;
+			productName = RythmiumTests;
 			productReference = B57705921B4B899500CC13E1 /* Rythmium.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
@@ -239,7 +239,7 @@
 				B577059F1B4B899600CC13E1 /* PBXTargetDependency */,
 			);
 			name = RythmiumUITests;
-			productName = UntitledMusicGameUITests;
+			productName = RythmiumUITests;
 			productReference = B577059D1B4B899600CC13E1 /* Rythmium.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
@@ -483,7 +483,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = SRX.Rythmium;
 				PRODUCT_NAME = Rythmium;
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "UntitledMusicGame/UntitledMusicGame-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Rythmium/Rythmium-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -500,7 +500,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = SRX.Rythmium;
 				PRODUCT_NAME = Rythmium;
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "UntitledMusicGame/UntitledMusicGame-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Rythmium/Rythmium-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -508,9 +508,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = UntitledMusicGameTests/Info.plist;
+				INFOPLIST_FILE = RythmiumTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = SRX.UntitledMusicGameTests;
+				PRODUCT_BUNDLE_IDENTIFIER = SRX.RythmiumTests;
 				PRODUCT_NAME = Rythmium;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rythmium.app/Rythmium";
 			};
@@ -520,9 +520,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = UntitledMusicGameTests/Info.plist;
+				INFOPLIST_FILE = RythmiumTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = SRX.UntitledMusicGameTests;
+				PRODUCT_BUNDLE_IDENTIFIER = SRX.RythmiumTests;
 				PRODUCT_NAME = Rythmium;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Rythmium.app/Rythmium";
 			};
@@ -531,11 +531,11 @@
 		B57705AD1B4B899600CC13E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = UntitledMusicGameUITests/Info.plist;
+				INFOPLIST_FILE = RythmiumUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = SRX.UntitledMusicGameUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = SRX.RythmiumUITests;
 				PRODUCT_NAME = Rythmium;
-				TEST_TARGET_NAME = UntitledMusicGame;
+				TEST_TARGET_NAME = Rythmium;
 				USES_XCTRUNNER = YES;
 			};
 			name = Debug;
@@ -543,11 +543,11 @@
 		B57705AE1B4B899600CC13E1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = UntitledMusicGameUITests/Info.plist;
+				INFOPLIST_FILE = RythmiumUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = SRX.UntitledMusicGameUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = SRX.RythmiumUITests;
 				PRODUCT_NAME = Rythmium;
-				TEST_TARGET_NAME = UntitledMusicGame;
+				TEST_TARGET_NAME = Rythmium;
 				USES_XCTRUNNER = YES;
 			};
 			name = Release;

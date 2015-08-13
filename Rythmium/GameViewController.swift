@@ -77,7 +77,7 @@ class GameViewController: UIViewController {
         /* Set the scale mode to scale to fit the window */
         Scene.scaleMode = .AspectFill
         
-        skView.showsFPS = true
+        //skView.showsFPS = true
         //skView.showsDrawCount = true
         //skView.showsFields = true
         //skView.showsNodeCount = true
