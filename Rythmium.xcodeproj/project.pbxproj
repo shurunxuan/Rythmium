@@ -165,8 +165,7 @@
 				B57705B71B4B949800CC13E1 /* UIImage+RoundedCorner.h */,
 				B57705BE1B4B949800CC13E1 /* UIImage+RoundedCorner.m */,
 			);
-			name = Rythmium;
-			path = UntitledMusicGame;
+			path = Rythmium;
 			sourceTree = "<group>";
 		};
 		B57705951B4B899500CC13E1 /* RythmiumTests */ = {
@@ -176,7 +175,7 @@
 				B57705981B4B899500CC13E1 /* Info.plist */,
 			);
 			name = RythmiumTests;
-			path = UntitledMusicGameTests;
+			path = RythmiumGameTests;
 			sourceTree = "<group>";
 		};
 		B57705A01B4B899600CC13E1 /* RythmiumUITests */ = {
@@ -185,8 +184,7 @@
 				B57705A11B4B899600CC13E1 /* RythmiumUITests.swift */,
 				B57705A31B4B899600CC13E1 /* Info.plist */,
 			);
-			name = RythmiumUITests;
-			path = UntitledMusicGameUITests;
+			path = RythmiumUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
