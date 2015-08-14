@@ -15,7 +15,5 @@ func SaveSetting() {
         string += content + "\t" + value + "\n"
     }
     settingFile.Write(string)
-    
-    
-    
+
 }
