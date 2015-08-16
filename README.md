@@ -1,6 +1,6 @@
 # Rythmium
 <p>
-This is a music (rythm) game with auto analyzation.<br />
+This is a music (rhythm) game with auto analyzation.<br />
 You can play with all the music from your music library.
 <p/>
 <p>
