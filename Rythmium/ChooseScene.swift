@@ -66,7 +66,7 @@ class ChooseScene: SKScene {
                 background.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame))
                 background.zPosition = -1000
             }
-            Scene = AnalyzeScene(size : CGSizeMake(width, height))
+            Scene = ConfirmScene(size : CGSizeMake(width, height))
             View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
         }
     }
