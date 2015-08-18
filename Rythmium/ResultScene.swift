@@ -118,7 +118,7 @@ class ResultScene: SKScene {
                     Scene = GameScene(size : CGSizeMake(width, height))
                     View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
                 case "newGameButton" :
-                    Scene = AnalyzeScene(size : CGSizeMake(width, height))
+                    Scene = ChooseScene(size : CGSizeMake(width, height))
                     View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
                 default:
                     break

@@ -38,14 +38,11 @@ class AnalyzeScene: SKScene {
         for label in analyzingLabels {
             label.fontName = "Helvetica Neue UltraLight"
             label.fontSize = 40 * ratio
-            label.alpha = 0
         }
         analyzingLabels[0].position = CGPointMake(width / 2, height / 2 + analyzingLabels[0].frame.height / 2)
         analyzingLabels[1].position = CGPointMake(width / 2, height / 2 - analyzingLabels[1].frame.height / 2)
         
         Background = background.copy() as! SKSpriteNode
-        Background.alpha = 0
-        Background.runAction(SKAction.sequence([SKAction.waitForDuration(0.5), staticNodesAppearAction]))
         self.addChild(Background)
         
         needFFT = !FileClass.isExist(String(exporter.songID())+".mss")
@@ -70,8 +67,6 @@ class AnalyzeScene: SKScene {
                 } else {
                     self.addChild(analyzingLabels[1])
                 }
-                analyzingLabels[0].runAction(SKAction.sequence([SKAction.waitForDuration(0.5), staticNodesAppearAction]))
-                analyzingLabels[1].runAction(SKAction.sequence([SKAction.waitForDuration(0.5), staticNodesAppearAction]))
             }
             
             if Double(currentTime) - startTime > 1 && Background.alpha > 0.95 {
