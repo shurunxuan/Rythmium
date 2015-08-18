@@ -9,10 +9,13 @@
 import SpriteKit
 
 class ChooseScene: SKScene {
+    var Background = SKSpriteNode()
     
     override func didMoveToView(view: SKView) {
         
         Stage = GameStage.Choose
+        Background = background.copy() as! SKSpriteNode
+        addChild(Background)
         exporter.ChooseSong()
     }
     
@@ -66,6 +69,9 @@ class ChooseScene: SKScene {
                 background.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame))
                 background.zPosition = -1000
             }
+            Background.removeFromParent()
+            Background = background.copy() as! SKSpriteNode
+            self.addChild(Background)
             Scene = ConfirmScene(size : CGSizeMake(width, height))
             View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
         }

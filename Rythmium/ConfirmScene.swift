@@ -21,6 +21,8 @@ class ConfirmScene: SKScene {
     
     var bestScoreLabel = SKLabelNode(text: "BEST: 00000000")
     
+    var albumArtwork = SKSpriteNode()
+    
     var Background = SKSpriteNode()
     
     override func didMoveToView(view: SKView) {
@@ -54,16 +56,31 @@ class ConfirmScene: SKScene {
         insaneLabel.name = "insaneLabel"
         bestScoreLabel.name = "bestScoreLabel"
         
+        Background = background.copy() as! SKSpriteNode
+        
+        artViewBackground = exporter.Song().artwork
+        //.imageWithSize(CGSize(width: 100, height: 100))
+        if (artViewBackground != nil) {
+            let backgroundWidth = artViewBackground?.imageWithSize(CGSizeMake(100, 100))!.size.width
+            let backgroundHeight = artViewBackground?.imageWithSize(CGSizeMake(100, 100))!.size.height
+            let size = CGSizeMake(backgroundWidth! / backgroundHeight! * height, height)
+            albumArtwork = SKSpriteNode(texture: SKTexture(image: exporter.Song().artwork!.resizedImage(size, interpolationQuality: CGInterpolationQuality.High)))
+            albumArtwork.setScale(0.5)
+            //background.size = CGSize(width: 736, height: 414)
+            albumArtwork.position = CGPointMake(width / 5, height / 3 + size.height / 4)
+            self.addChild(albumArtwork)
+        }
+        
+        let dif = (albumArtwork.position.y + albumArtwork.frame.height / 2 - easyLabel.frame.height - height / 3) / 3
+        
         titleButton.position = CGPointMake(width / 8 * 7, height / 8 - titleButton.frame.height / 2)
         startGameButton.position = CGPointMake(width / 2, height / 8 - startGameButton.frame.height / 2)
         backButton.position = CGPointMake(width / 8, height / 8 - backButton.frame.height / 2)
-        easyLabel.position = CGPointMake(width / 12 * 11 - easyLabel.frame.width / 2, height / 16 * 11 - easyLabel.frame.height / 2)
-        normalLabel.position = CGPointMake(width / 12 * 11 - normalLabel.frame.width / 2, height / 16 * 9 - normalLabel.frame.height / 2)
-        hardLabel.position = CGPointMake(width / 12 * 11 - hardLabel.frame.width / 2, height / 16 * 7 - hardLabel.frame.height / 2)
-        insaneLabel.position = CGPointMake(width / 12 * 11 - insaneLabel.frame.width / 2, height / 16 * 5 - insaneLabel.frame.height / 2)
-        bestScoreLabel.position = CGPointMake(width / 24 * 13, insaneLabel.position.y)
-        
-        Background = background.copy() as! SKSpriteNode
+        easyLabel.position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - easyLabel.frame.width / 2, height / 3 + 3 * dif)
+        normalLabel.position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - normalLabel.frame.width / 2, height / 3 + 2 * dif)
+        hardLabel.position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - hardLabel.frame.width / 2, height / 3 + dif)
+        insaneLabel.position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - insaneLabel.frame.width / 2, height / 3)
+        bestScoreLabel.position = CGPointMake(((albumArtwork.position.x + albumArtwork.frame.width / 2) + (normalLabel.position.x - normalLabel.frame.width / 2)) / 2, insaneLabel.position.y)
         
         self.addChild(Background)
         self.addChild(titleButton)
@@ -74,6 +91,7 @@ class ConfirmScene: SKScene {
         self.addChild(hardLabel)
         self.addChild(insaneLabel)
         self.addChild(bestScoreLabel)
+        
         
     }
     
