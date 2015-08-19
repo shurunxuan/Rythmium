@@ -399,7 +399,7 @@
                                 x += block[Int(a1 * q)] * Double(a1 * q - floor(a1 * q))
                                 //spectrumBars[bar].yScale = CGFloat(x) / 15000.0 * height
                                 //spectrumBars[bar].removeAllActions()
-                                spectrumBars[bar].runAction(SKAction.scaleYTo(CGFloat(x) / CGFloat(barCount) * 2 / 1500.0 * height, duration: 0.1))
+                                spectrumBars[bar].runAction(SKAction.scaleYTo(CGFloat(x) / log(CGFloat(barCount)) * 2 / 20000.0 * height, duration: 0.1))
                                 a1 *= q
                             }
                         }
