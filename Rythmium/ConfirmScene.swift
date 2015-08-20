@@ -19,11 +19,14 @@ class ConfirmScene: SKScene {
     var hardLabel = SKLabelNode(text: "HARD")
     var insaneLabel = SKLabelNode(text: "INSANE")
     
+    var rankLabel = SKSpriteNode()
+    
     var bestScoreLabel = SKLabelNode(text: "BEST: 00000000")
     
     var albumArtwork = SKSpriteNode()
     
     var Background = SKSpriteNode()
+    
     
     override func didMoveToView(view: SKView) {
         
@@ -56,6 +59,9 @@ class ConfirmScene: SKScene {
         insaneLabel.name = "insaneLabel"
         bestScoreLabel.name = "bestScoreLabel"
         
+        rankLabel = SKSpriteNode(imageNamed: "S")
+        rankLabel.setScale(1.2 * ratio)
+        
         Background = background.copy() as! SKSpriteNode
         
         artViewBackground = exporter.Song().artwork
@@ -81,6 +87,7 @@ class ConfirmScene: SKScene {
         hardLabel.position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - hardLabel.frame.width / 2, height / 3 + dif)
         insaneLabel.position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - insaneLabel.frame.width / 2, height / 3)
         bestScoreLabel.position = CGPointMake(((albumArtwork.position.x + albumArtwork.frame.width / 2) + (normalLabel.position.x - normalLabel.frame.width / 2)) / 2, insaneLabel.position.y)
+        rankLabel.position = CGPointMake(bestScoreLabel.position.x, (albumArtwork.position.y + albumArtwork.frame.height / 2 + bestScoreLabel.position.y + bestScoreLabel.frame.height) / 15 * 8)
         
         self.addChild(Background)
         self.addChild(titleButton)
@@ -91,6 +98,7 @@ class ConfirmScene: SKScene {
         self.addChild(hardLabel)
         self.addChild(insaneLabel)
         self.addChild(bestScoreLabel)
+        self.addChild(rankLabel)
         
         
     }
