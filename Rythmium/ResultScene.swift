@@ -13,21 +13,36 @@ class ResultScene: SKScene {
     var resultNode = SKNode()
     var Background = SKSpriteNode()
     var isGameOver = false
+    var rank = "F"
     override func didMoveToView(view: SKView) {
         Stage = GameStage.Result
+        
         Background = background.copy() as! SKSpriteNode
         var rankLabel = SKSpriteNode()
         let percentage = Double(score) / Double(totalScore) * 100
-        if percentage > 95 { rankLabel = SKSpriteNode(imageNamed: "S") }
-        else if percentage > 90 { rankLabel = SKSpriteNode(imageNamed: "A") }
-        else if percentage > 80 { rankLabel = SKSpriteNode(imageNamed: "B") }
-        else if percentage > 70 { rankLabel = SKSpriteNode(imageNamed: "C") }
-        else { rankLabel = SKSpriteNode(imageNamed: "D") }
-        if fullCombo { rankLabel = SKSpriteNode(imageNamed: "SS") }
-        if isGameOver { rankLabel = SKSpriteNode(imageNamed: "F") }
+        if percentage > 95 { rank = "S" }
+        else if percentage > 90 { rank = "A" }
+        else if percentage > 80 { rank = "B" }
+        else if percentage > 70 { rank = "C" }
+        else { rank = "D" }
+        if fullCombo { rank = "SS" }
+        if isGameOver { rank = "F" }
+        rankLabel = SKSpriteNode(imageNamed: rank)
         rankLabel.setScale(ratio * 1.5)
         rankLabel.position = CGPointMake(width / 24 * 7, height / 3 * 2)
         resultNode.addChild(rankLabel)
+        
+        if hasBestScore {
+            if score > bestScore {
+                let bsFile = FileClass()
+                bsFile.OpenFile(String(exporter.songID())+".bs")
+                bsFile.Write(rank + "\t" + String(score))
+            }
+        } else {
+            let bsFile = FileClass()
+            bsFile.CreateFile(String(exporter.songID())+".bs")
+            bsFile.Write(rank + "\t" + String(score))
+        }
         
         let scoreLabel = SKLabelNode()
         scoreLabel.text = NSString(format: "SCORE: %08i", score) as String

@@ -21,7 +21,7 @@ class ConfirmScene: SKScene {
     
     var rankLabel = SKSpriteNode()
     
-    var bestScoreLabel = SKLabelNode(text: "BEST: 00000000")
+    var bestScoreLabel = SKLabelNode(text: "BEST: ????????")
     
     var albumArtwork = SKSpriteNode()
     
@@ -60,6 +60,20 @@ class ConfirmScene: SKScene {
         bestScoreLabel.name = "bestScoreLabel"
         
         rankLabel = SKSpriteNode(imageNamed: "S")
+        
+        if FileClass.isExist(String(exporter.songID())+".bs") {
+            hasBestScore = true
+            let bsFile = FileClass()
+            bsFile.OpenFile(String(exporter.songID())+".bs")
+            let string = bsFile.Read()
+            print(string)
+            let strList = string.componentsSeparatedByString("\t")
+            print(strList)
+            bestScore = Int(strList[1])!
+            bestScoreLabel.text = NSString(format: "BEST: %08i", bestScore) as String
+            rankLabel = SKSpriteNode(imageNamed: strList[0])
+        }
+        
         rankLabel.setScale(1.2 * ratio)
         
         Background = background.copy() as! SKSpriteNode
