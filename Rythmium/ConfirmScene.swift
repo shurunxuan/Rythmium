@@ -19,11 +19,16 @@ class ConfirmScene: SKScene {
     var hardLabel = SKLabelNode(text: "HARD")
     var insaneLabel = SKLabelNode(text: "INSANE")
     
-    var rankLabel = SKSpriteNode()
+    var albumArtwork = SKSpriteNode()
+    var originalPosition = CGPoint()
+    var originalScale: CGFloat = 0
+    var scaled = false
+    var scaleBackground = SKShapeNode()
     
     var bestScoreLabel = SKLabelNode(text: "BEST: ????????")
     
-    var albumArtwork = SKSpriteNode()
+    var rankLabel = SKSpriteNode()
+    
     
     var Background = SKSpriteNode()
     
@@ -74,6 +79,8 @@ class ConfirmScene: SKScene {
             rankLabel = SKSpriteNode(imageNamed: strList[0])
         }
         
+        rankLabel.name = "rankLabel"
+
         rankLabel.setScale(1.2 * ratio)
         
         Background = background.copy() as! SKSpriteNode
@@ -85,11 +92,21 @@ class ConfirmScene: SKScene {
             let backgroundHeight = artViewBackground?.imageWithSize(CGSizeMake(100, 100))!.size.height
             let size = CGSizeMake(backgroundWidth! / backgroundHeight! * height, height)
             albumArtwork = SKSpriteNode(texture: SKTexture(image: exporter.Song().artwork!.resizedImage(size, interpolationQuality: CGInterpolationQuality.High)))
+            albumArtwork.name = "albumArtwork"
+            albumArtwork.zPosition = 500
             albumArtwork.setScale(0.5)
+            originalScale = 0.5
             //background.size = CGSize(width: 736, height: 414)
-            albumArtwork.position = CGPointMake(width / 5, height / 3 + size.height / 4)
+            originalPosition = CGPointMake(width / 5, height / 3 + size.height / 4)
+            albumArtwork.position = originalPosition
             self.addChild(albumArtwork)
         }
+        scaleBackground = SKShapeNode(rectOfSize: self.size)
+        scaleBackground.fillColor = SKColor.blackColor()
+        scaleBackground.zPosition = 499
+        scaleBackground.alpha = 0
+        scaleBackground.position = CGPointMake(width / 2, height / 2)
+        scaleBackground.strokeColor = SKColor.clearColor()
         
         let dif = (albumArtwork.position.y + albumArtwork.frame.height / 2 - easyLabel.frame.height - height / 3) / 3
         
@@ -114,6 +131,7 @@ class ConfirmScene: SKScene {
         self.addChild(bestScoreLabel)
         self.addChild(rankLabel)
         
+        self.addChild(scaleBackground)
         
     }
     
@@ -128,6 +146,37 @@ class ConfirmScene: SKScene {
             // SKScene跳转
             if node.name != nil {
                 switch node.name!{
+                case "albumArtwork" :
+                    if !scaled {
+                        scaled = true
+                        var scale: CGFloat = 0
+                        if (albumArtwork.frame.width / albumArtwork.frame.height) < (16.0 / 9.0) {
+                            scale = height / albumArtwork.frame.height / 2
+                        } else {
+                            scale = width / albumArtwork.frame.width / 2
+                        }
+                        let action1 = SKAction.scaleTo(scale, duration: 0.5)
+                        let action2 = SKAction.moveTo(CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)), duration: 0.5)
+                        let action3 = SKAction.fadeAlphaTo(1, duration: 0.5)
+                        action1.timingMode = SKActionTimingMode.EaseOut
+                        action2.timingMode = SKActionTimingMode.EaseOut
+                        action3.timingMode = SKActionTimingMode.EaseOut
+                        let action = SKAction.group([action1, action2])
+                        albumArtwork.runAction(action)
+                        
+                        scaleBackground.runAction(action3)
+                    } else {
+                        scaled = false
+                        let action1 = SKAction.scaleTo(originalScale, duration: 0.5)
+                        let action2 = SKAction.moveTo(originalPosition, duration: 0.5)
+                        let action3 = SKAction.fadeAlphaTo(0, duration: 0.5)
+                        action1.timingMode = SKActionTimingMode.EaseOut
+                        action2.timingMode = SKActionTimingMode.EaseOut
+                        action3.timingMode = SKActionTimingMode.EaseOut
+                        let action = SKAction.group([action1, action2])
+                        albumArtwork.runAction(action)
+                        scaleBackground.runAction(action3)
+                    }
                 case "startGameButton" :
                     Scene = AnalyzeScene(size : CGSizeMake(width, height))
                     View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
