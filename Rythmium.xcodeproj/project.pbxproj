@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B5091C071B823176004CC75D /* ChooseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5091C061B823176004CC75D /* ChooseScene.swift */; };
+		B5091C091B82356E004CC75D /* ConfirmScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5091C081B82356E004CC75D /* ConfirmScene.swift */; };
 		B546E5F31B62153B00B82D58 /* FFT.swift in Sources */ = {isa = PBXBuildFile; fileRef = B546E5F21B62153B00B82D58 /* FFT.swift */; };
 		B54723B21B7668260012678B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B54723B01B7668260012678B /* Main.storyboard */; };
 		B577057E1B4B899500CC13E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B577057D1B4B899500CC13E1 /* AppDelegate.swift */; };
@@ -50,6 +52,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B5091C061B823176004CC75D /* ChooseScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseScene.swift; sourceTree = "<group>"; };
+		B5091C081B82356E004CC75D /* ConfirmScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmScene.swift; sourceTree = "<group>"; };
 		B546E5F21B62153B00B82D58 /* FFT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FFT.swift; sourceTree = "<group>"; };
 		B54723B11B7668260012678B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B577057A1B4B899500CC13E1 /* Rythmium.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rythmium.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -147,10 +151,12 @@
 				B5EA2DE51B7E867000A7E163 /* SaveSetting.swift */,
 				B577057D1B4B899500CC13E1 /* AppDelegate.swift */,
 				B57705811B4B899500CC13E1 /* StartUpScene.swift */,
-				B59FD5271B7A4E47007E3DEC /* SettingScene.swift */,
+				B5091C061B823176004CC75D /* ChooseScene.swift */,
+				B5091C081B82356E004CC75D /* ConfirmScene.swift */,
 				B5E31BC81B4BA5A8002186A4 /* AnalyzeScene.swift */,
 				B5C464D41B4BB550007CD279 /* GameScene.swift */,
 				B5C464D61B4BB9CE007CD279 /* ResultScene.swift */,
+				B59FD5271B7A4E47007E3DEC /* SettingScene.swift */,
 				B57705831B4B899500CC13E1 /* GameViewController.swift */,
 				B57705AF1B4B949700CC13E1 /* Rythmium-Bridging-Header.h */,
 				B57705B01B4B949800CC13E1 /* FileClass.h */,
@@ -322,6 +328,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5091C091B82356E004CC75D /* ConfirmScene.swift in Sources */,
 				B57705C31B4B949800CC13E1 /* UIImage+ImageEffects.m in Sources */,
 				B57705BF1B4B949800CC13E1 /* FileClass.m in Sources */,
 				B57705821B4B899500CC13E1 /* StartUpScene.swift in Sources */,
@@ -334,6 +341,7 @@
 				B57705C21B4B949800CC13E1 /* UIImage+Alpha.m in Sources */,
 				B57705C81B4B94DD00CC13E1 /* JudgementLabel.swift in Sources */,
 				B57705841B4B899500CC13E1 /* GameViewController.swift in Sources */,
+				B5091C071B823176004CC75D /* ChooseScene.swift in Sources */,
 				B577057E1B4B899500CC13E1 /* AppDelegate.swift in Sources */,
 				B5E31BC91B4BA5A8002186A4 /* AnalyzeScene.swift in Sources */,
 				B5C464D51B4BB550007CD279 /* GameScene.swift in Sources */,

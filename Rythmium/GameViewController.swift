@@ -11,7 +11,7 @@ import SpriteKit
 
 // 表示游戏阶段的枚举
 enum GameStage {
-    case StartUp, Setting, Analyze, Game, Result
+    case StartUp, Setting, Choose, Confirm, Analyze, Game, Result
 }
 // 表示可视化类型的枚举
 enum visualization {
@@ -46,6 +46,8 @@ var artViewBackground: MPMediaItemArtwork?
 var Left = [Double]()
 
 var settingFile = FileClass()
+var hasBestScore = false
+var bestScore = 0
 
 var settings: [String : String] = [:]
 

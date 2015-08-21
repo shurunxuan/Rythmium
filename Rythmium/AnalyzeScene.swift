@@ -25,7 +25,7 @@ class AnalyzeScene: SKScene {
     var Init = true
     var startTime: Double = 0.0
     
-    var state = -1
+    var state = 0
     
     var notExported = true
     
@@ -34,17 +34,18 @@ class AnalyzeScene: SKScene {
     override func didMoveToView(view: SKView) {
         Stage = GameStage.Analyze
         
-        exporter.ChooseSong()
+        
         for label in analyzingLabels {
             label.fontName = "Helvetica Neue UltraLight"
             label.fontSize = 40 * ratio
-            label.alpha = 0
         }
         analyzingLabels[0].position = CGPointMake(width / 2, height / 2 + analyzingLabels[0].frame.height / 2)
         analyzingLabels[1].position = CGPointMake(width / 2, height / 2 - analyzingLabels[1].frame.height / 2)
         
+        Background = background.copy() as! SKSpriteNode
+        self.addChild(Background)
         
-        
+        needFFT = !FileClass.isExist(String(exporter.songID())+".mss")
         
     }
     
@@ -54,44 +55,7 @@ class AnalyzeScene: SKScene {
     
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
-        if exporter.isDone() {
-            if exporter.isDismissed() {
-                Scene = StartUpScene(size : CGSizeMake(width, height))
-                View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
-                return
-            }
-            exporter.setEnd()
-            needFFT = !FileClass.isExist(String(exporter.songID())+".mss")
-            state = 0
-            artViewBackground = exporter.Song().artwork
-            //.imageWithSize(CGSize(width: 100, height: 100))
-            if (artViewBackground != nil) {
-                let backgroundWidth = artViewBackground?.imageWithSize(CGSizeMake(100, 100))!.size.width
-                let backgroundHeight = artViewBackground?.imageWithSize(CGSizeMake(100, 100))!.size.height
-                var size = CGSize()
-                if (backgroundWidth! / backgroundHeight!) < (16.0 / 9.0) {
-                    size = CGSizeMake(width, width / backgroundWidth! * backgroundHeight!)
-                } else {
-                    size = CGSizeMake(height / backgroundHeight! * backgroundWidth!, height)
-                }
-                background = SKSpriteNode(texture: SKTexture(image: exporter.Song().artwork!.resizedImage(size, interpolationQuality: CGInterpolationQuality.Low).applyDarkEffect()))
-                //background.size = CGSize(width: 736, height: 414)
-                background.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame))
-                background.zPosition = -1000
-                Background = background.copy() as! SKSpriteNode
-                Background.alpha = 0
-                Background.runAction(SKAction.sequence([SKAction.waitForDuration(0.5), staticNodesAppearAction]))
-                
-                self.addChild(Background)
-                
-            } else {
-                Background = backgrounds[Int(arc4random() % 5)].copy() as! SKSpriteNode
-                Background.alpha = 0
-                Background.runAction(SKAction.sequence([SKAction.waitForDuration(0.5), staticNodesAppearAction]))
-                self.addChild(Background)
-            }
-            
-        }
+        
         if state == 0 {
             if Init {
                 Init = false
@@ -103,8 +67,6 @@ class AnalyzeScene: SKScene {
                 } else {
                     self.addChild(analyzingLabels[1])
                 }
-                analyzingLabels[0].runAction(SKAction.sequence([SKAction.waitForDuration(0.5), staticNodesAppearAction]))
-                analyzingLabels[1].runAction(SKAction.sequence([SKAction.waitForDuration(0.5), staticNodesAppearAction]))
             }
             
             if Double(currentTime) - startTime > 1 && Background.alpha > 0.95 {

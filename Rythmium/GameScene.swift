@@ -62,7 +62,7 @@
         
         var spectrumBars = [SKShapeNode]()
         
-        let barCount = 32
+        let barCount = 16
         
         var staticNodeScale: [CGFloat] = [0.5, 0.5, 0.5, 0.5]
         
@@ -386,7 +386,7 @@
                         
                         // visualization
                         if visualizationType == visualization.Spectrum {
-                            let q: CGFloat = pow(2.0, 1.0 / 4.0)
+                            let q: CGFloat = pow(2.0, 1.0 / (CGFloat(barCount) / 8.0))
                             var a1: CGFloat = 1
                             let s = Int(a1 / (q - 1) * (pow(q, CGFloat(barCount)) - 1)) * 2
                             let block = fft(Array(Left[i ..< i + s]))
@@ -399,7 +399,7 @@
                                 x += block[Int(a1 * q)] * Double(a1 * q - floor(a1 * q))
                                 //spectrumBars[bar].yScale = CGFloat(x) / 15000.0 * height
                                 //spectrumBars[bar].removeAllActions()
-                                spectrumBars[bar].runAction(SKAction.scaleYTo(CGFloat(x) / CGFloat(barCount) * 2 / 1500.0 * height, duration: 0.1))
+                                spectrumBars[bar].runAction(SKAction.scaleYTo(CGFloat(x) / log(CGFloat(barCount)) * 2 / 20000.0 * height, duration: 0.1))
                                 a1 *= q
                             }
                         }
