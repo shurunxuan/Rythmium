@@ -22,6 +22,7 @@ class ConfirmScene: SKScene {
     var albumArtwork = SKSpriteNode()
     var originalPosition = CGPoint()
     var originalScale: CGFloat = 0
+    var scaling: CGFloat = 0
     var scaled = false
     var scaleBackground = SKShapeNode()
     
@@ -90,15 +91,20 @@ class ConfirmScene: SKScene {
         if (artViewBackground != nil) {
             let backgroundWidth = artViewBackground?.imageWithSize(CGSizeMake(100, 100))!.size.width
             let backgroundHeight = artViewBackground?.imageWithSize(CGSizeMake(100, 100))!.size.height
-            let size = CGSizeMake(backgroundWidth! / backgroundHeight! * height, height)
+            let size = CGSizeMake(backgroundWidth! / backgroundHeight! * height * 2, height * 2)
             albumArtwork = SKSpriteNode(texture: SKTexture(image: exporter.Song().artwork!.resizedImage(size, interpolationQuality: CGInterpolationQuality.High)))
             albumArtwork.name = "albumArtwork"
             albumArtwork.zPosition = 500
-            albumArtwork.setScale(0.5)
-            originalScale = 0.5
+            albumArtwork.setScale(0.25)
+            originalScale = 0.25
             //background.size = CGSize(width: 736, height: 414)
-            originalPosition = CGPointMake(width / 5, height / 3 + size.height / 4)
+            originalPosition = CGPointMake(width / 5, height / 3 + size.height / 8)
             albumArtwork.position = originalPosition
+            if (albumArtwork.frame.width / albumArtwork.frame.height) < (16.0 / 9.0) {
+                scaling = height / albumArtwork.frame.height / 4
+            } else {
+                scaling = width / albumArtwork.frame.width / 4
+            }
             self.addChild(albumArtwork)
         }
         scaleBackground = SKShapeNode(rectOfSize: self.size)
@@ -107,6 +113,7 @@ class ConfirmScene: SKScene {
         scaleBackground.alpha = 0
         scaleBackground.position = CGPointMake(width / 2, height / 2)
         scaleBackground.strokeColor = SKColor.clearColor()
+        scaleBackground.name = "scaleBackground"
         
         let dif = (albumArtwork.position.y + albumArtwork.frame.height / 2 - easyLabel.frame.height - height / 3) / 3
         
@@ -149,13 +156,7 @@ class ConfirmScene: SKScene {
                 case "albumArtwork" :
                     if !scaled {
                         scaled = true
-                        var scale: CGFloat = 0
-                        if (albumArtwork.frame.width / albumArtwork.frame.height) < (16.0 / 9.0) {
-                            scale = height / albumArtwork.frame.height / 2
-                        } else {
-                            scale = width / albumArtwork.frame.width / 2
-                        }
-                        let action1 = SKAction.scaleTo(scale, duration: 0.5)
+                        let action1 = SKAction.scaleTo(scaling, duration: 0.5)
                         let action2 = SKAction.moveTo(CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)), duration: 0.5)
                         let action3 = SKAction.fadeAlphaTo(1, duration: 0.5)
                         action1.timingMode = SKActionTimingMode.EaseOut
@@ -166,6 +167,19 @@ class ConfirmScene: SKScene {
                         
                         scaleBackground.runAction(action3)
                     } else {
+                        scaled = false
+                        let action1 = SKAction.scaleTo(originalScale, duration: 0.5)
+                        let action2 = SKAction.moveTo(originalPosition, duration: 0.5)
+                        let action3 = SKAction.fadeAlphaTo(0, duration: 0.5)
+                        action1.timingMode = SKActionTimingMode.EaseOut
+                        action2.timingMode = SKActionTimingMode.EaseOut
+                        action3.timingMode = SKActionTimingMode.EaseOut
+                        let action = SKAction.group([action1, action2])
+                        albumArtwork.runAction(action)
+                        scaleBackground.runAction(action3)
+                    }
+                case "scaleBackground" :
+                    if scaled {
                         scaled = false
                         let action1 = SKAction.scaleTo(originalScale, duration: 0.5)
                         let action2 = SKAction.moveTo(originalPosition, duration: 0.5)
