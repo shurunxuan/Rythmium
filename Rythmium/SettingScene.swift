@@ -83,6 +83,7 @@ class SettingScene: SKScene {
             if node.name != nil {
                 switch node.name!{
                 case  "backButton":
+                    SaveSetting()
                     Scene = StartUpScene(size : CGSizeMake(width, height))
                     View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
                 case  "visualizationSpectrumButton":
@@ -94,6 +95,7 @@ class SettingScene: SKScene {
                         visualizationIndicator[0].runAction(SKAction.fadeAlphaTo(0.2, duration: 0.2))
                         addChild(visualizationIndicator[0])
                         visualizationType = visualization.Spectrum
+                        settings["Visualization"] = "Spectrum"
                     }
                 case  "visualizationNoneButton":
                     if visualizationType != visualization.None {
@@ -104,6 +106,7 @@ class SettingScene: SKScene {
                         visualizationIndicator[1].runAction(SKAction.fadeAlphaTo(0.2, duration: 0.2))
                         addChild(visualizationIndicator[1])
                         visualizationType = visualization.None
+                        settings["Visualization"] = "None"
                     }
                 default:
                     break
