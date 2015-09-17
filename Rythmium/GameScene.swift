@@ -237,7 +237,7 @@
                         }
                         //exporter.player().seekToTime(exporter.player().currentItem.asset.duration)
                         //exporter.player().play()
-                        exporter.player().replaceCurrentItemWithPlayerItem(nil)
+                        //exporter.player().replaceCurrentItemWithPlayerItem(nil)
                         GameScene.pause = false
                         GameScene.pauseInit = false
                         Scene = StartUpScene(size : CGSizeMake(width, height))
