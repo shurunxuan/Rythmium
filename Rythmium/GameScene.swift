@@ -174,10 +174,15 @@
             var MSSList = MSSString.componentsSeparatedByString("\n")
             for var i: Int = 1; i < MSSList.count - 1; i++ {
                 var List = MSSList[i].componentsSeparatedByString("\t")
-                if (Int(List[1]) != nil) {
-                    timeList[Int(List[1])!].append(Double(Int(List[0])!) / 44100.0)
+                var maxStrength: Double = 0
+                var maxNote = 0
+                for var j = 2; j < 6; ++j {
+                    if Double(List[j])! > maxStrength {
+                        maxStrength = Double(List[j])!
+                        maxNote = j - 2
+                    }
                 }
-                
+                timeList[maxNote].append(Double(List[1])!)
             }
             
             for var note: Int = 0; note < 4; ++note {

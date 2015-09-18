@@ -210,11 +210,13 @@ class AnalyzeScene: SKScene {
             VU_ehigh[a] = VU_ehigh[i]
         }
         
+        var sampleIncrease: Double = 0
         var sampleIncrease_low: Double = 0
         var sampleIncrease_mid: Double = 0
         var sampleIncrease_high: Double = 0
         var sampleIncrease_ehigh: Double = 0
         var notePointer: Int = 0
+        var startTime: Double = 0
         var startTime_low: Double = 0
         var startTime_mid: Double = 0
         var startTime_high: Double = 0
@@ -222,37 +224,62 @@ class AnalyzeScene: SKScene {
         var interval: Double = 0
         var numOfKeys: [Int] = [0, 0, 0, 0]
         
-        var timeList = [[Int](), [Int]()]
-        timeList[0].reserveCapacity(500)
-        timeList[1].reserveCapacity(500)
-        timeList[0].append(0)
-        timeList[1].append(0)
+        var timeList = [[Double](), [Double](), [Double](), [Double](), [Double]()]
+        var timeListFirstElementStrength = [Double]()
+        for var i: Int = 0; i < 5; ++i {
+            timeList[i].reserveCapacity(500)
+            timeList[i].append(0)
+        }
+        timeListFirstElementStrength.reserveCapacity(500)
+        timeListFirstElementStrength.append(0)
         
         let WriteFile = FileClass()
         WriteFile.OpenFile(WriteFilePath)
         
         Count = sample.count
+        
+        
+        
         for var i: Int = 1; i < Count - 1; i++ {
+            if spec[i + 1] > spec[i]
+            { sampleIncrease += spec[i + 1] - spec[i] }
+            else {
+                interval = sample[i + 1] - startTime
+                if interval >= 0.1 {
+                    
+                    startTime = sample[i]
+                    //notePointer++
+                    timeList[0].append(sample[i])
+                    timeList[1].append(0)
+                    timeList[2].append(0)
+                    timeList[3].append(0)
+                    timeList[4].append(0)
+                    timeListFirstElementStrength.append(sampleIncrease / VU[i])
+                    
+                }
+                sampleIncrease = 0
+            }
+        }
+        
+        for var i: Int = 1; i < Count - 1; ++i {
+            
+            
             if spec_low[i + 1] > spec_low[i]
             { sampleIncrease_low += spec_low[i + 1] - spec_low[i] }
             else {
-                if sampleIncrease_low > VU_low[i] / 2.8 {
-                    interval = sample[i + 1] - startTime_low
-                    if interval >= 0.1 {
-                        if sample[i] - Double(timeList[0][notePointer]) / 44100 > 0.1 {
-                            startTime_low = sample[i]
-                            notePointer++
-                            timeList[0].append(Int(sample[i] * 44100))
-                            timeList[1].append(0)
-                            numOfKeys[0]++
-                        } else if numOfKeys[0] < numOfKeys[timeList[1][notePointer]] {
-                            numOfKeys[timeList[1][notePointer]]--
-                            numOfKeys[0]++
-                            timeList[1][notePointer] = 0
-                        }/* else if timeList[2][notePointer] == 0 {
-                        timeList[2][notePointer] = 1
-                        numOfKeys[0]++
-                        }*/
+                interval = sample[i + 1] - startTime_low
+                if interval >= 0.1 {
+                    while timeList[0][notePointer] < sample[i] {
+                        ++notePointer
+                    }
+                    while timeList[0][notePointer - 1] >= sample[i] {
+                        --notePointer
+                    }
+                    if sample[i] - timeList[0][notePointer - 1] < timeList[0][notePointer] - sample[i] {
+                        --notePointer
+                    }
+                    if abs(sample[i] - timeList[0][notePointer]) < 0.1 {
+                        timeList[1][notePointer] = sampleIncrease_low / VU_low[i]
                     }
                 }
                 sampleIncrease_low = 0
@@ -261,23 +288,19 @@ class AnalyzeScene: SKScene {
             if spec_mid[i + 1] > spec_mid[i]
             { sampleIncrease_mid += spec_mid[i + 1] - spec_mid[i] }
             else {
-                if sampleIncrease_mid > VU_mid[i] / 1.5 {
-                    interval = sample[i + 1] - startTime_mid
-                    if interval >= 0.1 {
-                        if sample[i] - Double(timeList[0][notePointer]) / 44100 > 0.1 {
-                            startTime_mid = sample[i]
-                            notePointer++
-                            timeList[0].append(Int(sample[i] * 44100))
-                            timeList[1].append(1)
-                            numOfKeys[1]++
-                        } else if numOfKeys[1] < numOfKeys[timeList[1][notePointer]] {
-                            numOfKeys[timeList[1][notePointer]]--
-                            numOfKeys[1]++
-                            timeList[1][notePointer] = 1
-                        }/* else if timeList[2][notePointer] == 0 {
-                        timeList[2][notePointer] = 1
-                        numOfKeys[0]++
-                        }*/
+                interval = sample[i + 1] - startTime_mid
+                if interval >= 0.1 {
+                    while timeList[0][notePointer] < sample[i] {
+                        ++notePointer
+                    }
+                    while timeList[0][notePointer - 1] >= sample[i] {
+                        --notePointer
+                    }
+                    if sample[i] - timeList[0][notePointer - 1] < timeList[0][notePointer] - sample[i] {
+                        --notePointer
+                    }
+                    if abs(sample[i] - timeList[0][notePointer]) < 0.1 {
+                        timeList[2][notePointer] = sampleIncrease_mid / VU_mid[i]
                     }
                 }
                 sampleIncrease_mid = 0
@@ -286,23 +309,19 @@ class AnalyzeScene: SKScene {
             if spec_high[i + 1] > spec_high[i]
             { sampleIncrease_high += spec_high[i + 1] - spec_high[i] }
             else {
-                if sampleIncrease_high > VU_high[i] * 0.8 && sampleIncrease_high < 2 * VU_high[i] {
-                    interval = sample[i + 1] - startTime_high
-                    if interval >= 0.1 {
-                        if sample[i] - Double(timeList[0][notePointer]) / 44100 > 0.1 {
-                            startTime_high = sample[i]
-                            notePointer++
-                            timeList[0].append(Int(sample[i] * 44100))
-                            timeList[1].append(2)
-                            numOfKeys[2]++
-                        } else if numOfKeys[2] < numOfKeys[timeList[1][notePointer]] {
-                            numOfKeys[timeList[1][notePointer]]--
-                            numOfKeys[2]++
-                            timeList[1][notePointer] = 2
-                        }/* else if timeList[2][notePointer] == 0 {
-                        timeList[2][notePointer] = 1
-                        numOfKeys[0]++
-                        }*/
+                interval = sample[i + 1] - startTime_high
+                if interval >= 0.1 {
+                    while timeList[0][notePointer] < sample[i] {
+                        ++notePointer
+                    }
+                    while timeList[0][notePointer - 1] >= sample[i] {
+                        --notePointer
+                    }
+                    if sample[i] - timeList[0][notePointer - 1] < timeList[0][notePointer] - sample[i] {
+                        --notePointer
+                    }
+                    if abs(sample[i] - timeList[0][notePointer]) < 0.1 {
+                        timeList[3][notePointer] = sampleIncrease_high / VU_high[i] / 1.8
                     }
                 }
                 sampleIncrease_high = 0
@@ -311,23 +330,19 @@ class AnalyzeScene: SKScene {
             if spec_ehigh[i + 1] > spec_ehigh[i]
             { sampleIncrease_ehigh += spec_ehigh[i + 1] - spec_ehigh[i] }
             else {
-                if sampleIncrease_ehigh > VU_ehigh[i] * 0.8 && sampleIncrease_ehigh < 2 * VU_ehigh[i] {
-                    interval = sample[i + 1] - startTime_ehigh
-                    if interval >= 0.1 {
-                        if sample[i] - Double(timeList[0][notePointer]) / 44100 > 0.1 {
-                            startTime_ehigh = sample[i]
-                            notePointer++
-                            timeList[0].append(Int(sample[i] * 44100))
-                            timeList[1].append(3)
-                            numOfKeys[0]++
-                        } else if numOfKeys[3] < numOfKeys[timeList[1][notePointer]] {
-                            numOfKeys[timeList[1][notePointer]]--
-                            numOfKeys[3]++
-                            timeList[1][notePointer] = 3
-                        }/* else if timeList[2][notePointer] == 0 {
-                        timeList[2][notePointer] = 1
-                        numOfKeys[0]++
-                        }*/
+                interval = sample[i + 1] - startTime_low
+                if interval >= 0.1 {
+                    while timeList[0][notePointer] < sample[i] {
+                        ++notePointer
+                    }
+                    while timeList[0][notePointer - 1] >= sample[i] {
+                        --notePointer
+                    }
+                    if sample[i] - timeList[0][notePointer - 1] < timeList[0][notePointer] - sample[i] {
+                        --notePointer
+                    }
+                    if abs(sample[i] - timeList[0][notePointer]) < 0.1 {
+                        timeList[4][notePointer] = sampleIncrease_ehigh / VU_ehigh[i] / 3
                     }
                 }
                 sampleIncrease_ehigh = 0
@@ -336,8 +351,11 @@ class AnalyzeScene: SKScene {
         
         
         var writeString: String = ""
-        for var i: Int = 0; i < notePointer; i++ {
-            writeString += (String(timeList[0][i]) + "\t" + String(timeList[1][i]) + "\n")
+        let count = timeList[0].count
+        for var i: Int = 0; i < count; i++ {
+            if timeListFirstElementStrength[i] > 0.1 || i == 0 {
+                writeString += (String(timeListFirstElementStrength[i]) + "\t" + String(timeList[0][i]) + "\t" + String(timeList[1][i]) + "\t" + String(timeList[2][i]) + "\t" + String(timeList[3][i]) + "\t" + String(timeList[4][i]) + "\n")
+            }
         }
         
         WriteFile.Write(writeString)
