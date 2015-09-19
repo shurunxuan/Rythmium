@@ -342,7 +342,7 @@ class AnalyzeScene: SKScene {
                         --notePointer
                     }
                     if abs(sample[i] - timeList[0][notePointer]) < 0.1 {
-                        timeList[4][notePointer] = sampleIncrease_ehigh / VU_ehigh[i] / 3
+                        timeList[4][notePointer] = sampleIncrease_ehigh / VU_ehigh[i] / 2.5
                     }
                 }
                 sampleIncrease_ehigh = 0
