@@ -17,6 +17,10 @@ enum GameStage {
 enum visualization {
     case Spectrum, None
 }
+
+enum difficulty {
+    case easy, normal, hard, insane
+}
 // 全局变量
 var Stage = GameStage.StartUp                       // 游戏阶段
 var Scene: SKScene = SKScene()                      // 场景
@@ -38,6 +42,7 @@ var fullCombo = true
 var differentJudges = [0, 0, 0, 0, 0]
 
 var visualizationType = visualization.Spectrum
+var difficultyType = difficulty.easy
 
 var View = SKView()
 
@@ -84,7 +89,7 @@ class GameViewController: UIViewController {
         // 读取设置
         if !FileClass.isExist("setting.cfg") {
             settingFile.CreateFile("setting.cfg")
-            settingFile.Write("Visualization\tSpectrum\n")
+            settingFile.Write("Visualization\tSpectrum\nDifficulty\teasy\n")
         }
         settingFile.OpenFile("setting.cfg")
         let settingStr = settingFile.Read()
@@ -105,6 +110,19 @@ class GameViewController: UIViewController {
                     default :
                         NSLog("ERROR, type Visualization setting")
                         break
+                    }
+                case "Difficulty" :
+                    switch value {
+                    case "easy" :
+                        difficultyType = difficulty.easy
+                    case "normal" :
+                        difficultyType = difficulty.normal
+                    case "hard" :
+                        difficultyType = difficulty.hard
+                    case "insane" :
+                        difficultyType = difficulty.insane
+                    default :
+                        NSLog("ERROR, type Difficulty setting")
                     }
                 default :
                     break

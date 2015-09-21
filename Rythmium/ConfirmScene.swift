@@ -33,6 +33,8 @@ class ConfirmScene: SKScene {
     
     var Background = SKSpriteNode()
     
+    var difficultyIndicator = [SKShapeNode(), SKShapeNode(), SKShapeNode(), SKShapeNode()]
+    
     
     override func didMoveToView(view: SKView) {
         
@@ -64,6 +66,13 @@ class ConfirmScene: SKScene {
         hardLabel.name = "hardLabel"
         insaneLabel.name = "insaneLabel"
         bestScoreLabel.name = "bestScoreLabel"
+        
+        
+
+        
+        
+        
+        
         
         rankLabel = SKSpriteNode(imageNamed: "S")
         
@@ -126,6 +135,40 @@ class ConfirmScene: SKScene {
         insaneLabel.position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - insaneLabel.frame.width / 2, height / 3)
         bestScoreLabel.position = CGPointMake(((albumArtwork.position.x + albumArtwork.frame.width / 2) + (normalLabel.position.x - normalLabel.frame.width / 2)) / 2, insaneLabel.position.y)
         rankLabel.position = CGPointMake(bestScoreLabel.position.x, (albumArtwork.position.y + albumArtwork.frame.height / 2 + bestScoreLabel.position.y + bestScoreLabel.frame.height) / 15 * 8)
+        
+       
+        
+        //difficultyIndicator[0].position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - easyLabel.frame.width / 2, height / 3 + 3 * dif)
+        //difficultyIndicator[1].position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - normalLabel.frame.width / 2, height / 3 + 2 * dif)
+        //difficultyIndicator[2].position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - hardLabel.frame.width / 2, height / 3 + dif)
+        //difficultyIndicator[3].position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - insaneLabel.frame.width / 2, height / 3)
+        
+        difficultyIndicator[0] = SKShapeNode(rect: CGRectMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - easyLabel.frame.width - 5 * ratio, height / 3 + 3 * dif - 5 * ratio, easyLabel.frame.width + 10 * ratio, easyLabel.frame.height + 10 * ratio), cornerRadius: 5)
+        difficultyIndicator[1] = SKShapeNode(rect: CGRectMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - normalLabel.frame.width - 5 * ratio, height / 3 + 2 * dif - 5 * ratio, normalLabel.frame.width + 10 * ratio, normalLabel.frame.height + 10 * ratio), cornerRadius: 5)
+        difficultyIndicator[2] = SKShapeNode(rect: CGRectMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - hardLabel.frame.width - 5 * ratio, height / 3 + dif - 5 * ratio, hardLabel.frame.width + 10 * ratio, hardLabel.frame.height + 10 * ratio), cornerRadius: 5)
+        difficultyIndicator[3] = SKShapeNode(rect: CGRectMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - insaneLabel.frame.width - 5 * ratio, height / 3 - 5 * ratio, insaneLabel.frame.width + 10 * ratio, insaneLabel.frame.height + 10 * ratio), cornerRadius: 5)
+        
+        difficultyIndicator[0].name = "easyIndicator"
+        difficultyIndicator[1].name = "normalIndicator"
+        difficultyIndicator[2].name = "hardIndicator"
+        difficultyIndicator[3].name = "insaneIndicator"
+        
+        for indicator in difficultyIndicator {
+            indicator.strokeColor = SKColor.clearColor()
+            indicator.fillColor = SKColor.whiteColor()
+            indicator.alpha = 0.2
+        }
+        
+        switch difficultyType {
+        case difficulty.easy:
+            addChild(difficultyIndicator[0])
+        case difficulty.normal:
+            addChild(difficultyIndicator[1])
+        case difficulty.hard:
+            addChild(difficultyIndicator[2])
+        case difficulty.insane:
+            addChild(difficultyIndicator[3])
+        }
         
         self.addChild(Background)
         self.addChild(titleButton)
@@ -190,6 +233,50 @@ class ConfirmScene: SKScene {
                         let action = SKAction.group([action1, action2])
                         albumArtwork.runAction(action)
                         scaleBackground.runAction(action3)
+                    }
+                case  "easyLabel":
+                    if difficultyType != difficulty.easy {
+                        for indicator in difficultyIndicator {
+                            indicator.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))
+                        }
+                        difficultyIndicator[0].removeAllActions()
+                        difficultyIndicator[0].runAction(SKAction.fadeAlphaTo(0.2, duration: 0.2))
+                        addChild(difficultyIndicator[0])
+                        difficultyType = difficulty.easy
+                        settings["Difficulty"] = "easy"
+                    }
+                case  "normalLabel":
+                    if difficultyType != difficulty.normal {
+                        for indicator in difficultyIndicator {
+                            indicator.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))
+                        }
+                        difficultyIndicator[1].removeAllActions()
+                        difficultyIndicator[1].runAction(SKAction.fadeAlphaTo(0.2, duration: 0.2))
+                        addChild(difficultyIndicator[1])
+                        difficultyType = difficulty.normal
+                        settings["Difficulty"] = "normal"
+                    }
+                case  "hardLabel":
+                    if difficultyType != difficulty.hard {
+                        for indicator in difficultyIndicator {
+                            indicator.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))
+                        }
+                        difficultyIndicator[2].removeAllActions()
+                        difficultyIndicator[2].runAction(SKAction.fadeAlphaTo(0.2, duration: 0.2))
+                        addChild(difficultyIndicator[2])
+                        difficultyType = difficulty.hard
+                        settings["Difficulty"] = "hard"
+                    }
+                case  "insaneLabel":
+                    if difficultyType != difficulty.insane {
+                        for indicator in difficultyIndicator {
+                            indicator.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))
+                        }
+                        difficultyIndicator[3].removeAllActions()
+                        difficultyIndicator[3].runAction(SKAction.fadeAlphaTo(0.2, duration: 0.2))
+                        addChild(difficultyIndicator[3])
+                        difficultyType = difficulty.insane
+                        settings["Difficulty"] = "insane"
                     }
                 case "startGameButton" :
                     Scene = AnalyzeScene(size : CGSizeMake(width, height))
