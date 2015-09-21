@@ -172,17 +172,38 @@
             MSSFile.OpenFile(String(exporter.songID())+".mss")
             let MSSString = MSSFile.Read()
             var MSSList = MSSString.componentsSeparatedByString("\n")
+            var strengthList = [Double]()
+            strengthList.reserveCapacity(MSSList.count)
+            for var i = 1; i < MSSList.count - 1; ++i {
+                strengthList.append(Double(MSSList[i].componentsSeparatedByString("\t")[0])!)
+            }
+            strengthList.sortInPlace()
+            var noteCount: Int
+            let musicTime = Double(exporter.Song().playbackDuration)
+            switch difficultyType {
+            case difficulty.easy :
+                noteCount = Int(musicTime)
+            case difficulty.normal :
+                noteCount = Int(musicTime * 2)
+            case difficulty.hard :
+                noteCount = Int(musicTime * 3)
+            case difficulty.insane :
+                noteCount = MSSList.count - 1
+            }
+            let leastStrength = strengthList[strengthList.count - noteCount]
             for var i: Int = 1; i < MSSList.count - 1; i++ {
                 var List = MSSList[i].componentsSeparatedByString("\t")
-                var maxStrength: Double = 0
-                var maxNote = 0
-                for var j = 2; j < 6; ++j {
-                    if Double(List[j])! > maxStrength {
-                        maxStrength = Double(List[j])!
-                        maxNote = j - 2
+                if Double(List[0]) >= leastStrength {
+                    var maxStrength: Double = 0
+                    var maxNote = 0
+                    for var j = 2; j < 6; ++j {
+                        if Double(List[j])! > maxStrength {
+                            maxStrength = Double(List[j])!
+                            maxNote = j - 2
+                        }
                     }
+                    timeList[maxNote].append(Double(List[1])!)
                 }
-                timeList[maxNote].append(Double(List[1])!)
             }
             
             for var note: Int = 0; note < 4; ++note {

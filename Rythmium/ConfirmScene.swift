@@ -136,12 +136,6 @@ class ConfirmScene: SKScene {
         bestScoreLabel.position = CGPointMake(((albumArtwork.position.x + albumArtwork.frame.width / 2) + (normalLabel.position.x - normalLabel.frame.width / 2)) / 2, insaneLabel.position.y)
         rankLabel.position = CGPointMake(bestScoreLabel.position.x, (albumArtwork.position.y + albumArtwork.frame.height / 2 + bestScoreLabel.position.y + bestScoreLabel.frame.height) / 15 * 8)
         
-       
-        
-        //difficultyIndicator[0].position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - easyLabel.frame.width / 2, height / 3 + 3 * dif)
-        //difficultyIndicator[1].position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - normalLabel.frame.width / 2, height / 3 + 2 * dif)
-        //difficultyIndicator[2].position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - hardLabel.frame.width / 2, height / 3 + dif)
-        //difficultyIndicator[3].position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - insaneLabel.frame.width / 2, height / 3)
         
         difficultyIndicator[0] = SKShapeNode(rect: CGRectMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - easyLabel.frame.width - 5 * ratio, height / 3 + 3 * dif - 5 * ratio, easyLabel.frame.width + 10 * ratio, easyLabel.frame.height + 10 * ratio), cornerRadius: 5)
         difficultyIndicator[1] = SKShapeNode(rect: CGRectMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - normalLabel.frame.width - 5 * ratio, height / 3 + 2 * dif - 5 * ratio, normalLabel.frame.width + 10 * ratio, normalLabel.frame.height + 10 * ratio), cornerRadius: 5)
