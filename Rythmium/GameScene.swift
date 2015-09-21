@@ -179,18 +179,19 @@
             }
             strengthList.sortInPlace()
             var noteCount: Int
-            let musicTime = Double(exporter.Song().playbackDuration)
             switch difficultyType {
             case difficulty.easy :
-                noteCount = Int(musicTime)
+                noteCount = MSSList.count / 3
             case difficulty.normal :
-                noteCount = Int(musicTime * 2)
+                noteCount = MSSList.count / 3 * 2
             case difficulty.hard :
-                noteCount = Int(musicTime * 3)
+                noteCount = MSSList.count - 1
             case difficulty.insane :
                 noteCount = MSSList.count - 1
             }
-            let leastStrength = strengthList[strengthList.count - noteCount]
+            print(strengthList.count)
+            print(noteCount)
+            let leastStrength = strengthList[strengthList.count - noteCount + 1]
             for var i: Int = 1; i < MSSList.count - 1; i++ {
                 var List = MSSList[i].componentsSeparatedByString("\t")
                 if Double(List[0]) >= leastStrength {
