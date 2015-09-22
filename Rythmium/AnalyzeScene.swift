@@ -269,10 +269,11 @@ class AnalyzeScene: SKScene {
             else {
                 interval = sample[i + 1] - startTime_low
                 if interval >= 0.1 {
-                    while timeList[0][notePointer] < sample[i] {
+                    if notePointer >= timeList[0].count { notePointer = timeList[0].count - 1 }
+                    while timeList[0][notePointer] < sample[i] && notePointer < timeList[0].count - 1 {
                         ++notePointer
                     }
-                    while timeList[0][notePointer - 1] >= sample[i] {
+                    while timeList[0][notePointer - 1] >= sample[i] && notePointer > 0 {
                         --notePointer
                     }
                     if sample[i] - timeList[0][notePointer - 1] < timeList[0][notePointer] - sample[i] {
@@ -290,10 +291,11 @@ class AnalyzeScene: SKScene {
             else {
                 interval = sample[i + 1] - startTime_mid
                 if interval >= 0.1 {
-                    while timeList[0][notePointer] < sample[i] {
+                    if notePointer >= timeList[0].count { notePointer = timeList[0].count - 1 }
+                    while timeList[0][notePointer] < sample[i] && notePointer < timeList[0].count - 1 {
                         ++notePointer
                     }
-                    while timeList[0][notePointer - 1] >= sample[i] {
+                    while timeList[0][notePointer - 1] >= sample[i] && notePointer > 0 {
                         --notePointer
                     }
                     if sample[i] - timeList[0][notePointer - 1] < timeList[0][notePointer] - sample[i] {
@@ -311,10 +313,11 @@ class AnalyzeScene: SKScene {
             else {
                 interval = sample[i + 1] - startTime_high
                 if interval >= 0.1 {
-                    while timeList[0][notePointer] < sample[i] {
+                    if notePointer >= timeList[0].count { notePointer = timeList[0].count - 1 }
+                    while timeList[0][notePointer] < sample[i] && notePointer < timeList[0].count - 1 {
                         ++notePointer
                     }
-                    while timeList[0][notePointer - 1] >= sample[i] {
+                    while timeList[0][notePointer - 1] >= sample[i] && notePointer > 0 {
                         --notePointer
                     }
                     if sample[i] - timeList[0][notePointer - 1] < timeList[0][notePointer] - sample[i] {
@@ -332,10 +335,11 @@ class AnalyzeScene: SKScene {
             else {
                 interval = sample[i + 1] - startTime_low
                 if interval >= 0.1 {
-                    while timeList[0][notePointer] < sample[i] {
+                    if notePointer >= timeList[0].count { notePointer = timeList[0].count - 1 }
+                    while timeList[0][notePointer] < sample[i] && notePointer < timeList[0].count - 1 {
                         ++notePointer
                     }
-                    while timeList[0][notePointer - 1] >= sample[i] {
+                    while timeList[0][notePointer - 1] >= sample[i] && notePointer > 0 {
                         --notePointer
                     }
                     if sample[i] - timeList[0][notePointer - 1] < timeList[0][notePointer] - sample[i] {

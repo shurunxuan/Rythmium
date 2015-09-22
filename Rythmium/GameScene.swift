@@ -188,7 +188,7 @@
             case difficulty.hard :
                 noteCount = MSSList.count - 1
             case difficulty.insane :
-                noteCount = MSSList.count / 2
+                noteCount = MSSList.count / 3 * 2
             }
             let leastStrength = strengthList[strengthList.count - noteCount + 1]
             for var i: Int = 1; i < MSSList.count - 1; i++ {

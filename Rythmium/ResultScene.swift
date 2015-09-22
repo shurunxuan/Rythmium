@@ -35,12 +35,12 @@ class ResultScene: SKScene {
         if hasBestScore {
             if score > bestScore {
                 let bsFile = FileClass()
-                bsFile.OpenFile(String(exporter.songID())+".bs")
+                bsFile.OpenFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
                 bsFile.Write(rank + "\t" + String(score))
             }
         } else {
             let bsFile = FileClass()
-            bsFile.CreateFile(String(exporter.songID())+".bs")
+            bsFile.CreateFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
             bsFile.Write(rank + "\t" + String(score))
         }
         

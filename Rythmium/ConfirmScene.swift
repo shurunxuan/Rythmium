@@ -76,10 +76,10 @@ class ConfirmScene: SKScene {
         
         rankLabel = SKSpriteNode(imageNamed: "S")
         
-        if FileClass.isExist(String(exporter.songID())+".bs") {
+        if FileClass.isExist(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs") {
             hasBestScore = true
             let bsFile = FileClass()
-            bsFile.OpenFile(String(exporter.songID())+".bs")
+            bsFile.OpenFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
             let string = bsFile.Read()
             print(string)
             let strList = string.componentsSeparatedByString("\t")
@@ -237,6 +237,22 @@ class ConfirmScene: SKScene {
                         difficultyIndicator[0].runAction(SKAction.fadeAlphaTo(0.2, duration: 0.2))
                         addChild(difficultyIndicator[0])
                         difficultyType = difficulty.easy
+                        if FileClass.isExist(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs") {
+                            hasBestScore = true
+                            let bsFile = FileClass()
+                            bsFile.OpenFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
+                            let string = bsFile.Read()
+                            let strList = string.componentsSeparatedByString("\t")
+                            bestScore = Int(strList[1])!
+                            bestScoreLabel.text = NSString(format: "BEST: %08i", bestScore) as String
+                            rankLabel.removeAllActions()
+                            rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: strList[0])), SKAction.fadeInWithDuration(0.25)]))
+                        } else {
+                            hasBestScore = false
+                            bestScoreLabel.text = "BEST: ????????"
+                            rankLabel.removeAllActions()
+                            rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: "S")), SKAction.fadeInWithDuration(0.25)]))
+                        }
                         settings["Difficulty"] = "easy"
                     }
                 case  "normalLabel":
@@ -248,6 +264,22 @@ class ConfirmScene: SKScene {
                         difficultyIndicator[1].runAction(SKAction.fadeAlphaTo(0.2, duration: 0.2))
                         addChild(difficultyIndicator[1])
                         difficultyType = difficulty.normal
+                        if FileClass.isExist(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs") {
+                            hasBestScore = true
+                            let bsFile = FileClass()
+                            bsFile.OpenFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
+                            let string = bsFile.Read()
+                            let strList = string.componentsSeparatedByString("\t")
+                            bestScore = Int(strList[1])!
+                            bestScoreLabel.text = NSString(format: "BEST: %08i", bestScore) as String
+                            rankLabel.removeAllActions()
+                            rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: strList[0])), SKAction.fadeInWithDuration(0.25)]))
+                        } else {
+                            hasBestScore = false
+                            bestScoreLabel.text = "BEST: ????????"
+                            rankLabel.removeAllActions()
+                            rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: "S")), SKAction.fadeInWithDuration(0.25)]))
+                        }
                         settings["Difficulty"] = "normal"
                     }
                 case  "hardLabel":
@@ -259,6 +291,22 @@ class ConfirmScene: SKScene {
                         difficultyIndicator[2].runAction(SKAction.fadeAlphaTo(0.2, duration: 0.2))
                         addChild(difficultyIndicator[2])
                         difficultyType = difficulty.hard
+                        if FileClass.isExist(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs") {
+                            hasBestScore = true
+                            let bsFile = FileClass()
+                            bsFile.OpenFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
+                            let string = bsFile.Read()
+                            let strList = string.componentsSeparatedByString("\t")
+                            bestScore = Int(strList[1])!
+                            bestScoreLabel.text = NSString(format: "BEST: %08i", bestScore) as String
+                            rankLabel.removeAllActions()
+                            rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: strList[0])), SKAction.fadeInWithDuration(0.25)]))
+                        } else {
+                            hasBestScore = false
+                            bestScoreLabel.text = "BEST: ????????"
+                            rankLabel.removeAllActions()
+                            rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: "S")), SKAction.fadeInWithDuration(0.25)]))
+                        }
                         settings["Difficulty"] = "hard"
                     }
                 case  "insaneLabel":
@@ -270,6 +318,22 @@ class ConfirmScene: SKScene {
                         difficultyIndicator[3].runAction(SKAction.fadeAlphaTo(0.2, duration: 0.2))
                         addChild(difficultyIndicator[3])
                         difficultyType = difficulty.insane
+                        if FileClass.isExist(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs") {
+                            hasBestScore = true
+                            let bsFile = FileClass()
+                            bsFile.OpenFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
+                            let string = bsFile.Read()
+                            let strList = string.componentsSeparatedByString("\t")
+                            bestScore = Int(strList[1])!
+                            bestScoreLabel.text = NSString(format: "BEST: %08i", bestScore) as String
+                            rankLabel.removeAllActions()
+                            rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: strList[0])), SKAction.fadeInWithDuration(0.25)]))
+                        } else {
+                            hasBestScore = false
+                            bestScoreLabel.text = "BEST: ????????"
+                            rankLabel.removeAllActions()
+                            rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: "S")), SKAction.fadeInWithDuration(0.25)]))
+                        }
                         settings["Difficulty"] = "insane"
                     }
                 case "startGameButton" :
