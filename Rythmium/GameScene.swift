@@ -193,7 +193,7 @@
             let leastStrength = strengthList[strengthList.count - noteCount + 1]
             for var i: Int = 1; i < MSSList.count - 1; i++ {
                 var List = MSSList[i].componentsSeparatedByString("\t")
-                if Double(List[0]) >= leastStrength {
+                if Double(List[0]) >= leastStrength && Double(List[1]) > 0.5 {
                     var maxStrength: Double = 0
                     var maxNote = 0
                     if difficultyType != difficulty.insane {
