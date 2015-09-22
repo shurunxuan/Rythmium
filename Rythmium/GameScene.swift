@@ -69,7 +69,8 @@
         override func didMoveToView(view: SKView) {
             Stage = GameStage.Game
             
-            
+            self.view?.multipleTouchEnabled = true
+                        
             Background = background.copy() as! SKSpriteNode
             Background.alpha = 1
             self.addChild(Background)
@@ -187,23 +188,32 @@
             case difficulty.hard :
                 noteCount = MSSList.count - 1
             case difficulty.insane :
-                noteCount = MSSList.count - 1
+                noteCount = MSSList.count / 2
             }
-            print(strengthList.count)
-            print(noteCount)
             let leastStrength = strengthList[strengthList.count - noteCount + 1]
             for var i: Int = 1; i < MSSList.count - 1; i++ {
                 var List = MSSList[i].componentsSeparatedByString("\t")
                 if Double(List[0]) >= leastStrength {
                     var maxStrength: Double = 0
                     var maxNote = 0
-                    for var j = 2; j < 6; ++j {
-                        if Double(List[j])! > maxStrength {
-                            maxStrength = Double(List[j])!
-                            maxNote = j - 2
+                    if difficultyType != difficulty.insane {
+                        for var j = 2; j < 6; ++j {
+                            if Double(List[j])! > maxStrength {
+                                maxStrength = Double(List[j])!
+                                maxNote = j - 2
+                            }
+                        }
+                        timeList[maxNote].append(Double(List[1])!)
+                    } else {
+                        if Double(List[2])! != 0.0 || Double(List[5])! != 0.0 {
+                            if Double(List[2])! > Double(List[5])! { timeList[0].append(Double(List[1])!) }
+                            else { timeList[3].append(Double(List[1])!) }
+                        }
+                        if Double(List[3])! != 0.0 || Double(List[4])! != 0.0 {
+                            if Double(List[3])! > Double(List[4])! { timeList[1].append(Double(List[1])!) }
+                            else { timeList[2].append(Double(List[1])!) }
                         }
                     }
-                    timeList[maxNote].append(Double(List[1])!)
                 }
             }
             
@@ -224,7 +234,6 @@
         
         override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
             /* Called when a touch begins */
-            
             for touch in touches {
                 let location = touch.locationInNode(self)
                 let node = self.nodeAtPoint(location)
@@ -256,15 +265,10 @@
                             node.runAction(staticNodesDisappearAction)
                         }
                         gameNode.runAction(staticNodesDisappearAction)
-                        //pauseBackground.removeAllChildren()
-                        //pauseBackground.removeFromParent()
                         for nodes in self.children {
                             let node = nodes as SKNode
                             node.runAction(staticNodesDisappearAction)
                         }
-                        //exporter.player().seekToTime(exporter.player().currentItem.asset.duration)
-                        //exporter.player().play()
-                        //exporter.player().replaceCurrentItemWithPlayerItem(nil)
                         GameScene.pause = false
                         GameScene.pauseInit = false
                         Scene = StartUpScene(size : CGSizeMake(width, height))
@@ -328,7 +332,6 @@
                     
                 }
             } else {
-                //CurrentTime = CMTimeGetSeconds(exporter.player().currentTime())
                 
                 if GameScene.pause {
                     if GameScene.pauseInit {

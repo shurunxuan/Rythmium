@@ -63,6 +63,8 @@ class GameViewController: UIViewController {
         
         super.viewDidLoad()
         
+        
+        
         // 使exporter显示
         self.addChildViewController(exporter)
         

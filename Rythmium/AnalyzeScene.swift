@@ -217,12 +217,12 @@ class AnalyzeScene: SKScene {
         var sampleIncrease_ehigh: Double = 0
         var notePointer: Int = 0
         var startTime: Double = 0
-        var startTime_low: Double = 0
-        var startTime_mid: Double = 0
-        var startTime_high: Double = 0
-        var startTime_ehigh: Double = 0
+        let startTime_low: Double = 0
+        let startTime_mid: Double = 0
+        let startTime_high: Double = 0
+        let startTime_ehigh: Double = 0
         var interval: Double = 0
-        var numOfKeys: [Int] = [0, 0, 0, 0]
+        let numOfKeys: [Int] = [0, 0, 0, 0]
         
         var timeList = [[Double](), [Double](), [Double](), [Double](), [Double]()]
         var timeListFirstElementStrength = [Double]()
