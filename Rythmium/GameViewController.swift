@@ -33,6 +33,7 @@ let staticNodesDisappearAction = SKAction.sequence([SKAction.fadeAlphaTo(0, dura
 var background = SKSpriteNode()
 
 var backgrounds = [SKSpriteNode(texture: SKTexture(imageNamed: "Background1")), SKSpriteNode(texture: SKTexture(imageNamed: "Background2")), SKSpriteNode(texture: SKTexture(imageNamed: "Background3")), SKSpriteNode(texture: SKTexture(imageNamed: "Background4")), SKSpriteNode(texture: SKTexture(imageNamed: "Background5"))]
+var isNormalBackground = true
 
 var score: Int = 0
 var totalScore: Int = 0

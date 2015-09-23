@@ -68,6 +68,10 @@ class ChooseScene: SKScene {
                 //background.size = CGSize(width: 736, height: 414)
                 background.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame))
                 background.zPosition = -1000
+                isNormalBackground = false
+            } else if !isNormalBackground {
+                isNormalBackground = true
+                background = backgrounds[Int(arc4random() % 5)].copy() as! SKSpriteNode
             }
             Background.removeFromParent()
             Background = background.copy() as! SKSpriteNode

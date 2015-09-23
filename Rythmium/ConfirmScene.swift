@@ -95,6 +95,8 @@ class ConfirmScene: SKScene {
         
         Background = background.copy() as! SKSpriteNode
         
+        var dif: CGFloat = 0
+        
         artViewBackground = exporter.Song().artwork
         //.imageWithSize(CGSize(width: 100, height: 100))
         if (artViewBackground != nil) {
@@ -115,6 +117,25 @@ class ConfirmScene: SKScene {
                 scaling = width / albumArtwork.frame.width / 4
             }
             self.addChild(albumArtwork)
+            dif = (albumArtwork.position.y + albumArtwork.frame.height / 2 - easyLabel.frame.height - height / 3) / 3
+            //print(albumArtwork.position.y)
+            //print(albumArtwork.frame.height)
+            easyLabel.position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - easyLabel.frame.width / 2, height / 3 + 3 * dif)
+            normalLabel.position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - normalLabel.frame.width / 2, height / 3 + 2 * dif)
+            hardLabel.position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - hardLabel.frame.width / 2, height / 3 + dif)
+            insaneLabel.position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - insaneLabel.frame.width / 2, height / 3)
+            bestScoreLabel.position = CGPointMake(((albumArtwork.position.x + albumArtwork.frame.width / 2) + (normalLabel.position.x - normalLabel.frame.width / 2)) / 2, insaneLabel.position.y)
+            rankLabel.position = CGPointMake(bestScoreLabel.position.x, (dif * 3 + height / 3 + easyLabel.frame.height + bestScoreLabel.position.y + bestScoreLabel.frame.height) / 15 * 8)
+        } else {
+            print(albumArtwork.position.x)
+            print(albumArtwork.frame.width)
+            dif = (241.5 + 207.0 / 2 - easyLabel.frame.height - height / 3) / 3
+            normalLabel.position = CGPointMake(width / 3 * 2 + normalLabel.frame.width / 2, height / 3 + 2 * dif)
+            easyLabel.position = CGPointMake(width / 3 * 2 + normalLabel.frame.width - easyLabel.frame.width / 2, height / 3 + 3 * dif)
+            hardLabel.position = CGPointMake(width / 3 * 2 + normalLabel.frame.width - hardLabel.frame.width / 2, height / 3 + dif)
+            insaneLabel.position = CGPointMake(width / 3 * 2 + normalLabel.frame.width - insaneLabel.frame.width / 2, height / 3)
+            bestScoreLabel.position = CGPointMake(width / 24 * 7, insaneLabel.position.y)
+            rankLabel.position = CGPointMake(bestScoreLabel.position.x, (dif * 3 + height / 3 + easyLabel.frame.height + bestScoreLabel.position.y + bestScoreLabel.frame.height) / 15 * 8)
         }
         scaleBackground = SKShapeNode(rectOfSize: self.size)
         scaleBackground.fillColor = SKColor.blackColor()
@@ -124,23 +145,18 @@ class ConfirmScene: SKScene {
         scaleBackground.strokeColor = SKColor.clearColor()
         scaleBackground.name = "scaleBackground"
         
-        let dif = (albumArtwork.position.y + albumArtwork.frame.height / 2 - easyLabel.frame.height - height / 3) / 3
+        
         
         titleButton.position = CGPointMake(width / 8 * 7, height / 8 - titleButton.frame.height / 2)
         startGameButton.position = CGPointMake(width / 2, height / 8 - startGameButton.frame.height / 2)
         backButton.position = CGPointMake(width / 8, height / 8 - backButton.frame.height / 2)
-        easyLabel.position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - easyLabel.frame.width / 2, height / 3 + 3 * dif)
-        normalLabel.position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - normalLabel.frame.width / 2, height / 3 + 2 * dif)
-        hardLabel.position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - hardLabel.frame.width / 2, height / 3 + dif)
-        insaneLabel.position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - insaneLabel.frame.width / 2, height / 3)
-        bestScoreLabel.position = CGPointMake(((albumArtwork.position.x + albumArtwork.frame.width / 2) + (normalLabel.position.x - normalLabel.frame.width / 2)) / 2, insaneLabel.position.y)
-        rankLabel.position = CGPointMake(bestScoreLabel.position.x, (albumArtwork.position.y + albumArtwork.frame.height / 2 + bestScoreLabel.position.y + bestScoreLabel.frame.height) / 15 * 8)
         
         
-        difficultyIndicator[0] = SKShapeNode(rect: CGRectMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - easyLabel.frame.width - 5 * ratio, height / 3 + 3 * dif - 5 * ratio, easyLabel.frame.width + 10 * ratio, easyLabel.frame.height + 10 * ratio), cornerRadius: 5)
-        difficultyIndicator[1] = SKShapeNode(rect: CGRectMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - normalLabel.frame.width - 5 * ratio, height / 3 + 2 * dif - 5 * ratio, normalLabel.frame.width + 10 * ratio, normalLabel.frame.height + 10 * ratio), cornerRadius: 5)
-        difficultyIndicator[2] = SKShapeNode(rect: CGRectMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - hardLabel.frame.width - 5 * ratio, height / 3 + dif - 5 * ratio, hardLabel.frame.width + 10 * ratio, hardLabel.frame.height + 10 * ratio), cornerRadius: 5)
-        difficultyIndicator[3] = SKShapeNode(rect: CGRectMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - insaneLabel.frame.width - 5 * ratio, height / 3 - 5 * ratio, insaneLabel.frame.width + 10 * ratio, insaneLabel.frame.height + 10 * ratio), cornerRadius: 5)
+        
+        difficultyIndicator[0] = SKShapeNode(rect: CGRectMake(easyLabel.position.x - easyLabel.frame.width / 2 - 5 * ratio, height / 3 + 3 * dif - 5 * ratio, easyLabel.frame.width + 10 * ratio, easyLabel.frame.height + 10 * ratio), cornerRadius: 5)
+        difficultyIndicator[1] = SKShapeNode(rect: CGRectMake(normalLabel.position.x - normalLabel.frame.width / 2 - 5 * ratio, height / 3 + 2 * dif - 5 * ratio, normalLabel.frame.width + 10 * ratio, normalLabel.frame.height + 10 * ratio), cornerRadius: 5)
+        difficultyIndicator[2] = SKShapeNode(rect: CGRectMake(hardLabel.position.x - hardLabel.frame.width / 2 - 5 * ratio, height / 3 + dif - 5 * ratio, hardLabel.frame.width + 10 * ratio, hardLabel.frame.height + 10 * ratio), cornerRadius: 5)
+        difficultyIndicator[3] = SKShapeNode(rect: CGRectMake(insaneLabel.position.x - insaneLabel.frame.width / 2 - 5 * ratio, height / 3 - 5 * ratio, insaneLabel.frame.width + 10 * ratio, insaneLabel.frame.height + 10 * ratio), cornerRadius: 5)
         
         difficultyIndicator[0].name = "easyIndicator"
         difficultyIndicator[1].name = "normalIndicator"
