@@ -222,7 +222,6 @@ class AnalyzeScene: SKScene {
         let startTime_high: Double = 0
         let startTime_ehigh: Double = 0
         var interval: Double = 0
-        let numOfKeys: [Int] = [0, 0, 0, 0]
         
         var timeList = [[Double](), [Double](), [Double](), [Double](), [Double]()]
         var timeListFirstElementStrength = [Double]()
@@ -333,7 +332,7 @@ class AnalyzeScene: SKScene {
             if spec_ehigh[i + 1] > spec_ehigh[i]
             { sampleIncrease_ehigh += spec_ehigh[i + 1] - spec_ehigh[i] }
             else {
-                interval = sample[i + 1] - startTime_low
+                interval = sample[i + 1] - startTime_ehigh
                 if interval >= 0.1 {
                     if notePointer >= timeList[0].count { notePointer = timeList[0].count - 1 }
                     while timeList[0][notePointer] < sample[i] && notePointer < timeList[0].count - 1 {
