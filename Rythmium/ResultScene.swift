@@ -93,14 +93,14 @@ class ResultScene: SKScene {
         let restartButton = SKLabelNode()
         restartButton.text = "RESTART"
         restartButton.fontSize = ratio * 45
-        restartButton.position = CGPointMake(width / 24 * 7, height / 6 - restartButton.frame.height / 2)
+        restartButton.position = CGPointMake(width / 16 + restartButton.frame.width / 2, height / 16)
         restartButton.name = "restartButton"
         resultNode.addChild(restartButton)
         
         let newGameButton = SKLabelNode()
         newGameButton.text = "NEW GAME"
         newGameButton.fontSize = ratio * 45
-        newGameButton.position = CGPointMake(width / 24 * 17, height / 6 - newGameButton.frame.height / 2)
+        newGameButton.position = CGPointMake(width / 16 * 15 - newGameButton.frame.width / 2, height / 16)
         newGameButton.name = "newGameButton"
         resultNode.addChild(newGameButton)
         
