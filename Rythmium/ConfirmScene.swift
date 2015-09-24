@@ -353,6 +353,7 @@ class ConfirmScene: SKScene {
                         settings["Difficulty"] = "insane"
                     }
                 case "startGameButton" :
+                    SaveSetting()
                     Scene = AnalyzeScene(size : CGSizeMake(width, height))
                     View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
                 case "backButton" :
