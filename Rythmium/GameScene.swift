@@ -379,6 +379,8 @@
                         pauseBackground.zPosition = 1001
                         
                         pauseBackground.alpha = 1
+                        
+                        pauseButton.alpha = 0
                         self.addChild(pauseBackground)
                         GameScene.pauseInit = false
                     }
@@ -398,6 +400,7 @@
                             for child in gameNode.children {
                                 child.paused = false
                             }
+                            pauseButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.5))
                             self.gameNode.paused = false
                             GameScene.pauseInit = false
                         }
