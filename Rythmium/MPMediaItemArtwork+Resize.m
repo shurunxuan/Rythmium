@@ -12,7 +12,7 @@
 
 
 @implementation MPMediaItemArtwork (Resize)
-- (UIImage *)resizedImage:(CGSize)newSize interpolationQuality:(CGInterpolationQuality)quality {
+- (UIImage *)resizeImage:(CGSize)newSize interpolationQuality:(CGInterpolationQuality)quality {
     return [[self imageWithSize:newSize] resizedImage: newSize interpolationQuality: quality];
 }
 @end

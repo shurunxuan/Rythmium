@@ -5,4 +5,4 @@
 #import "MediaLibExport.h"
 #import "FileClass.h"
 #import "UIImage+ImageEffects.h"
-#import "MPMediaItemArtwork+Resize.h"
+#import "UIImage+Resize.h"

@@ -64,7 +64,7 @@ class ChooseScene: SKScene {
                 } else {
                     size = CGSizeMake(height / backgroundHeight! * backgroundWidth!, height)
                 }
-                background = SKSpriteNode(texture: SKTexture(image: exporter.Song().artwork!.resizedImage(size, interpolationQuality: CGInterpolationQuality.Low).applyDarkEffect()))
+                background = SKSpriteNode(texture: SKTexture(image: exporter.Song().artwork!.imageWithSize(size)!.resizedImage(size, interpolationQuality: CGInterpolationQuality.Low).applyDarkEffect()))
                 //background.size = CGSize(width: 736, height: 414)
                 background.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame))
                 background.zPosition = -1000

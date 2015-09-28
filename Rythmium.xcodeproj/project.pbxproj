@@ -20,7 +20,6 @@
 		B57705A21B4B899600CC13E1 /* RythmiumUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57705A11B4B899600CC13E1 /* RythmiumUITests.swift */; };
 		B57705BF1B4B949800CC13E1 /* FileClass.m in Sources */ = {isa = PBXBuildFile; fileRef = B57705B81B4B949800CC13E1 /* FileClass.m */; };
 		B57705C01B4B949800CC13E1 /* MediaLibExport.m in Sources */ = {isa = PBXBuildFile; fileRef = B57705B91B4B949800CC13E1 /* MediaLibExport.m */; };
-		B57705C11B4B949800CC13E1 /* MPMediaItemArtwork+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = B57705BA1B4B949800CC13E1 /* MPMediaItemArtwork+Resize.m */; };
 		B57705C21B4B949800CC13E1 /* UIImage+Alpha.m in Sources */ = {isa = PBXBuildFile; fileRef = B57705BB1B4B949800CC13E1 /* UIImage+Alpha.m */; };
 		B57705C31B4B949800CC13E1 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = B57705BC1B4B949800CC13E1 /* UIImage+ImageEffects.m */; };
 		B57705C41B4B949800CC13E1 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = B57705BD1B4B949800CC13E1 /* UIImage+Resize.m */; };
@@ -72,14 +71,12 @@
 		B57705AF1B4B949700CC13E1 /* Rythmium-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Rythmium-Bridging-Header.h"; sourceTree = "<group>"; };
 		B57705B01B4B949800CC13E1 /* FileClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileClass.h; sourceTree = "<group>"; };
 		B57705B11B4B949800CC13E1 /* MediaLibExport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaLibExport.h; sourceTree = "<group>"; };
-		B57705B21B4B949800CC13E1 /* MPMediaItemArtwork+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MPMediaItemArtwork+Resize.h"; sourceTree = "<group>"; };
 		B57705B41B4B949800CC13E1 /* UIImage+Alpha.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Alpha.h"; sourceTree = "<group>"; };
 		B57705B51B4B949800CC13E1 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		B57705B61B4B949800CC13E1 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
 		B57705B71B4B949800CC13E1 /* UIImage+RoundedCorner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RoundedCorner.h"; sourceTree = "<group>"; };
 		B57705B81B4B949800CC13E1 /* FileClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileClass.m; sourceTree = "<group>"; };
 		B57705B91B4B949800CC13E1 /* MediaLibExport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaLibExport.m; sourceTree = "<group>"; };
-		B57705BA1B4B949800CC13E1 /* MPMediaItemArtwork+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MPMediaItemArtwork+Resize.m"; sourceTree = "<group>"; };
 		B57705BB1B4B949800CC13E1 /* UIImage+Alpha.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Alpha.m"; sourceTree = "<group>"; };
 		B57705BC1B4B949800CC13E1 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		B57705BD1B4B949800CC13E1 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
@@ -163,8 +160,6 @@
 				B57705B81B4B949800CC13E1 /* FileClass.m */,
 				B57705B11B4B949800CC13E1 /* MediaLibExport.h */,
 				B57705B91B4B949800CC13E1 /* MediaLibExport.m */,
-				B57705B21B4B949800CC13E1 /* MPMediaItemArtwork+Resize.h */,
-				B57705BA1B4B949800CC13E1 /* MPMediaItemArtwork+Resize.m */,
 				B57705B41B4B949800CC13E1 /* UIImage+Alpha.h */,
 				B57705BB1B4B949800CC13E1 /* UIImage+Alpha.m */,
 				B57705B51B4B949800CC13E1 /* UIImage+ImageEffects.h */,
@@ -334,7 +329,6 @@
 				B57705821B4B899500CC13E1 /* StartUpScene.swift in Sources */,
 				B57705C01B4B949800CC13E1 /* MediaLibExport.m in Sources */,
 				B546E5F31B62153B00B82D58 /* FFT.swift in Sources */,
-				B57705C11B4B949800CC13E1 /* MPMediaItemArtwork+Resize.m in Sources */,
 				B57705C41B4B949800CC13E1 /* UIImage+Resize.m in Sources */,
 				B5EA2DE61B7E867000A7E163 /* SaveSetting.swift in Sources */,
 				B57705C51B4B949800CC13E1 /* UIImage+RoundedCorner.m in Sources */,

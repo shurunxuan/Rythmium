@@ -16,7 +16,7 @@
 #import <CoreMedia/CoreMedia.h>
 
 @interface MPMediaItemArtwork ()
-- (UIImage *)resizedImage:(CGSize)newSize
+- (UIImage *)resizeImage:(CGSize)newSize
      interpolationQuality:(CGInterpolationQuality)quality;
 @end
 

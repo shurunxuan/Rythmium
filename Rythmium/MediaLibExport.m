@@ -164,7 +164,7 @@ BOOL coreAudioCanOpenURL (NSURL* url) {
     AudioStreamBasicDescription myPCMFormat;
     myPCMFormat.mSampleRate = 44100; // todo: or use source rate?
     myPCMFormat.mFormatID = kAudioFormatLinearPCM ;
-    myPCMFormat.mFormatFlags =  kAudioFormatFlagsCanonical;
+    myPCMFormat.mFormatFlags =  kAudioFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian | kAudioFormatFlagIsPacked;
     myPCMFormat.mChannelsPerFrame = 2;
     myPCMFormat.mFramesPerPacket = 1;
     myPCMFormat.mBitsPerChannel = 16;
@@ -287,27 +287,6 @@ BOOL coreAudioCanOpenURL (NSURL* url) {
         //                                            selector:@selector(playerTimerUpdate:)
           //                                          userInfo:nil
             //                                         repeats:YES];
-}
-
--(void) playerTimerUpdate: (NSTimer*) timer {
-    // playback time label
-    CMTime currentTime = player.currentTime;
-    UInt64 currentTimeSec = currentTime.value / currentTime.timescale;
-    UInt32 minutes = currentTimeSec / 60;
-    UInt32 seconds = currentTimeSec % 60;
-    // playback slider
-    if (player && !userIsScrubbing) {
-        CMTime endTime = CMTimeConvertScale (player.currentItem.asset.duration,
-                                             currentTime.timescale,
-                                             kCMTimeRoundingMethod_RoundHalfAwayFromZero);
-        //		NSLog (@"currentTime.value = %lld, endTime.value = %lld",
-        //			   currentTime.value, endTime.value);
-        if (endTime.value != 0) {
-            // float slideTime = currentTime.value / endTime.value; // assuming scales are the same
-            double slideTime = (double) currentTime.value / (double) endTime.value;
-            //			NSLog (@"played %f", slideTime);
-        }
-    }
 }
 
 - (unsigned long long) songID {

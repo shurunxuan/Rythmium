@@ -103,7 +103,7 @@ class ConfirmScene: SKScene {
             let backgroundWidth = artViewBackground?.imageWithSize(CGSizeMake(100, 100))!.size.width
             let backgroundHeight = artViewBackground?.imageWithSize(CGSizeMake(100, 100))!.size.height
             let size = CGSizeMake(backgroundWidth! / backgroundHeight! * height * 2, height * 2)
-            albumArtwork = SKSpriteNode(texture: SKTexture(image: exporter.Song().artwork!.resizedImage(size, interpolationQuality: CGInterpolationQuality.High)))
+            albumArtwork = SKSpriteNode(texture: SKTexture(image: exporter.Song().artwork!.imageWithSize(size)!.resizedImage(size, interpolationQuality: CGInterpolationQuality.High)))
             albumArtwork.name = "albumArtwork"
             albumArtwork.zPosition = 500
             albumArtwork.setScale(0.25)
