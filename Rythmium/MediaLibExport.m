@@ -310,6 +310,12 @@ BOOL coreAudioCanOpenURL (NSURL* url) {
     return artist;
 }
 
+- (NSString*) lyrics {
+    NSURL* songURL = [song valueForProperty:MPMediaItemPropertyAssetURL];
+    AVAsset* songAsset = [AVURLAsset URLAssetWithURL:songURL options:nil];
+    return [songAsset lyrics];
+}
+
 - (UIImage*) artView {
     return artWork;
 }

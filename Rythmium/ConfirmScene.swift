@@ -39,7 +39,7 @@ class ConfirmScene: SKScene {
     override func didMoveToView(view: SKView) {
         
         Stage = GameStage.StartUp
-        
+
         titleButton.fontName = "Helvetica Neue Thin"
         startGameButton.fontName = "Helvetica Neue Thin"
         backButton.fontName = "Helvetica Neue Thin"

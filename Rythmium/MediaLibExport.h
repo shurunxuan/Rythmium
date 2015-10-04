@@ -50,6 +50,7 @@
 
 - (NSString*) songTitle;
 - (NSString*) songArtist;
+- (NSString*) lyrics;
 - (UIImage*) artView;
 
 - (AVPlayer*) player;
