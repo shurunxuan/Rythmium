@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B504365F1BC4F92200F6ECB2 /* Lyrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = B504365E1BC4F92200F6ECB2 /* Lyrics.swift */; };
 		B5091C071B823176004CC75D /* ChooseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5091C061B823176004CC75D /* ChooseScene.swift */; };
 		B5091C091B82356E004CC75D /* ConfirmScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5091C081B82356E004CC75D /* ConfirmScene.swift */; };
 		B546E5F31B62153B00B82D58 /* FFT.swift in Sources */ = {isa = PBXBuildFile; fileRef = B546E5F21B62153B00B82D58 /* FFT.swift */; };
@@ -51,6 +52,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B504365E1BC4F92200F6ECB2 /* Lyrics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lyrics.swift; sourceTree = "<group>"; };
 		B5091C061B823176004CC75D /* ChooseScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseScene.swift; sourceTree = "<group>"; };
 		B5091C081B82356E004CC75D /* ConfirmScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmScene.swift; sourceTree = "<group>"; };
 		B546E5F21B62153B00B82D58 /* FFT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FFT.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 				B57705C61B4B94DD00CC13E1 /* JudgementLabel.swift */,
 				B57705C71B4B94DD00CC13E1 /* Note.swift */,
 				B5EA2DE51B7E867000A7E163 /* SaveSetting.swift */,
+				B504365E1BC4F92200F6ECB2 /* Lyrics.swift */,
 				B577057D1B4B899500CC13E1 /* AppDelegate.swift */,
 				B57705811B4B899500CC13E1 /* StartUpScene.swift */,
 				B5091C061B823176004CC75D /* ChooseScene.swift */,
@@ -324,6 +327,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5091C091B82356E004CC75D /* ConfirmScene.swift in Sources */,
+				B504365F1BC4F92200F6ECB2 /* Lyrics.swift in Sources */,
 				B57705C31B4B949800CC13E1 /* UIImage+ImageEffects.m in Sources */,
 				B57705BF1B4B949800CC13E1 /* FileClass.m in Sources */,
 				B57705821B4B899500CC13E1 /* StartUpScene.swift in Sources */,

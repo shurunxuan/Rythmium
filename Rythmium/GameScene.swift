@@ -66,6 +66,10 @@
         
         var staticNodeScale: [CGFloat] = [0.5, 0.5, 0.5, 0.5]
         
+        var hasLRC: Bool = false
+        var LRCPointer: Int = 0
+        var LRCLabel = SKLabelNode(text: "")
+        
         override func didMoveToView(view: SKView) {
             Stage = GameStage.Game
             
@@ -226,6 +230,13 @@
             scoreLabel.runAction(SKAction.sequence([SKAction.waitForDuration(3), staticNodesAppearAction]))
             
             //startTime = Double(currentTime) + 4
+            hasLRC = buildLrcList(exporter.lyrics())
+            if hasLRC {
+                LRCLabel.fontName = "Helvetica Neue UltraLight"
+                LRCLabel.fontSize = 32 * ratio
+                LRCLabel.position = CGPointMake(LRCLabel.frame.width / 2 + 10 * ratio, 10 * ratio)
+                gameNode.addChild(LRCLabel)
+            }
             
             self.addChild(gameNode)
             
@@ -434,6 +445,21 @@
                                 //spectrumBars[bar].removeAllActions()
                                 spectrumBars[bar].runAction(SKAction.scaleYTo(CGFloat(x) / log(CGFloat(barCount)) * 2 / 20000.0 * height, duration: 0.1))
                                 a1 *= q
+                            }
+                        }
+                        
+                        // lyrics
+                        if hasLRC {
+                            if CurrentTime > LrcTimeList[LRCPointer] {
+                                //print(LrcList[Double(LrcTimeList[LRCPointer])])
+                                LRCLabel.text = LrcList[Double(LrcTimeList[LRCPointer])]!
+                                //LRCLabel.position = CGPointMake(LRCLabel.frame.width / 2 + 10 * ratio, 10 * ratio)
+                                LRCLabel.position = CGPointMake(width / 2, 10 * ratio)
+                                ++LRCPointer
+                                if LRCPointer == LrcTimeList.count {
+                                    LRCLabel.text = ""
+                                    hasLRC = false
+                                }
                             }
                         }
                         

@@ -57,6 +57,9 @@ var bestScore = 0
 
 var settings: [String : String] = [:]
 
+var LrcList: [Double : String] = [:]
+var LrcTimeList = [Double]()
+
 
 class GameViewController: UIViewController {
     
