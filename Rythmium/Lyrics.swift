@@ -38,8 +38,9 @@ extension String
     }
 }
 
-func isLrc(lrc: String) -> Bool {
-    let strList = lrc.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
+func isLrc(lrc: String?) -> Bool {
+    if lrc == nil { return false }
+    let strList = lrc!.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
     for str in strList {
         print(str)
         if str != "" {
@@ -51,14 +52,14 @@ func isLrc(lrc: String) -> Bool {
     return true
 }
 
-func buildLrcList(lrc: String) -> Bool {
+func buildLrcList(lrc: String?) -> Bool {
     
     LrcList = [:]
     LrcTimeList = []
     
     if !isLrc(lrc) { return false }
     
-    let strList = lrc.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
+    let strList = lrc!.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
     
     for line in strList where !line.isEmpty {
         if line[1].toInt() >= 48 && line[1].toInt() <= 57 {
@@ -68,7 +69,7 @@ func buildLrcList(lrc: String) -> Bool {
                 let minute = Double(timeStamp[1...2])
                 let second = Double(timeStamp[4...8])
                 if minute == nil || second == nil { return false }
-                let time = minute! * 60 + second!
+                let time = minute! * 60 + second! - 0.5
                 
                 LrcList[time] = lyric
                 LrcTimeList.append(time)
