@@ -59,6 +59,7 @@ var settings: [String : String] = [:]
 
 var LrcList: [Double : String] = [:]
 var LrcTimeList = [Double]()
+var showLrc: Bool = true
 
 
 class GameViewController: UIViewController {
