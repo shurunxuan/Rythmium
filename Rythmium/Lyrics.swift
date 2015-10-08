@@ -41,12 +41,10 @@ extension String
 func isLrc(lrc: String?) -> Bool {
     if lrc == nil { return false }
     let strList = lrc!.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
-    for str in strList {
+    for str in strList where !str.isEmpty {
         print(str)
-        if str != "" {
-            if !str.hasPrefix("[") {
-                return false
-            }
+        if !str.hasPrefix("[") {
+            return false
         }
     }
     return true
@@ -57,11 +55,20 @@ func buildLrcList(lrc: String?) -> Bool {
     LrcList = [:]
     LrcTimeList = []
     
-    if !showLrc { return false }
-    
-    if !isLrc(lrc) { return false }
+    if !(showLrc && isLrc(lrc)) { return false }
     
     let strList = lrc!.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
+    
+    var offset: Double = 0.0
+    
+    for line in strList where line.hasPrefix("[offset") || line.hasPrefix("[Offset") || line.hasPrefix("[OFFSET") {
+        var str = ""
+        for char in line.characters where char.toInt() >= 48 && char.toInt() <= 57 {
+            str.append(char)
+        }
+        offset = Double(str)! / 1000.0
+        break
+    }
     
     for line in strList where !line.isEmpty {
         if line[1].toInt() >= 48 && line[1].toInt() <= 57 {
@@ -71,7 +78,7 @@ func buildLrcList(lrc: String?) -> Bool {
                 let minute = Double(timeStamp[1...2])
                 let second = Double(timeStamp[4...8])
                 if minute == nil || second == nil { return false }
-                let time = minute! * 60 + second! - 0.5
+                let time = minute! * 60 + second! - 0.28 + offset
                 
                 LrcList[time] = lyric
                 LrcTimeList.append(time)

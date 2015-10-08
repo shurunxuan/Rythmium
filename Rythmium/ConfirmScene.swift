@@ -74,7 +74,7 @@ class ConfirmScene: SKScene {
         
         
         
-        rankLabel = SKSpriteNode(imageNamed: "S")
+        rankLabel = SKSpriteNode(imageNamed: "Q")
         
         if FileClass.isExist(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs") {
             hasBestScore = true
@@ -267,7 +267,7 @@ class ConfirmScene: SKScene {
                             hasBestScore = false
                             bestScoreLabel.text = "BEST: ????????"
                             rankLabel.removeAllActions()
-                            rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: "S")), SKAction.fadeInWithDuration(0.25)]))
+                            rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: "Q")), SKAction.fadeInWithDuration(0.25)]))
                         }
                         settings["Difficulty"] = "easy"
                     }
@@ -294,7 +294,7 @@ class ConfirmScene: SKScene {
                             hasBestScore = false
                             bestScoreLabel.text = "BEST: ????????"
                             rankLabel.removeAllActions()
-                            rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: "S")), SKAction.fadeInWithDuration(0.25)]))
+                            rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: "Q")), SKAction.fadeInWithDuration(0.25)]))
                         }
                         settings["Difficulty"] = "normal"
                     }
@@ -321,7 +321,7 @@ class ConfirmScene: SKScene {
                             hasBestScore = false
                             bestScoreLabel.text = "BEST: ????????"
                             rankLabel.removeAllActions()
-                            rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: "S")), SKAction.fadeInWithDuration(0.25)]))
+                            rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: "Q")), SKAction.fadeInWithDuration(0.25)]))
                         }
                         settings["Difficulty"] = "hard"
                     }
@@ -348,7 +348,7 @@ class ConfirmScene: SKScene {
                             hasBestScore = false
                             bestScoreLabel.text = "BEST: ????????"
                             rankLabel.removeAllActions()
-                            rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: "S")), SKAction.fadeInWithDuration(0.25)]))
+                            rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: "Q")), SKAction.fadeInWithDuration(0.25)]))
                         }
                         settings["Difficulty"] = "insane"
                     }
