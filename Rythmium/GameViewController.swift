@@ -96,7 +96,7 @@ class GameViewController: UIViewController {
         // 读取设置
         if !FileClass.isExist("setting.cfg") {
             settingFile.CreateFile("setting.cfg")
-            settingFile.Write("Visualization\tSpectrum\nDifficulty\teasy\n")
+            settingFile.Write("Visualization\tSpectrum\nDifficulty\teasy\nLRC\tYes\n")
         }
         settingFile.OpenFile("setting.cfg")
         let settingStr = settingFile.Read()
@@ -130,6 +130,15 @@ class GameViewController: UIViewController {
                         difficultyType = difficulty.insane
                     default :
                         NSLog("ERROR, type Difficulty setting")
+                    }
+                case "LRC" :
+                    switch value {
+                    case "Yes" :
+                        showLrc = true
+                    case "No" :
+                        showLrc = false
+                    default :
+                        NSLog("ERROR, type LRC setting")
                     }
                 default :
                     break
