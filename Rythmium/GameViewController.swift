@@ -11,7 +11,7 @@ import SpriteKit
 
 // 表示游戏阶段的枚举
 enum GameStage {
-    case StartUp, Setting, Choose, Confirm, Analyze, Game, Result
+    case StartUp, Setting, Choose, Confirm, Analyze, Game, Result, About
 }
 // 表示可视化类型的枚举
 enum visualization {

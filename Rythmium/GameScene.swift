@@ -92,7 +92,6 @@
                 }
             }
             
-            
             lifeBackground = SKShapeNode(rectOfSize: self.size)
             lifeBackground.fillColor = SKColor.redColor()
             lifeBackground.zPosition = -999
@@ -300,6 +299,9 @@
                         if timeList[pos][NotePointer[pos][1]] - CurrentTime < 0.3 {
                             Judgement(pos, HitTime: CurrentTime, NoteTime: DisplayingNoteList[pos][0].Time)
                             let displayingNote = DisplayingNoteList[pos].removeAtIndex(0)
+                            var hue: CGFloat = 0
+                            displayingNote.strokeColor.getHue(&hue, saturation: nil, brightness: nil, alpha: nil)
+                            staticNodes[pos].fillColor = SKColor.init(hue: hue, saturation: 0.3, brightness: 1, alpha: 1)
                             displayingNote.runAction(disappearSequenceHit)
                             NotePointer[pos][1]++
                         }
@@ -488,6 +490,9 @@
                                     // miss judge
                                     Judgement(pos, HitTime: CurrentTime, NoteTime: DisplayingNoteList[pos][0].Time)
                                     let displayingNote = DisplayingNoteList[pos].removeAtIndex(0)
+                                    var hue: CGFloat = 0
+                                    displayingNote.strokeColor.getHue(&hue, saturation: nil, brightness: nil, alpha: nil)
+                                    staticNodes[pos].fillColor = SKColor.init(hue: hue, saturation: 0.3, brightness: 1, alpha: 1)
                                     displayingNote.runAction(disappearSequenceNotHit)
                                     NotePointer[pos][1]++
                                 }

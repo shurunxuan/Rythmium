@@ -70,6 +70,9 @@ class StartUpScene: SKScene {
                 case "settingButton":
                     Scene = SettingScene(size : CGSizeMake(width, height))
                     View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                case "aboutButton":
+                    Scene = AboutScene(size : CGSizeMake(width, height))
+                    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
                 default:
                     break
                 }

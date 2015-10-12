@@ -25,7 +25,12 @@ class Note: SKShapeNode {
         self.path = path
         self.glowWidth = 0
         self.lineWidth = 4.0
+        self.strokeColor = brightColorWithHue(CGFloat(arc4random_uniform(360)) / 360.0)
         self.antialiased = true
 
     }
+}
+
+func brightColorWithHue(hue: CGFloat) -> UIColor {
+    return UIColor.init(hue: hue, saturation: 0.15, brightness: 1, alpha: 1)
 }
