@@ -67,13 +67,6 @@ class ConfirmScene: SKScene {
         insaneLabel.name = "insaneLabel"
         bestScoreLabel.name = "bestScoreLabel"
         
-        
-
-        
-        
-        
-        
-        
         rankLabel = SKSpriteNode(imageNamed: "Q")
         
         if FileClass.isExist(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs") {

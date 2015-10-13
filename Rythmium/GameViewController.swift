@@ -98,7 +98,7 @@ class GameViewController: UIViewController {
         // 读取设置
         if !FileClass.isExist("setting.cfg") {
             settingFile.CreateFile("setting.cfg")
-            settingFile.Write("Visualization\tSpectrum\nDifficulty\teasy\nLRC\tYes\n")
+            settingFile.Write("Visualization\tSpectrum\nDifficulty\teasy\nLRC\tYes\ncolorfulTheme\tOn\n")
         }
         settingFile.OpenFile("setting.cfg")
         let settingStr = settingFile.Read()
@@ -141,6 +141,15 @@ class GameViewController: UIViewController {
                         showLrc = false
                     default :
                         NSLog("ERROR, type LRC setting")
+                    }
+                case "colorfulTheme" :
+                    switch value{
+                    case "On" :
+                        colorfulTheme = true
+                    case "Off" :
+                        colorfulTheme = false
+                    default :
+                        NSLog("ERROR, type colorfulTheme setting")
                     }
                 default :
                     break

@@ -72,6 +72,8 @@
         
         var spectrumColorOffset: CGFloat = 0
         
+        var showLrcLabel = SKLabelNode(text: "Lyrics: On")
+        
         override func didMoveToView(view: SKView) {
             Stage = GameStage.Game
             
@@ -232,7 +234,7 @@
             
             //startTime = Double(currentTime) + 4
             hasLRC = buildLrcList(exporter.lyrics())
-            if hasLRC {
+            if hasLRC && showLrc {
                 LRCLabel.fontName = "Helvetica Neue UltraLight"
                 LRCLabel.fontSize = 32 * ratio
                 LRCLabel.position = CGPointMake(LRCLabel.frame.width / 2 + 10 * ratio, 10 * ratio)
@@ -285,7 +287,17 @@
                         GameScene.pauseInit = false
                         Scene = StartUpScene(size : CGSizeMake(width, height))
                         View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
-                        
+                    case "showLrcLabel" :
+                        if (!showLrc) {
+                            showLrcLabel.text = "Lyrics: On"
+                            gameNode.addChild(LRCLabel)
+                        }
+                        else {
+                            showLrcLabel.text = "Lyrics: Off"
+                            LRCLabel.removeFromParent()
+                        }
+                        showLrc = !showLrc
+                        showLrcLabel.position = CGPointMake(width / 8 * 7, height / 8 - showLrcLabel.frame.height / 2)
                     default:
                         break
                     }
@@ -359,7 +371,6 @@
                         }
                         let pauseLabel = SKLabelNode(text: "PAUSED")
                         pauseLabel.fontSize = ratio * 70
-                        pauseLabel.fontColor = brightColorWithHue(CGFloat(arc4random_uniform(360)) / 360.0)
                         pauseLabel.position = CGPointMake(width / 2, height * 0.65 - pauseLabel.frame.height / 2)
                         pauseLabel.zPosition = 300
                         pauseBackground.addChild(pauseLabel)
@@ -372,7 +383,6 @@
                         
                         let resumeLabel = SKLabelNode(text: "Resume")
                         resumeLabel.fontSize = ratio * 45
-                        resumeLabel.fontColor = brightColorWithHue(CGFloat(arc4random_uniform(360)) / 360.0)
                         resumeLabel.position = CGPointMake(width / 3 - resumeLabel.frame.width / 2, height / 2 - pauseLabel.frame.height * 0.65 - resumeLabel.frame.height)
                         resumeLabel.zPosition = 300
                         resumeLabel.name = "Resume"
@@ -381,7 +391,6 @@
                         
                         let restartLabel = SKLabelNode(text: "Restart")
                         restartLabel.fontSize = ratio * 45
-                        restartLabel.fontColor = brightColorWithHue(CGFloat(arc4random_uniform(360)) / 360.0)
                         restartLabel.position = CGPointMake(width / 2, height / 2 - pauseLabel.frame.height * 0.65 - restartLabel.frame.height)
                         restartLabel.zPosition = 300
                         restartLabel.name = "Restart"
@@ -390,11 +399,20 @@
                         
                         let exitLabel = SKLabelNode(text: "Exit")
                         exitLabel.fontSize = ratio * 45
-                        exitLabel.fontColor = brightColorWithHue(CGFloat(arc4random_uniform(360)) / 360.0)
                         exitLabel.position = CGPointMake(width / 3 * 2 + restartLabel.frame.width / 2, height / 2 - pauseLabel.frame.height * 0.65 - exitLabel.frame.height)
                         exitLabel.zPosition = 300
                         exitLabel.name = "Exit"
                         pauseBackground.addChild(exitLabel)
+                        
+                        if hasLRC {
+                            if (!showLrc) { showLrcLabel.text = "Lyrics: Off" }
+                            showLrcLabel.fontName = "Helvetica Neue UltraLight"
+                            showLrcLabel.fontSize = 32 * ratio
+                            showLrcLabel.position = CGPointMake(width / 8 * 7, height / 8 - showLrcLabel.frame.height / 2)
+                            showLrcLabel.name = "showLrcLabel"
+                            showLrcLabel.zPosition = 300
+                            pauseBackground.addChild(showLrcLabel)
+                        }
                         pauseBackground.zPosition = 1001
                         
                         pauseBackground.alpha = 1

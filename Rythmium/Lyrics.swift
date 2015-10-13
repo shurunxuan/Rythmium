@@ -55,7 +55,7 @@ func buildLrcList(lrc: String?) -> Bool {
     LrcList = [:]
     LrcTimeList = []
     
-    if !(showLrc && isLrc(lrc)) { return false }
+    if !isLrc(lrc) { return false }
     
     let strList = lrc!.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
     
