@@ -11,9 +11,9 @@ class Note: SKShapeNode {
     var NoteSize: CGFloat = 0
     var Time: Double = 0
     static var ID: Int = 0
-
+    
     convenience init(time: Double, center : CGPoint, radius : CGFloat = 10) {
-
+        
         let path = CGPathCreateMutable()
         self.init()
         NoteSize = radius
@@ -27,10 +27,13 @@ class Note: SKShapeNode {
         self.lineWidth = 4.0
         self.strokeColor = brightColorWithHue(CGFloat(arc4random_uniform(360)) / 360.0)
         self.antialiased = true
-
+        
     }
 }
 
 func brightColorWithHue(hue: CGFloat) -> UIColor {
-    return UIColor.init(hue: hue, saturation: 0.15, brightness: 1, alpha: 1)
+    if colorfulTheme
+    { return UIColor.init(hue: hue, saturation: 0.15, brightness: 1, alpha: 1) }
+    else
+    { return UIColor.whiteColor() }
 }

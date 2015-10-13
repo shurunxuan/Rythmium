@@ -78,7 +78,7 @@ func buildLrcList(lrc: String?) -> Bool {
                 let minute = Double(timeStamp[1...2])
                 let second = Double(timeStamp[4...8])
                 if minute == nil || second == nil { return false }
-                let time = minute! * 60 + second! - 0.28 + offset
+                let time = minute! * 60 + second! - 0.35 + offset
                 
                 LrcList[time] = lyric
                 LrcTimeList.append(time)

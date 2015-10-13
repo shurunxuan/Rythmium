@@ -61,6 +61,8 @@ var LrcList: [Double : String] = [:]
 var LrcTimeList = [Double]()
 var showLrc: Bool = true
 
+var colorfulTheme: Bool = true
+
 
 class GameViewController: UIViewController {
     

@@ -70,6 +70,8 @@
         var LRCPointer: Int = 0
         var LRCLabel = SKLabelNode(text: "")
         
+        var spectrumColorOffset: CGFloat = 0
+        
         override func didMoveToView(view: SKView) {
             Stage = GameStage.Game
             
@@ -87,7 +89,7 @@
                     spectrumBars[bar].alpha = 0.1
                     spectrumBars[bar].zPosition = -500
                     spectrumBars[bar].strokeColor = SKColor.clearColor()
-                    spectrumBars[bar].fillColor = SKColor.whiteColor()
+                    spectrumBars[bar].fillColor = brightColorWithHue(CGFloat(bar) / CGFloat(barCount))
                     self.addChild(spectrumBars[bar])
                 }
             }
@@ -357,6 +359,7 @@
                         }
                         let pauseLabel = SKLabelNode(text: "PAUSED")
                         pauseLabel.fontSize = ratio * 70
+                        pauseLabel.fontColor = brightColorWithHue(CGFloat(arc4random_uniform(360)) / 360.0)
                         pauseLabel.position = CGPointMake(width / 2, height * 0.65 - pauseLabel.frame.height / 2)
                         pauseLabel.zPosition = 300
                         pauseBackground.addChild(pauseLabel)
@@ -369,6 +372,7 @@
                         
                         let resumeLabel = SKLabelNode(text: "Resume")
                         resumeLabel.fontSize = ratio * 45
+                        resumeLabel.fontColor = brightColorWithHue(CGFloat(arc4random_uniform(360)) / 360.0)
                         resumeLabel.position = CGPointMake(width / 3 - resumeLabel.frame.width / 2, height / 2 - pauseLabel.frame.height * 0.65 - resumeLabel.frame.height)
                         resumeLabel.zPosition = 300
                         resumeLabel.name = "Resume"
@@ -377,6 +381,7 @@
                         
                         let restartLabel = SKLabelNode(text: "Restart")
                         restartLabel.fontSize = ratio * 45
+                        restartLabel.fontColor = brightColorWithHue(CGFloat(arc4random_uniform(360)) / 360.0)
                         restartLabel.position = CGPointMake(width / 2, height / 2 - pauseLabel.frame.height * 0.65 - restartLabel.frame.height)
                         restartLabel.zPosition = 300
                         restartLabel.name = "Restart"
@@ -385,6 +390,7 @@
                         
                         let exitLabel = SKLabelNode(text: "Exit")
                         exitLabel.fontSize = ratio * 45
+                        exitLabel.fontColor = brightColorWithHue(CGFloat(arc4random_uniform(360)) / 360.0)
                         exitLabel.position = CGPointMake(width / 3 * 2 + restartLabel.frame.width / 2, height / 2 - pauseLabel.frame.height * 0.65 - exitLabel.frame.height)
                         exitLabel.zPosition = 300
                         exitLabel.name = "Exit"
@@ -424,6 +430,8 @@
                         var i = Int(CurrentTime * 44100.0)
                         if i < 0 { i = 0 }
                         
+                        spectrumColorOffset += 0.01
+                        
                         // static nodes scale change
                         for var i = 0; i < 4; ++i {
                             staticNodeScale[i] = (staticNodeScale[i] - 0.5) * 0.8 + 0.5
@@ -447,6 +455,7 @@
                                 //spectrumBars[bar].removeAllActions()
                                 spectrumBars[bar].runAction(SKAction.scaleYTo(CGFloat(x) / log(CGFloat(barCount)) * 2 / 20000.0 * height, duration: 0.1))
                                 a1 *= q
+                                spectrumBars[bar].fillColor = brightColorWithHue((CGFloat(bar) / CGFloat(barCount) + spectrumColorOffset) - CGFloat(Int(CGFloat(bar) / CGFloat(barCount) + spectrumColorOffset)))
                             }
                         }
                         
