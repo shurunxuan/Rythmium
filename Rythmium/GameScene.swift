@@ -25,7 +25,8 @@
         var timeList = [[Double](), [Double](), [Double](), [Double]()]
         var NotePointer = [[1, 1], [1, 1], [1, 1], [1, 1]] // Appear, Hit
         
-        var staticNodes = [Note]()
+        //var staticNodes = [Note]()
+        var staticNodes = [SKSpriteNode]()
         
         var startTime: Double = 0.0
         
@@ -78,7 +79,7 @@
             Stage = GameStage.Game
             
             self.view?.multipleTouchEnabled = true
-                        
+            
             Background = background.copy() as! SKSpriteNode
             Background.alpha = 1
             self.addChild(Background)
@@ -130,15 +131,24 @@
                 SKAction.group([SKAction.moveTo(CGPointMake(width / 4, height / 4), duration: AppearDelay), SKAction.scaleTo(1.0, duration: AppearDelay), SKAction.fadeAlphaTo(0.8, duration: 0.5)]),
                 SKAction.group([SKAction.moveTo(CGPointMake(width * 3 / 4, height / 4), duration: AppearDelay), SKAction.scaleTo(1.0, duration: AppearDelay), SKAction.fadeAlphaTo(0.8, duration: 0.5)])]
             
-            staticNodes = [Note(time: 0, center: CGPointMake(CGFloat(width / 4 * 3),CGFloat(height / 4 * 3)), radius: 140 * ratio),
-                Note(time: 0, center: CGPointMake(CGFloat(width / 4),CGFloat(height / 4 * 3)), radius: 140 * ratio),
-                Note(time: 0, center: CGPointMake(CGFloat(width / 4),CGFloat(height / 4)), radius: 140 * ratio),
-                Note(time: 0, center: CGPointMake(CGFloat(width / 4 * 3),CGFloat(height / 4)), radius: 140 * ratio)]
+            //staticNodes = [Note(time: 0, center: CGPointMake(CGFloat(width / 4 * 3),CGFloat(height / 4 * 3)), radius: 140 * ratio),
+            //    Note(time: 0, center: CGPointMake(CGFloat(width / 4),CGFloat(height / 4 * 3)), radius: 140 * ratio),
+            //    Note(time: 0, center: CGPointMake(CGFloat(width / 4),CGFloat(height / 4)), radius: 140 * ratio),
+            //    Note(time: 0, center: CGPointMake(CGFloat(width / 4 * 3),CGFloat(height / 4)), radius: 140 * ratio)]
+            
+            staticNodes = [SKSpriteNode(imageNamed: "ru"), SKSpriteNode(imageNamed: "lu"), SKSpriteNode(imageNamed: "ld"), SKSpriteNode(imageNamed: "rd")]
             
             for node in staticNodes {
-                node.fillColor = SKColor.whiteColor()
-                node.strokeColor = SKColor.clearColor()
+                //node.fillColor = SKColor.whiteColor()
+                //node.strokeColor = SKColor.clearColor()
+                node.xScale = 1.71 * ratio
+                node.yScale = 1.71 * ratio
             }
+            
+            staticNodes[0].position = CGPointMake(width - staticNodes[0].frame.width / 2, height - staticNodes[0].frame.height / 2)
+            staticNodes[1].position = CGPointMake(staticNodes[1].frame.width / 2, height - staticNodes[1].frame.height / 2)
+            staticNodes[2].position = CGPointMake(staticNodes[2].frame.width / 2, staticNodes[2].frame.height / 2)
+            staticNodes[3].position = CGPointMake(width - staticNodes[3].frame.width / 2, staticNodes[3].frame.height / 2)
             
             scoreLabel.fontName = "Helvetica Neue UltraLight"
             scoreLabel.fontSize = ratio * 20
@@ -313,9 +323,11 @@
                         if timeList[pos][NotePointer[pos][1]] - CurrentTime < 0.3 {
                             Judgement(pos, HitTime: CurrentTime, NoteTime: DisplayingNoteList[pos][0].Time)
                             let displayingNote = DisplayingNoteList[pos].removeAtIndex(0)
-                            var hue: CGFloat = 0
-                            displayingNote.strokeColor.getHue(&hue, saturation: nil, brightness: nil, alpha: nil)
-                            staticNodes[pos].fillColor = SKColor.init(hue: hue, saturation: 0.3, brightness: 1, alpha: 1)
+                            //var hue: CGFloat = 0
+                            //if colorfulTheme {
+                            //    displayingNote.strokeColor.getHue(&hue, saturation: nil, brightness: nil, alpha: nil)
+                            //    staticNodes[pos].fillColor = SKColor.init(hue: hue, saturation: 0.3, brightness: 1, alpha: 1)
+                            //}
                             displayingNote.runAction(disappearSequenceHit)
                             NotePointer[pos][1]++
                         }
@@ -448,13 +460,7 @@
                         var i = Int(CurrentTime * 44100.0)
                         if i < 0 { i = 0 }
                         
-                        spectrumColorOffset += 0.01
-                        
-                        // static nodes scale change
-                        for var i = 0; i < 4; ++i {
-                            staticNodeScale[i] = (staticNodeScale[i] - 0.5) * 0.8 + 0.5
-                            staticNodes[i].runAction(SKAction.scaleTo(staticNodeScale[i], duration: 0.05))
-                        }
+                        if colorfulTheme { spectrumColorOffset += 0.01 }
                         
                         // visualization
                         if visualizationType == visualization.Spectrum {
@@ -517,9 +523,11 @@
                                     // miss judge
                                     Judgement(pos, HitTime: CurrentTime, NoteTime: DisplayingNoteList[pos][0].Time)
                                     let displayingNote = DisplayingNoteList[pos].removeAtIndex(0)
-                                    var hue: CGFloat = 0
-                                    displayingNote.strokeColor.getHue(&hue, saturation: nil, brightness: nil, alpha: nil)
-                                    staticNodes[pos].fillColor = SKColor.init(hue: hue, saturation: 0.3, brightness: 1, alpha: 1)
+                                    //var hue: CGFloat = 0
+                                    //if colorfulTheme {
+                                    //    displayingNote.strokeColor.getHue(&hue, saturation: nil, brightness: nil, alpha: nil)
+                                    //    staticNodes[pos].fillColor = SKColor.init(hue: hue, saturation: 0.3, brightness: 1, alpha: 1)
+                                    //}
                                     displayingNote.runAction(disappearSequenceNotHit)
                                     NotePointer[pos][1]++
                                 }
@@ -561,9 +569,6 @@
             gameNode.addChild(judge)
             judge.runAction()
             if judge.judge > 2 {
-                staticNodeScale[type] = CGFloat(judge.judge) / 6.0
-                staticNodes[type].xScale = CGFloat(judge.judge) / 6.0
-                staticNodes[type].yScale = CGFloat(judge.judge) / 6.0
                 combo += 1
                 if combo > maxCombo { maxCombo = combo }
             } else {
