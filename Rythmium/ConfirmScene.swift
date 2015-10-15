@@ -104,7 +104,7 @@ class ConfirmScene: SKScene {
             //background.size = CGSize(width: 736, height: 414)
             originalPosition = CGPointMake(width / 5, height / 3 + size.height / 8)
             albumArtwork.position = originalPosition
-            if (albumArtwork.frame.width / albumArtwork.frame.height) < (16.0 / 9.0) {
+            if (albumArtwork.frame.width / albumArtwork.frame.height) < (width / height) {
                 scaling = height / albumArtwork.frame.height / 4
             } else {
                 scaling = width / albumArtwork.frame.width / 4

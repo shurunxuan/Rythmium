@@ -237,7 +237,7 @@
             for var note: Int = 0; note < 4; ++note {
                 staticNodes[note].alpha = 0
                 gameNode.addChild(staticNodes[note])
-                staticNodes[note].runAction(SKAction.sequence([SKAction.waitForDuration(3), SKAction.fadeAlphaTo(0.15, duration: 0.5)]))
+                staticNodes[note].runAction(SKAction.sequence([SKAction.waitForDuration(3), SKAction.fadeAlphaTo(0.7, duration: 0.5)]))
                 
             }
             scoreLabel.runAction(SKAction.sequence([SKAction.waitForDuration(3), staticNodesAppearAction]))
@@ -321,13 +321,27 @@
                     
                     if NotePointer[pos][1] < timeList[pos].count {
                         if timeList[pos][NotePointer[pos][1]] - CurrentTime < 0.3 {
-                            Judgement(pos, HitTime: CurrentTime, NoteTime: DisplayingNoteList[pos][0].Time)
+                            let judge = Judgement(pos, HitTime: CurrentTime, NoteTime: DisplayingNoteList[pos][0].Time)
                             let displayingNote = DisplayingNoteList[pos].removeAtIndex(0)
-                            //var hue: CGFloat = 0
-                            //if colorfulTheme {
-                            //    displayingNote.strokeColor.getHue(&hue, saturation: nil, brightness: nil, alpha: nil)
-                            //    staticNodes[pos].fillColor = SKColor.init(hue: hue, saturation: 0.3, brightness: 1, alpha: 1)
-                            //}
+                            staticNodes[pos].removeAllActions()
+                            switch judge {
+                            case 4 :
+                                staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 250.0 / 255.0, green: 191.0 / 255.0, blue: 87.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                            case 3 :
+                                staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 202.0 / 255.0, green: 202.0 / 255.0, blue: 202.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                            case 2 :
+                                staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 166.0 / 255.0, green: 221.0 / 255.0, blue: 116.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                            case 1 :
+                                staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 144.0 / 255.0, green: 173.0 / 255.0, blue: 223.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                            case 0 :
+                                staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 255.0 / 255.0, green: 128.0 / 255.0, blue: 130.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                            default :
+                                break
+                            }
+                            
+                            let colorizeAction = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
+                            colorizeAction.timingMode = SKActionTimingMode.EaseIn
+                            staticNodes[pos].runAction(colorizeAction)
                             displayingNote.runAction(disappearSequenceHit)
                             NotePointer[pos][1]++
                         }
@@ -564,7 +578,7 @@
         }
         
         
-        func Judgement(type: Int, HitTime: Double, NoteTime: Double) {
+        func Judgement(type: Int, HitTime: Double, NoteTime: Double) -> Int {
             let judge = JudgementLabel(type: type, HitTime: HitTime, NoteTime: NoteTime) // problems happen here
             gameNode.addChild(judge)
             judge.runAction()
@@ -605,7 +619,7 @@
             scoreLabel.text = NSString(format: "SCORE: %08i", score) as String
             scoreLabel.position = CGPointMake(width - scoreLabel.frame.width * 0.6, height - scoreLabel.frame.height * 1.2)
             differentJudges[judge.judge]++
-            
+            return judge.judge
         }
     }
     

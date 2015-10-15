@@ -42,7 +42,6 @@ func isLrc(lrc: String?) -> Bool {
     if lrc == nil { return false }
     let strList = lrc!.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
     for str in strList where !str.isEmpty {
-        print(str)
         if !str.hasPrefix("[") {
             return false
         }
@@ -78,7 +77,7 @@ func buildLrcList(lrc: String?) -> Bool {
                 let minute = Double(timeStamp[1...2])
                 let second = Double(timeStamp[4...8])
                 if minute == nil || second == nil { return false }
-                let time = minute! * 60 + second! - 0.35 + offset
+                let time = minute! * 60 + second! + offset
                 
                 LrcList[time] = lyric
                 LrcTimeList.append(time)
