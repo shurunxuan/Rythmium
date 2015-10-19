@@ -24,6 +24,7 @@ class JudgementLabel : SKSpriteNode {
     
     convenience init(type: Int, HitTime: Double, NoteTime: Double) {
         self.init()
+        self.name = "JudgementLabel"
         self.setScale(0.5)
         //self.alpha = 0.0
         //self.fontName = "Helvetica Neue Light"
@@ -41,9 +42,9 @@ class JudgementLabel : SKSpriteNode {
 
         else { self.texture = SKTexture(imageNamed: "MISS"); judge = 0; score = -100 }
 
-        self.size = CGSizeMake(70 * ratio, 70 * ratio)
-        let difference = CGFloat(0)//CGFloat(10.0 / M_SQRT2)
-        switch type {
+        self.size = CGSizeMake(70 * ratio, 18.63905325443787 * ratio)
+        self.position = CGPointMake(width / 2, height / 2)
+        /*switch type {
         case 0:
             self.position = CGPointMake(CGFloat(width / 4 * 3 + difference), CGFloat(height / 4 * 3 - difference))
         case 1:
@@ -54,7 +55,7 @@ class JudgementLabel : SKSpriteNode {
             self.position = CGPointMake(CGFloat(width / 4 * 3 + difference), CGFloat(height / 4 - difference))
         default:
             break
-        }
+        }*/
     }
     
     func runAction() {

@@ -141,8 +141,9 @@
             for node in staticNodes {
                 //node.fillColor = SKColor.whiteColor()
                 //node.strokeColor = SKColor.clearColor()
-                node.xScale = 1.71 * ratio
-                node.yScale = 1.71 * ratio
+                node.xScale = width / 2 / node.frame.width
+                node.yScale = height / 2 / node.frame.height
+                node.zPosition = -501
             }
             
             staticNodes[0].position = CGPointMake(width - staticNodes[0].frame.width / 2, height - staticNodes[0].frame.height / 2)
@@ -237,7 +238,7 @@
             for var note: Int = 0; note < 4; ++note {
                 staticNodes[note].alpha = 0
                 gameNode.addChild(staticNodes[note])
-                staticNodes[note].runAction(SKAction.sequence([SKAction.waitForDuration(3), SKAction.fadeAlphaTo(0.7, duration: 0.5)]))
+                staticNodes[note].runAction(SKAction.sequence([SKAction.waitForDuration(3), SKAction.fadeAlphaTo(0.1, duration: 0.5)]))
                 
             }
             scoreLabel.runAction(SKAction.sequence([SKAction.waitForDuration(3), staticNodesAppearAction]))
@@ -324,6 +325,7 @@
                             let judge = Judgement(pos, HitTime: CurrentTime, NoteTime: DisplayingNoteList[pos][0].Time)
                             let displayingNote = DisplayingNoteList[pos].removeAtIndex(0)
                             staticNodes[pos].removeAllActions()
+                            staticNodes[pos].alpha = 0.4
                             switch judge {
                             case 4 :
                                 staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 250.0 / 255.0, green: 191.0 / 255.0, blue: 87.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
@@ -339,9 +341,11 @@
                                 break
                             }
                             
-                            let colorizeAction = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
-                            colorizeAction.timingMode = SKActionTimingMode.EaseIn
-                            staticNodes[pos].runAction(colorizeAction)
+                            let colorizeAction1 = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
+                            colorizeAction1.timingMode = SKActionTimingMode.EaseIn
+                            let colorizeAction2 = SKAction.fadeAlphaTo(0.05, duration: 0.5)
+                            colorizeAction2.timingMode = SKActionTimingMode.EaseIn
+                            staticNodes[pos].runAction(SKAction.group([colorizeAction1, colorizeAction2]))
                             displayingNote.runAction(disappearSequenceHit)
                             NotePointer[pos][1]++
                         }
@@ -579,9 +583,11 @@
         
         
         func Judgement(type: Int, HitTime: Double, NoteTime: Double) -> Int {
-            let judge = JudgementLabel(type: type, HitTime: HitTime, NoteTime: NoteTime) // problems happen here
-            gameNode.addChild(judge)
+            let judge = JudgementLabel(type: type, HitTime: HitTime, NoteTime: NoteTime)
+            for node in self.children where node.name == "JudgementLabel"
+            { node.removeFromParent() }
             judge.runAction()
+            self.addChild(judge)
             if judge.judge > 2 {
                 combo += 1
                 if combo > maxCombo { maxCombo = combo }
