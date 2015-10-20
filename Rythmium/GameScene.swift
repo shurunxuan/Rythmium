@@ -539,13 +539,30 @@
                             if NotePointer[pos][1] < timeList[pos].count {
                                 if CurrentTime - 0.3 > timeList[pos][NotePointer[pos][1]] {
                                     // miss judge
-                                    Judgement(CurrentTime, NoteTime: DisplayingNoteList[pos][0].Time)
+                                    let judge = Judgement(CurrentTime, NoteTime: DisplayingNoteList[pos][0].Time)
                                     let displayingNote = DisplayingNoteList[pos].removeAtIndex(0)
-                                    //var hue: CGFloat = 0
-                                    //if colorfulTheme {
-                                    //    displayingNote.strokeColor.getHue(&hue, saturation: nil, brightness: nil, alpha: nil)
-                                    //    staticNodes[pos].fillColor = SKColor.init(hue: hue, saturation: 0.3, brightness: 1, alpha: 1)
-                                    //}
+                                    staticNodes[pos].removeAllActions()
+                                    staticNodes[pos].alpha = 0.4
+                                    switch judge {
+                                    case 4 :
+                                        staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 250.0 / 255.0, green: 191.0 / 255.0, blue: 87.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                                    case 3 :
+                                        staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 202.0 / 255.0, green: 202.0 / 255.0, blue: 202.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                                    case 2 :
+                                        staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 166.0 / 255.0, green: 221.0 / 255.0, blue: 116.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                                    case 1 :
+                                        staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 144.0 / 255.0, green: 173.0 / 255.0, blue: 223.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                                    case 0 :
+                                        staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 255.0 / 255.0, green: 128.0 / 255.0, blue: 130.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                                    default :
+                                        break
+                                    }
+                                    
+                                    let colorizeAction1 = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
+                                    colorizeAction1.timingMode = SKActionTimingMode.EaseIn
+                                    let colorizeAction2 = SKAction.fadeAlphaTo(0.05, duration: 0.5)
+                                    colorizeAction2.timingMode = SKActionTimingMode.EaseIn
+                                    staticNodes[pos].runAction(SKAction.group([colorizeAction1, colorizeAction2]))
                                     displayingNote.runAction(disappearSequenceNotHit)
                                     NotePointer[pos][1]++
                                 }
