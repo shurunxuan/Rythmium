@@ -11,7 +11,7 @@ import UIKit
 import SpriteKit
 
 
-class JudgementLabel : SKSpriteNode {
+class JudgementLabel : SKNode {
     var judge: Int = 0
     let act = SKAction.sequence([
         SKAction.group([SKAction.scaleTo(1.0, duration: 0.1), SKAction.fadeAlphaTo(1.0, duration: 0.1)]),
@@ -22,7 +22,7 @@ class JudgementLabel : SKSpriteNode {
 
     var score: Int = 0
     
-    convenience init(type: Int, HitTime: Double, NoteTime: Double) {
+    convenience init(inout combo: Int, HitTime: Double, NoteTime: Double) {
         self.init()
         self.name = "JudgementLabel"
         self.setScale(0.5)
@@ -31,18 +31,45 @@ class JudgementLabel : SKSpriteNode {
         //self.fontSize = 40
         //self.zRotation = CGFloat(M_PI / 4)
         let TimeDifference = abs(HitTime - NoteTime)
+        
+        var label: SKSpriteNode
 
-        if TimeDifference < 0.08 { self.texture = SKTexture(imageNamed: "PERFECT"); judge = 4; score = 1000 }
+        if TimeDifference < 0.08 { label = SKSpriteNode(imageNamed: "PERFECT"); judge = 4; score = 1000 }
 
-        else if TimeDifference < 0.16 { self.texture = SKTexture(imageNamed: "COOL"); judge = 3; score = 800 }
+        else if TimeDifference < 0.16 { label = SKSpriteNode(imageNamed: "COOL"); judge = 3; score = 800 }
 
-        else if TimeDifference < 0.24 { self.texture = SKTexture(imageNamed: "FINE"); judge = 2; score = 400 }
+        else if TimeDifference < 0.24 { label = SKSpriteNode(imageNamed: "FINE"); judge = 2; score = 400 }
 
-        else if TimeDifference < 0.30 { self.texture = SKTexture(imageNamed: "BAD"); judge = 1; score = 0 }
+        else if TimeDifference < 0.30 { label = SKSpriteNode(imageNamed: "BAD"); judge = 1; score = 0 }
 
-        else { self.texture = SKTexture(imageNamed: "MISS"); judge = 0; score = -100 }
+        else { label = SKSpriteNode(imageNamed: "MISS"); judge = 0; score = -100 }
+        label.xScale = 0.3 * ratio
+        label.yScale = 0.3 * ratio
+        
+        if judge > 2 {
+            combo += 1
+            if combo > maxCombo { maxCombo = combo }
+        } else {
+            combo = 0
+            fullCombo = false
+        }
+        if combo <= 5 { label.position = CGPointMake(0, 0) }
+        else {
+            let str = String(combo)
+            var strPrefix: String = ""
+            if judge == 3 { strPrefix = "c" }
+            else if judge == 4 { strPrefix = "p" }
+            for var i: Int = 0; i < str.characters.count; ++i {
+                let number = SKSpriteNode(imageNamed: strPrefix + String(str[i]))
+                number.xScale = label.frame.height / number.frame.height * 0.8
+                number.yScale = label.frame.height / number.frame.height * 0.8
+                number.position = CGPointMake((CGFloat(i) - CGFloat(str.characters.count - 1) / 2.0) * number.frame.width, -number.frame.height / 2 - 4 * ratio)
+                self.addChild(number)
+            }
+            label.position = CGPointMake(0, label.frame.height / 2)
+        }
 
-        self.size = CGSizeMake(70 * ratio, 18.63905325443787 * ratio)
+        //label.size = CGSizeMake(70 * ratio, 18.63905325443787 * ratio)
         self.position = CGPointMake(width / 2, height / 2)
         /*switch type {
         case 0:
@@ -56,6 +83,7 @@ class JudgementLabel : SKSpriteNode {
         default:
             break
         }*/
+        self.addChild(label)
     }
     
     func runAction() {

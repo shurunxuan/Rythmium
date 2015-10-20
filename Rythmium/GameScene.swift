@@ -238,7 +238,7 @@
             for var note: Int = 0; note < 4; ++note {
                 staticNodes[note].alpha = 0
                 gameNode.addChild(staticNodes[note])
-                staticNodes[note].runAction(SKAction.sequence([SKAction.waitForDuration(3), SKAction.fadeAlphaTo(0.1, duration: 0.5)]))
+                staticNodes[note].runAction(SKAction.sequence([SKAction.waitForDuration(3), SKAction.fadeAlphaTo(0.05, duration: 0.5)]))
                 
             }
             scoreLabel.runAction(SKAction.sequence([SKAction.waitForDuration(3), staticNodesAppearAction]))
@@ -322,7 +322,7 @@
                     
                     if NotePointer[pos][1] < timeList[pos].count {
                         if timeList[pos][NotePointer[pos][1]] - CurrentTime < 0.3 {
-                            let judge = Judgement(pos, HitTime: CurrentTime, NoteTime: DisplayingNoteList[pos][0].Time)
+                            let judge = Judgement(CurrentTime, NoteTime: DisplayingNoteList[pos][0].Time)
                             let displayingNote = DisplayingNoteList[pos].removeAtIndex(0)
                             staticNodes[pos].removeAllActions()
                             staticNodes[pos].alpha = 0.4
@@ -539,7 +539,7 @@
                             if NotePointer[pos][1] < timeList[pos].count {
                                 if CurrentTime - 0.3 > timeList[pos][NotePointer[pos][1]] {
                                     // miss judge
-                                    Judgement(pos, HitTime: CurrentTime, NoteTime: DisplayingNoteList[pos][0].Time)
+                                    Judgement(CurrentTime, NoteTime: DisplayingNoteList[pos][0].Time)
                                     let displayingNote = DisplayingNoteList[pos].removeAtIndex(0)
                                     //var hue: CGFloat = 0
                                     //if colorfulTheme {
@@ -582,19 +582,12 @@
         }
         
         
-        func Judgement(type: Int, HitTime: Double, NoteTime: Double) -> Int {
-            let judge = JudgementLabel(type: type, HitTime: HitTime, NoteTime: NoteTime)
+        func Judgement(HitTime: Double, NoteTime: Double) -> Int {
+            let judge = JudgementLabel(combo: &combo, HitTime: HitTime, NoteTime: NoteTime)
             for node in self.children where node.name == "JudgementLabel"
             { node.removeFromParent() }
             judge.runAction()
             self.addChild(judge)
-            if judge.judge > 2 {
-                combo += 1
-                if combo > maxCombo { maxCombo = combo }
-            } else {
-                combo = 0
-                fullCombo = false
-            }
             if judge.judge > 2 {
                 if lifeDecrease > 0 { lifeDecrease = -2 }
                 lifeDecrease *= Double(judge.judge) / 2.5
