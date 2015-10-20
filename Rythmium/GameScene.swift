@@ -75,6 +75,8 @@
         
         var showLrcLabel = SKLabelNode(text: "Lyrics: On")
         
+        var endTime: Double = -10
+        
         override func didMoveToView(view: SKView) {
             Stage = GameStage.Game
             
@@ -570,25 +572,17 @@
                         }
                         
                         // end of game
-                        if NotePointer[0][1] >= timeList[0].count &&
-                            NotePointer[1][1] >= timeList[1].count &&
-                            NotePointer[2][1] >= timeList[2].count &&
-                            NotePointer[3][1] >= timeList[3].count {
-                                //scoreLabel.runAction(staticNodesDisappearAction)
-                                //for var note: Int = 0; note < 4; note++ {
-                                //    staticNodes[note].runAction(staticNodesDisappearAction)
-                                //}
-                                //gameNode.runAction(staticNodesDisappearAction)
+                        if NotePointer[0][1] >= timeList[0].count && NotePointer[1][1] >= timeList[1].count && NotePointer[2][1] >= timeList[2].count && NotePointer[3][1] >= timeList[3].count {
+                            if endTime < 0 { endTime = CurrentTime }
+                            if CurrentTime - endTime > 1 {
                                 totalScore -= 4500
                                 Scene = ResultScene(size : CGSizeMake(width, height))
                                 View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
-                                
-                                //pauseButton.runAction(SKAction.sequence([SKAction.waitForDuration(0.5), SKAction.removeFromParent()]))
+                            }
                         }
                     }
                 }
             }
-            
         }
         
         

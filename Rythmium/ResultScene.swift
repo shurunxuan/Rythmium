@@ -28,81 +28,129 @@ class ResultScene: SKScene {
         if fullCombo { rank = "SS" }
         if isGameOver { rank = "F" }
         rankLabel = SKSpriteNode(imageNamed: rank)
-        rankLabel.setScale(ratio * 1.5)
-        rankLabel.position = CGPointMake(width / 24 * 7, height / 3 * 2)
+        rankLabel.setScale(ratio * 5)
+        rankLabel.position = CGPointMake(width / 2, height / 2)
+        rankLabel.alpha = 0
+        rankLabel.name = "rankLabel"
+        
+        let rankLabelCopy = rankLabel.copy() as! SKSpriteNode
+        rankLabelCopy.alpha = 0
+        rankLabelCopy.name = "rankLabelCopy"
+        
         resultNode.addChild(rankLabel)
+        resultNode.addChild(rankLabelCopy)
+        
+        let actionFadeIn = SKAction.fadeInWithDuration(0.5)
+        let actionScaleTo2x = SKAction.scaleTo(ratio * 2, duration: 0.5)
+        let actionAppear = SKAction.group([actionFadeIn, actionScaleTo2x])
+        actionScaleTo2x.timingMode = SKActionTimingMode.EaseIn
+        let actionWaitCopyDisappear = SKAction.waitForDuration(0.5)
+        let actionMoveToPosition = SKAction.moveTo(CGPointMake(width / 24 * 7, height / 3 * 2), duration: 0.5)
+        actionMoveToPosition.timingMode = SKActionTimingMode.EaseOut
+        let actionScaleTo1_5x = SKAction.scaleTo(ratio * 1.5, duration: 0.5)
+        actionScaleTo1_5x.timingMode = SKActionTimingMode.EaseOut
+        let actionMoveAndScale = SKAction.group([actionMoveToPosition, actionScaleTo1_5x])
+        let actionRankLabel = SKAction.sequence([actionAppear, actionWaitCopyDisappear, actionMoveAndScale])
+        rankLabel.runAction(actionRankLabel)
+        
+        let actionScaleTo10x = SKAction.scaleTo(ratio * 10, duration: 0.5)
+        actionScaleTo10x.timingMode = SKActionTimingMode.EaseOut
+        let actionDisappear = SKAction.fadeOutWithDuration(0.5)
+        let actionCopyDisappear = SKAction.group([actionScaleTo10x, actionDisappear])
+        let actionRankLabelCopy = SKAction.sequence([actionAppear, actionCopyDisappear, SKAction.removeFromParent()])
+        rankLabelCopy.runAction(actionRankLabelCopy)
         
         if hasBestScore {
             if score > bestScore {
                 let bsFile = FileClass()
                 bsFile.OpenFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
                 bsFile.Write(rank + "\t" + String(score))
+                // add bestScore animation
             }
         } else {
             let bsFile = FileClass()
             bsFile.CreateFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
             bsFile.Write(rank + "\t" + String(score))
+            // add bestScore animation
         }
         
         let scoreLabel = SKLabelNode()
         scoreLabel.text = NSString(format: "SCORE: %08i", score) as String
         scoreLabel.fontSize = ratio * 30
         scoreLabel.position = CGPointMake(width / 24 * 7, height / 3)
+        scoreLabel.alpha = 0
         resultNode.addChild(scoreLabel)
+        scoreLabel.runAction(SKAction.sequence([SKAction.waitForDuration(1.5), SKAction.fadeInWithDuration(0.5)]))
         
         let maxComboLabel = SKLabelNode()
         maxComboLabel.text = NSString(format: "Max Combo: %i", maxCombo) as String
         if fullCombo { maxComboLabel.text = "FULL COMBO"; maxComboLabel.fontName = "Helvetica Neue Light" }
         maxComboLabel.fontSize = ratio * 30
         maxComboLabel.position = CGPointMake(width / 24 * 7, height / 4)
+        maxComboLabel.alpha = 0
         resultNode.addChild(maxComboLabel)
+        maxComboLabel.runAction(SKAction.sequence([SKAction.waitForDuration(2), SKAction.fadeInWithDuration(0.5)]))
         
         
         
         let perfectLabel = SKLabelNode()
         perfectLabel.text = "PERFECT:"
         perfectLabel.fontSize = ratio * 40
-        let labelsDifference = (height / 12 * 5 + rankLabel.frame.height / 3.5 - perfectLabel.frame.height) / 4
+        let labelsDifference = (height / 12 * 5 + 289.5 / 3.5 - perfectLabel.frame.height) / 4
         perfectLabel.position = CGPointMake(width / 4 * 3 - perfectLabel.frame.width / 2, height / 4 + labelsDifference * 4)
+        perfectLabel.alpha = 0
         resultNode.addChild(perfectLabel)
+        perfectLabel.runAction(SKAction.sequence([SKAction.waitForDuration(2.5), SKAction.fadeInWithDuration(0.5)]))
         
         let coolLabel = SKLabelNode()
         coolLabel.text = "COOL:"
         coolLabel.fontSize = ratio * 40
         coolLabel.position = CGPointMake(width / 4 * 3 - coolLabel.frame.width / 2, height / 4 + labelsDifference * 3)
+        coolLabel.alpha = 0
         resultNode.addChild(coolLabel)
+        coolLabel.runAction(SKAction.sequence([SKAction.waitForDuration(2.7), SKAction.fadeInWithDuration(0.5)]))
         
         let fineLabel = SKLabelNode()
         fineLabel.text = "FINE:"
         fineLabel.fontSize = ratio * 40
         fineLabel.position = CGPointMake(width / 4 * 3 - fineLabel.frame.width / 2, height / 4 + labelsDifference * 2)
+        fineLabel.alpha = 0
         resultNode.addChild(fineLabel)
+        fineLabel.runAction(SKAction.sequence([SKAction.waitForDuration(2.9), SKAction.fadeInWithDuration(0.5)]))
         
         let badLabel = SKLabelNode()
         badLabel.text = "BAD:"
         badLabel.fontSize = ratio * 40
         badLabel.position = CGPointMake(width / 4 * 3 - badLabel.frame.width / 2, height / 4 + labelsDifference * 1)
+        badLabel.alpha = 0
         resultNode.addChild(badLabel)
+        badLabel.runAction(SKAction.sequence([SKAction.waitForDuration(3.1), SKAction.fadeInWithDuration(0.5)]))
         
         let missLabel = SKLabelNode()
         missLabel.text = "MISS:"
         missLabel.fontSize = ratio * 40
         missLabel.position = CGPointMake(width / 4 * 3 - missLabel.frame.width / 2, height / 4 + labelsDifference * 0)
+        missLabel.alpha = 0
         resultNode.addChild(missLabel)
+        missLabel.runAction(SKAction.sequence([SKAction.waitForDuration(3.3), SKAction.fadeInWithDuration(0.5)]))
         
         let restartButton = SKLabelNode()
         restartButton.text = "RESTART"
         restartButton.fontSize = ratio * 45
         restartButton.position = CGPointMake(width / 16 + restartButton.frame.width / 2, height / 16)
         restartButton.name = "restartButton"
+        restartButton.alpha = 0
         resultNode.addChild(restartButton)
+        restartButton.runAction(SKAction.sequence([SKAction.waitForDuration(3.8), SKAction.fadeInWithDuration(0.5)]))
         
         let newGameButton = SKLabelNode()
         newGameButton.text = "NEW GAME"
         newGameButton.fontSize = ratio * 45
         newGameButton.position = CGPointMake(width / 16 * 15 - newGameButton.frame.width / 2, height / 16)
         newGameButton.name = "newGameButton"
+        newGameButton.alpha = 0
         resultNode.addChild(newGameButton)
+        newGameButton.runAction(SKAction.sequence([SKAction.waitForDuration(3.8), SKAction.fadeInWithDuration(0.5)]))
         
         Background.removeFromParent()
         self.addChild(Background)
@@ -112,7 +160,9 @@ class ResultScene: SKScene {
             JudgeLabel.text = String(differentJudges[differentJudge])
             JudgeLabel.fontSize = ratio * 40
             JudgeLabel.position = CGPointMake(width / 4 * 3 + JudgeLabel.frame.width / 2 + width / 20, (height / 4 + labelsDifference * CGFloat(differentJudge)))
+            JudgeLabel.alpha = 0
             resultNode.addChild(JudgeLabel)
+            JudgeLabel.runAction(SKAction.sequence([SKAction.waitForDuration(2.5 + 0.2 * Double(4 - differentJudge)), SKAction.fadeInWithDuration(0.5)]))
         }
         self.addChild(resultNode)
     }
@@ -123,6 +173,17 @@ class ResultScene: SKScene {
         for touch in touches {
             let location = touch.locationInNode(self)
             let node = self.nodeAtPoint(location)
+            
+            for node in resultNode.children {
+                node.removeAllActions()
+                if node.name == "rankLabel" {
+                    node.position = CGPointMake(width / 24 * 7, height / 3 * 2)
+                    node.setScale(1.5 * ratio)
+                } else if node.name == "rankLabelCopy" {
+                    node.removeFromParent()
+                }
+                node.alpha = 1
+            }
             
             if node.name != nil {
                 switch node.name! {
