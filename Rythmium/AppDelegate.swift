@@ -30,9 +30,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 exporter.player().pause()
                 let gameScene = Scene as! GameScene
                 gameScene.gameNode.paused = true
-                for child in gameScene.gameNode.children {
-                    child.paused = true
-                }
+                gameScene.gameNode.setStayPaused()
+                //for child in gameScene.gameNode.children {
+                //    child.paused = true
+                //}
                 GameScene.pauseInit = true
             }
         }

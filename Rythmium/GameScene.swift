@@ -9,12 +9,39 @@
     import SpriteKit
     import Accelerate
     
+    class GameNode : SKNode {
+        var stayPaused: Bool = false
+        
+        override var paused: Bool {
+            get {
+                return super.paused
+            }
+            set {
+                if (!stayPaused) {
+                    super.paused = newValue
+                }
+            }
+        }
+        
+        func setStayPaused() {
+            if (super.paused) {
+                self.stayPaused = true
+            }
+        }
+        
+        func unsetStayPaused() {
+            if (super.paused) {
+                self.stayPaused = false
+            }
+        }
+    }
+    
     class GameScene: SKScene {
         
         
         var Init = true
         
-        var gameNode = SKNode()
+        var gameNode = GameNode()
         var countDownLabel = SKLabelNode()
         var titleLabel = SKLabelNode()
         var artistLabel = SKLabelNode()
@@ -398,9 +425,10 @@
                         exporter.player().pause()
                         
                         self.gameNode.paused = true
-                        for child in gameNode.children {
-                            child.paused = true
-                        }
+                        gameNode.setStayPaused()
+                        //for child in gameNode.children {
+                        //    child.paused = true
+                        //}
                         let pauseLabel = SKLabelNode(text: "PAUSED")
                         pauseLabel.fontSize = ratio * 70
                         pauseLabel.position = CGPointMake(width / 2, height * 0.65 - pauseLabel.frame.height / 2)
@@ -466,10 +494,11 @@
                         if CurrentTime > 0 {
                             exporter.play()
                             countDownLabel.removeFromParent()
-                            for child in gameNode.children {
-                                child.paused = false
-                            }
+                            //for child in gameNode.children {
+                            //    child.paused = false
+                            //}
                             pauseButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.5))
+                            self.gameNode.unsetStayPaused()
                             self.gameNode.paused = false
                             GameScene.pauseInit = false
                         }
