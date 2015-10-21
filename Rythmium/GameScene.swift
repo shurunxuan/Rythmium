@@ -538,7 +538,19 @@
                                 //print(LrcList[Double(LrcTimeList[LRCPointer])])
                                 LRCLabel.text = LrcList[Double(LrcTimeList[LRCPointer])]!
                                 //LRCLabel.position = CGPointMake(LRCLabel.frame.width / 2 + 10 * ratio, 10 * ratio)
-                                LRCLabel.position = CGPointMake(width / 2, 10 * ratio)
+                                if LRCLabel.frame.width < width - 20 * ratio {
+                                    LRCLabel.position = CGPointMake(width / 2, 10 * ratio)
+                                } else {
+                                    var timeToNextLrc: Double = 0
+                                    if LRCPointer + 1 == LrcTimeList.count { timeToNextLrc = 3 }
+                                    else { timeToNextLrc = LrcTimeList[LRCPointer + 1] - LrcTimeList[LRCPointer] }
+                                    let stillDuration = timeToNextLrc * 0.5
+                                    let moveDuration = timeToNextLrc * 0.3
+                                    LRCLabel.position = CGPointMake(10 * ratio + LRCLabel.frame.width / 2, 10 * ratio)
+                                    let moveAction = SKAction.moveToX(width - 10 * ratio - LRCLabel.frame.width / 2, duration: moveDuration)
+                                    moveAction.timingMode = SKActionTimingMode.EaseInEaseOut
+                                    LRCLabel.runAction(SKAction.sequence([SKAction.waitForDuration(stillDuration), moveAction]))
+                                }
                                 ++LRCPointer
                                 if LRCPointer == LrcTimeList.count {
                                     LRCLabel.text = ""
