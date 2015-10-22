@@ -122,6 +122,7 @@
                     spectrumBars[bar].zPosition = -500
                     spectrumBars[bar].strokeColor = SKColor.clearColor()
                     spectrumBars[bar].fillColor = brightColorWithHue(CGFloat(bar) / CGFloat(barCount))
+                    spectrumBars[bar].yScale = 0
                     self.addChild(spectrumBars[bar])
                 }
             }

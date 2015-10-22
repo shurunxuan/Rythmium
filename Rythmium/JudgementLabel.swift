@@ -43,8 +43,7 @@ class JudgementLabel : SKNode {
         else if TimeDifference < 0.30 { label = SKSpriteNode(imageNamed: "BAD"); judge = 1; score = 0 }
 
         else { label = SKSpriteNode(imageNamed: "MISS"); judge = 0; score = -100 }
-        label.xScale = 0.3 * ratio
-        label.yScale = 0.3 * ratio
+        label.setScale(0.3 * ratio)
         
         if judge > 2 {
             combo += 1
@@ -61,28 +60,14 @@ class JudgementLabel : SKNode {
             else if judge == 4 { strPrefix = "p" }
             for var i: Int = 0; i < str.characters.count; ++i {
                 let number = SKSpriteNode(imageNamed: strPrefix + String(str[i]))
-                number.xScale = label.frame.height / number.frame.height * 0.8
-                number.yScale = label.frame.height / number.frame.height * 0.8
+                number.setScale(label.frame.height / number.frame.height * 0.8)
                 number.position = CGPointMake((CGFloat(i) - CGFloat(str.characters.count - 1) / 2.0) * number.frame.width, -number.frame.height / 2 - 4 * ratio)
                 self.addChild(number)
             }
             label.position = CGPointMake(0, label.frame.height / 2)
         }
 
-        //label.size = CGSizeMake(70 * ratio, 18.63905325443787 * ratio)
         self.position = CGPointMake(width / 2, height / 2)
-        /*switch type {
-        case 0:
-            self.position = CGPointMake(CGFloat(width / 4 * 3 + difference), CGFloat(height / 4 * 3 - difference))
-        case 1:
-            self.position = CGPointMake(CGFloat(width / 4 + difference), CGFloat(height / 4 * 3 - difference))
-        case 2:
-            self.position = CGPointMake(CGFloat(width / 4 + difference), CGFloat(height / 4 - difference))
-        case 3:
-            self.position = CGPointMake(CGFloat(width / 4 * 3 + difference), CGFloat(height / 4 - difference))
-        default:
-            break
-        }*/
         self.addChild(label)
     }
     
