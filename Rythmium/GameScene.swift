@@ -612,6 +612,12 @@
                             }
                         }
                         
+                        // debug only
+                        //if CurrentTime > 1 {
+                        //    Scene = ResultScene(size : CGSizeMake(width, height))
+                        //    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                        //}
+                        
                         // end of game
                         if NotePointer[0][1] >= timeList[0].count && NotePointer[1][1] >= timeList[1].count && NotePointer[2][1] >= timeList[2].count && NotePointer[3][1] >= timeList[3].count {
                             if endTime < 0 { endTime = CurrentTime }

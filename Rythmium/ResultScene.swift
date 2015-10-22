@@ -93,43 +93,39 @@ class ResultScene: SKScene {
         
         
         
-        let perfectLabel = SKLabelNode()
-        perfectLabel.text = "PERFECT:"
-        perfectLabel.fontSize = ratio * 40
+        let perfectLabel = SKSpriteNode(imageNamed: "rp")
+        let scale = 40 * ratio / perfectLabel.frame.height
+        perfectLabel.setScale(scale)
         let labelsDifference = (height / 12 * 5 + 289.5 / 3.5 - perfectLabel.frame.height) / 4
-        perfectLabel.position = CGPointMake(width / 4 * 3 - perfectLabel.frame.width / 2, height / 4 + labelsDifference * 4)
+        perfectLabel.position = CGPointMake(width / 4 * 3 - perfectLabel.frame.width / 2, height / 4 + labelsDifference * 4 + perfectLabel.frame.height / 2)
         perfectLabel.alpha = 0
         resultNode.addChild(perfectLabel)
         perfectLabel.runAction(SKAction.sequence([SKAction.waitForDuration(2.5), SKAction.fadeInWithDuration(0.5)]))
         
-        let coolLabel = SKLabelNode()
-        coolLabel.text = "COOL:"
-        coolLabel.fontSize = ratio * 40
-        coolLabel.position = CGPointMake(width / 4 * 3 - coolLabel.frame.width / 2, height / 4 + labelsDifference * 3)
+        let coolLabel = SKSpriteNode(imageNamed: "rc")
+        coolLabel.setScale(scale)
+        coolLabel.position = CGPointMake(width / 4 * 3 - coolLabel.frame.width / 2, height / 4 + labelsDifference * 3 + coolLabel.frame.height / 2)
         coolLabel.alpha = 0
         resultNode.addChild(coolLabel)
         coolLabel.runAction(SKAction.sequence([SKAction.waitForDuration(2.7), SKAction.fadeInWithDuration(0.5)]))
         
-        let fineLabel = SKLabelNode()
-        fineLabel.text = "FINE:"
-        fineLabel.fontSize = ratio * 40
-        fineLabel.position = CGPointMake(width / 4 * 3 - fineLabel.frame.width / 2, height / 4 + labelsDifference * 2)
+        let fineLabel = SKSpriteNode(imageNamed: "rf")
+        fineLabel.setScale(scale)
+        fineLabel.position = CGPointMake(width / 4 * 3 - fineLabel.frame.width / 2, height / 4 + labelsDifference * 2 + fineLabel.frame.height / 2)
         fineLabel.alpha = 0
         resultNode.addChild(fineLabel)
         fineLabel.runAction(SKAction.sequence([SKAction.waitForDuration(2.9), SKAction.fadeInWithDuration(0.5)]))
         
-        let badLabel = SKLabelNode()
-        badLabel.text = "BAD:"
-        badLabel.fontSize = ratio * 40
-        badLabel.position = CGPointMake(width / 4 * 3 - badLabel.frame.width / 2, height / 4 + labelsDifference * 1)
+        let badLabel = SKSpriteNode(imageNamed: "rb")
+        badLabel.setScale(scale)
+        badLabel.position = CGPointMake(width / 4 * 3 - badLabel.frame.width / 2, height / 4 + labelsDifference * 1 + badLabel.frame.height / 2)
         badLabel.alpha = 0
         resultNode.addChild(badLabel)
         badLabel.runAction(SKAction.sequence([SKAction.waitForDuration(3.1), SKAction.fadeInWithDuration(0.5)]))
         
-        let missLabel = SKLabelNode()
-        missLabel.text = "MISS:"
-        missLabel.fontSize = ratio * 40
-        missLabel.position = CGPointMake(width / 4 * 3 - missLabel.frame.width / 2, height / 4 + labelsDifference * 0)
+        let missLabel = SKSpriteNode(imageNamed: "rm")
+        missLabel.setScale(scale)
+        missLabel.position = CGPointMake(width / 4 * 3 - missLabel.frame.width / 2, height / 4 + labelsDifference * 0 + missLabel.frame.height / 2)
         missLabel.alpha = 0
         resultNode.addChild(missLabel)
         missLabel.runAction(SKAction.sequence([SKAction.waitForDuration(3.3), SKAction.fadeInWithDuration(0.5)]))
@@ -155,11 +151,18 @@ class ResultScene: SKScene {
         Background.removeFromParent()
         self.addChild(Background)
         
+        let judges = ["p", "c", "f", "b", "m"]
+        let judgesLabel = [perfectLabel, coolLabel, fineLabel, badLabel, missLabel]
         for var differentJudge: Int = 0; differentJudge < 5; differentJudge++ {
-            let JudgeLabel = SKLabelNode()
-            JudgeLabel.text = String(differentJudges[differentJudge])
-            JudgeLabel.fontSize = ratio * 40
-            JudgeLabel.position = CGPointMake(width / 4 * 3 + JudgeLabel.frame.width / 2 + width / 20, (height / 4 + labelsDifference * CGFloat(differentJudge)))
+            let JudgeLabel = SKNode()
+            let str = String(differentJudges[differentJudge])
+            for var i = 0; i < str.characters.count; ++i {
+                let number = SKSpriteNode(imageNamed: judges[4 - differentJudge] + String(str[i]))
+                number.setScale(scale)
+                number.position = CGPointMake(CGFloat(i) * number.frame.width, 0)
+                JudgeLabel.addChild(number)
+            }
+            JudgeLabel.position = CGPointMake(width / 4 * 3 + JudgeLabel.frame.width / 2 + width / 20, judgesLabel[4 - differentJudge].position.y)
             JudgeLabel.alpha = 0
             resultNode.addChild(JudgeLabel)
             JudgeLabel.runAction(SKAction.sequence([SKAction.waitForDuration(2.5 + 0.2 * Double(4 - differentJudge)), SKAction.fadeInWithDuration(0.5)]))

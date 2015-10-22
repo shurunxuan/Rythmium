@@ -39,8 +39,8 @@ class AnalyzeScene: SKScene {
             label.fontName = "Helvetica Neue UltraLight"
             label.fontSize = 40 * ratio
         }
-        analyzingLabels[0].position = CGPointMake(width / 2, height / 2 + analyzingLabels[0].frame.height / 2)
-        analyzingLabels[1].position = CGPointMake(width / 2, height / 2 - analyzingLabels[1].frame.height / 2)
+        analyzingLabels[0].position = CGPointMake(width / 2, height / 2)
+        analyzingLabels[1].position = CGPointMake(width / 2, height / 2 - analyzingLabels[1].frame.height)
         
         Background = background.copy() as! SKSpriteNode
         self.addChild(Background)
