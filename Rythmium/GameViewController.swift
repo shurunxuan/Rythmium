@@ -49,7 +49,7 @@ var View = SKView()
 
 var artViewBackground: MPMediaItemArtwork?
 
-var Left = [Double]()
+var Left = [Int16]()
 
 var settingFile = FileClass()
 var hasBestScore = false

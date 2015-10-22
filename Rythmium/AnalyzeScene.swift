@@ -13,7 +13,7 @@ import Accelerate
 class AnalyzeScene: SKScene {
     
     
-    var analyzingLabels = [SKLabelNode(text: "Analyzing, please wait..."), SKLabelNode(text: "This may take a minute or longer")]
+    var analyzingLabels = [SKLabelNode(text: "Analyzing, please wait..."), SKLabelNode(text: "This may take a few seconds")]
     
     
     
@@ -75,18 +75,19 @@ class AnalyzeScene: SKScene {
                     Left.removeAll()
                     CafFile.OpenFile("export-pcm.caf")
                     CafFile.Peek(4088)
-                    let fileLength = 256 * 256 * 256 * CafFile.ReadBinary(1) + 256 * 256 * CafFile.ReadBinary(1) +
-                        256 * CafFile.ReadBinary(1) + CafFile.ReadBinary(1) + 4092
+                    let fileLength1 = 256 * 256 * 256 * CafFile.ReadBinary(1) + 256 * 256 * CafFile.ReadBinary(1)
+                    let fileLength2 = 256 * CafFile.ReadBinary(1) + CafFile.ReadBinary(1) + 4092
+                    let fileLength = fileLength1 + fileLength2
                     CafFile.Peek(4096)
                     
                     Left.reserveCapacity(fileLength / 4)
                     while CafFile.OFFSET() != fileLength {
-                        var d = CafFile.ReadBinary()
+                        let d : Int16 = CafFile.ReadBinary()
                         CafFile.Peek(CafFile.OFFSET() + 2)
-                        if d / 256 / 128 == 1 {
-                            d -= 65536
-                        }
-                        Left.append(Double(d))
+                        //if d / 256 / 128 == 1 {
+                        //    d -= 65536
+                        //}
+                        Left.append(d)
                     }
                     
                     if needFFT {

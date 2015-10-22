@@ -68,8 +68,8 @@
     return value;
 }
 
-- (long) ReadBinary {
-    long value = 0;
+- (int16_t) ReadBinary {
+    int16_t value = 0;
     [BinaryReader getBytes:&value range:NSMakeRange(offset, 2)];
     offset += 2;
     return value;

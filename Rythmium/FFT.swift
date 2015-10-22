@@ -16,6 +16,15 @@ func sqrt(x: [Double]) -> [Double] {
     return results
 }
 
+func fft(input: [Int16]) -> [Double] {
+    var doubleInput = [Double]()
+    doubleInput.reserveCapacity(input.count)
+    for value in input {
+        doubleInput.append(Double(value))
+    }
+    return fft(doubleInput)
+}
+
 func fft(input: [Double]) -> [Double] {
     var real = [Double](input)
     var imaginary = [Double](count: input.count, repeatedValue: 0.0)

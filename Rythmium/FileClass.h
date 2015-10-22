@@ -22,7 +22,7 @@
 - (BOOL) DeleteFile;
 
 - (long) ReadBinary: (long)Length;
-- (long) ReadBinary;
+- (int16_t) ReadBinary;
 
 - (void) Peek: (long)Offset;
 
