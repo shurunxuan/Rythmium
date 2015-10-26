@@ -21,16 +21,16 @@ class AboutScene: SKScene {
         
         Stage = GameStage.About
         
-        backButton.fontName = "Helvetica Neue UltraLight"
+        backButton.fontName = "SFUIDisplay-Ultralight"
         backButton.name = "backButton"
         backButton.fontSize = 32 * ratio
         backButton.position = CGPointMake(width / 8, height / 8 - backButton.frame.height / 2)
         
-        positionLabel.fontName = "Helvetica Neue UltraLight"
+        positionLabel.fontName = "SFUIDisplay-Ultralight"
         positionLabel.fontSize = 40 * ratio
         positionLabel.position = CGPointMake(width / 2, (height - backButton.position.y - backButton.frame.height) / 2 + 20 * ratio + positionLabel.frame.height)
         
-        nameLabel.fontName = "Helvetica Neue UltraLight"
+        nameLabel.fontName = "SFUIDisplay-Ultralight"
         nameLabel.fontSize = 60 * ratio
         nameLabel.position = CGPointMake(width / 2, (height - backButton.position.y - backButton.frame.height) / 2 - 10 * ratio)
         

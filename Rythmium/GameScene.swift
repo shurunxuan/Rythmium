@@ -181,7 +181,7 @@
             staticNodes[2].position = CGPointMake(staticNodes[2].frame.width / 2, staticNodes[2].frame.height / 2)
             staticNodes[3].position = CGPointMake(width - staticNodes[3].frame.width / 2, staticNodes[3].frame.height / 2)
             
-            scoreLabel.fontName = "Helvetica Neue UltraLight"
+            scoreLabel.fontName = "SFUIDisplay-Ultralight"
             scoreLabel.fontSize = ratio * 20
             scoreLabel.position = CGPointMake(width - scoreLabel.frame.width * 0.6, height - scoreLabel.frame.height * 1.2)
             scoreLabel.alpha = 0
@@ -276,7 +276,7 @@
             //startTime = Double(currentTime) + 4
             hasLRC = buildLrcList(exporter.lyrics())
             if hasLRC && showLrc {
-                LRCLabel.fontName = "Helvetica Neue UltraLight"
+                LRCLabel.fontName = "SFUIDisplay-Ultralight"
                 LRCLabel.fontSize = 32 * ratio
                 LRCLabel.position = CGPointMake(LRCLabel.frame.width / 2 + 10 * ratio, 10 * ratio)
                 gameNode.addChild(LRCLabel)
@@ -467,7 +467,7 @@
                         
                         if hasLRC {
                             if (!showLrc) { showLrcLabel.text = "Lyrics: Off" }
-                            showLrcLabel.fontName = "Helvetica Neue UltraLight"
+                            showLrcLabel.fontName = "SFUIDisplay-Ultralight"
                             showLrcLabel.fontSize = 32 * ratio
                             showLrcLabel.position = CGPointMake(width / 8 * 7, height / 8 - showLrcLabel.frame.height / 2)
                             showLrcLabel.name = "showLrcLabel"

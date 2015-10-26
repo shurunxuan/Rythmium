@@ -40,14 +40,14 @@ class ConfirmScene: SKScene {
         
         Stage = GameStage.StartUp
 
-        titleButton.fontName = "Helvetica Neue Thin"
-        startGameButton.fontName = "Helvetica Neue Thin"
-        backButton.fontName = "Helvetica Neue Thin"
-        easyLabel.fontName = "Helvetica Neue UltraLight"
-        normalLabel.fontName = "Helvetica Neue UltraLight"
-        hardLabel.fontName = "Helvetica Neue UltraLight"
-        insaneLabel.fontName = "Helvetica Neue UltraLight"
-        bestScoreLabel.fontName = "Helvetica Neue Thin"
+        titleButton.fontName = "SFUIDisplay-Thin"
+        startGameButton.fontName = "SFUIDisplay-Thin"
+        backButton.fontName = "SFUIDisplay-Thin"
+        easyLabel.fontName = "SFUIDisplay-Ultralight"
+        normalLabel.fontName = "SFUIDisplay-Ultralight"
+        hardLabel.fontName = "SFUIDisplay-Ultralight"
+        insaneLabel.fontName = "SFUIDisplay-Ultralight"
+        bestScoreLabel.fontName = "SFUIDisplay-Thin"
         
         titleButton.fontSize = 32 * ratio
         startGameButton.fontSize = 32 * ratio

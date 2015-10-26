@@ -84,7 +84,7 @@ class ResultScene: SKScene {
         
         let maxComboLabel = SKLabelNode()
         maxComboLabel.text = NSString(format: "Max Combo: %i", maxCombo) as String
-        if fullCombo { maxComboLabel.text = "FULL COMBO"; maxComboLabel.fontName = "Helvetica Neue Light" }
+        if fullCombo { maxComboLabel.text = "FULL COMBO"; maxComboLabel.fontName = "SFUIDisplay-Light" }
         maxComboLabel.fontSize = ratio * 30
         maxComboLabel.position = CGPointMake(width / 24 * 7, height / 4)
         maxComboLabel.alpha = 0

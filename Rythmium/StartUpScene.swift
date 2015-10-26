@@ -21,10 +21,10 @@ class StartUpScene: SKScene {
         
         Stage = GameStage.StartUp
         
-        titleLabel.fontName = "Helvetica Neue UltraLight"
-        startGameButton.fontName = "Helvetica Neue UltraLight"
-        settingButton.fontName = "Helvetica Neue UltraLight"
-        aboutButton.fontName = "Helvetica Neue UltraLight"
+        titleLabel.fontName = "SFUIDisplay-Ultralight"
+        startGameButton.fontName = "SFUIDisplay-Ultralight"
+        settingButton.fontName = "SFUIDisplay-Ultralight"
+        aboutButton.fontName = "SFUIDisplay-Ultralight"
         
         titleLabel.fontSize = 80 * ratio
         startGameButton.fontSize = 40 * ratio

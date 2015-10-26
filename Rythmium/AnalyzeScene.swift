@@ -36,7 +36,7 @@ class AnalyzeScene: SKScene {
         
         
         for label in analyzingLabels {
-            label.fontName = "Helvetica Neue UltraLight"
+            label.fontName = "SFUIDisplay-Ultralight"
             label.fontSize = 40 * ratio
         }
         analyzingLabels[0].position = CGPointMake(width / 2, height / 2)

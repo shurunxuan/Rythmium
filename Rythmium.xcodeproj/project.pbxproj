@@ -10,6 +10,8 @@
 		B504365F1BC4F92200F6ECB2 /* Lyrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = B504365E1BC4F92200F6ECB2 /* Lyrics.swift */; };
 		B5091C071B823176004CC75D /* ChooseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5091C061B823176004CC75D /* ChooseScene.swift */; };
 		B5091C091B82356E004CC75D /* ConfirmScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5091C081B82356E004CC75D /* ConfirmScene.swift */; };
+		B523643F1BDE127A0092692F /* SF-UI-Display-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = B523643E1BDE127A0092692F /* SF-UI-Display-Thin.otf */; };
+		B52364411BDE12810092692F /* SF-UI-Display-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = B52364401BDE12810092692F /* SF-UI-Display-Ultralight.otf */; };
 		B546E5F31B62153B00B82D58 /* FFT.swift in Sources */ = {isa = PBXBuildFile; fileRef = B546E5F21B62153B00B82D58 /* FFT.swift */; };
 		B54723B21B7668260012678B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B54723B01B7668260012678B /* Main.storyboard */; };
 		B5620D071BC7ABFA00293E68 /* AboutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5620D061BC7ABFA00293E68 /* AboutScene.swift */; };
@@ -56,6 +58,8 @@
 		B504365E1BC4F92200F6ECB2 /* Lyrics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lyrics.swift; sourceTree = "<group>"; };
 		B5091C061B823176004CC75D /* ChooseScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseScene.swift; sourceTree = "<group>"; };
 		B5091C081B82356E004CC75D /* ConfirmScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmScene.swift; sourceTree = "<group>"; };
+		B523643E1BDE127A0092692F /* SF-UI-Display-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Thin.otf"; path = "Assets.xcassets/Fonts/SF-UI-THIN.dataset/SF-UI-Display-Thin.otf"; sourceTree = "<group>"; };
+		B52364401BDE12810092692F /* SF-UI-Display-Ultralight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Ultralight.otf"; path = "Assets.xcassets/Fonts/SF-UI-ULTRALIGHT.dataset/SF-UI-Display-Ultralight.otf"; sourceTree = "<group>"; };
 		B546E5F21B62153B00B82D58 /* FFT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FFT.swift; sourceTree = "<group>"; };
 		B54723B11B7668260012678B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B5620D061BC7ABFA00293E68 /* AboutScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutScene.swift; sourceTree = "<group>"; };
@@ -142,6 +146,8 @@
 		B577057C1B4B899500CC13E1 /* Rythmium */ = {
 			isa = PBXGroup;
 			children = (
+				B52364401BDE12810092692F /* SF-UI-Display-Ultralight.otf */,
+				B523643E1BDE127A0092692F /* SF-UI-Display-Thin.otf */,
 				B54723B01B7668260012678B /* Main.storyboard */,
 				B57705881B4B899500CC13E1 /* Assets.xcassets */,
 				B577058D1B4B899500CC13E1 /* Info.plist */,
@@ -302,8 +308,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B523643F1BDE127A0092692F /* SF-UI-Display-Thin.otf in Resources */,
 				B54723B21B7668260012678B /* Main.storyboard in Resources */,
 				B577058C1B4B899500CC13E1 /* LaunchScreen.storyboard in Resources */,
+				B52364411BDE12810092692F /* SF-UI-Display-Ultralight.otf in Resources */,
 				B57705891B4B899500CC13E1 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
