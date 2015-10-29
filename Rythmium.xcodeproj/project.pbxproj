@@ -12,6 +12,7 @@
 		B5091C091B82356E004CC75D /* ConfirmScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5091C081B82356E004CC75D /* ConfirmScene.swift */; };
 		B523643F1BDE127A0092692F /* SF-UI-Display-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = B523643E1BDE127A0092692F /* SF-UI-Display-Thin.otf */; };
 		B52364411BDE12810092692F /* SF-UI-Display-Ultralight.otf in Resources */ = {isa = PBXBuildFile; fileRef = B52364401BDE12810092692F /* SF-UI-Display-Ultralight.otf */; };
+		B52364451BE1FD050092692F /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B52364441BE1FD050092692F /* Launch Screen.storyboard */; };
 		B546E5F31B62153B00B82D58 /* FFT.swift in Sources */ = {isa = PBXBuildFile; fileRef = B546E5F21B62153B00B82D58 /* FFT.swift */; };
 		B54723B21B7668260012678B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B54723B01B7668260012678B /* Main.storyboard */; };
 		B5620D071BC7ABFA00293E68 /* AboutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5620D061BC7ABFA00293E68 /* AboutScene.swift */; };
@@ -19,7 +20,6 @@
 		B57705821B4B899500CC13E1 /* StartUpScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57705811B4B899500CC13E1 /* StartUpScene.swift */; };
 		B57705841B4B899500CC13E1 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57705831B4B899500CC13E1 /* GameViewController.swift */; };
 		B57705891B4B899500CC13E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B57705881B4B899500CC13E1 /* Assets.xcassets */; };
-		B577058C1B4B899500CC13E1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B577058A1B4B899500CC13E1 /* LaunchScreen.storyboard */; };
 		B57705971B4B899500CC13E1 /* RythmiumTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57705961B4B899500CC13E1 /* RythmiumTests.swift */; };
 		B57705A21B4B899600CC13E1 /* RythmiumUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57705A11B4B899600CC13E1 /* RythmiumUITests.swift */; };
 		B57705BF1B4B949800CC13E1 /* FileClass.m in Sources */ = {isa = PBXBuildFile; fileRef = B57705B81B4B949800CC13E1 /* FileClass.m */; };
@@ -60,6 +60,7 @@
 		B5091C081B82356E004CC75D /* ConfirmScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmScene.swift; sourceTree = "<group>"; };
 		B523643E1BDE127A0092692F /* SF-UI-Display-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Thin.otf"; path = "Assets.xcassets/Fonts/SF-UI-THIN.dataset/SF-UI-Display-Thin.otf"; sourceTree = "<group>"; };
 		B52364401BDE12810092692F /* SF-UI-Display-Ultralight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SF-UI-Display-Ultralight.otf"; path = "Assets.xcassets/Fonts/SF-UI-ULTRALIGHT.dataset/SF-UI-Display-Ultralight.otf"; sourceTree = "<group>"; };
+		B52364441BE1FD050092692F /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		B546E5F21B62153B00B82D58 /* FFT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FFT.swift; sourceTree = "<group>"; };
 		B54723B11B7668260012678B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B5620D061BC7ABFA00293E68 /* AboutScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutScene.swift; sourceTree = "<group>"; };
@@ -68,7 +69,6 @@
 		B57705811B4B899500CC13E1 /* StartUpScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartUpScene.swift; sourceTree = "<group>"; };
 		B57705831B4B899500CC13E1 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		B57705881B4B899500CC13E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		B577058B1B4B899500CC13E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B577058D1B4B899500CC13E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B57705921B4B899500CC13E1 /* Rythmium.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Rythmium.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B57705961B4B899500CC13E1 /* RythmiumTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RythmiumTests.swift; sourceTree = "<group>"; };
@@ -151,7 +151,6 @@
 				B54723B01B7668260012678B /* Main.storyboard */,
 				B57705881B4B899500CC13E1 /* Assets.xcassets */,
 				B577058D1B4B899500CC13E1 /* Info.plist */,
-				B577058A1B4B899500CC13E1 /* LaunchScreen.storyboard */,
 				B546E5F21B62153B00B82D58 /* FFT.swift */,
 				B57705C61B4B94DD00CC13E1 /* JudgementLabel.swift */,
 				B57705C71B4B94DD00CC13E1 /* Note.swift */,
@@ -180,6 +179,7 @@
 				B57705BD1B4B949800CC13E1 /* UIImage+Resize.m */,
 				B57705B71B4B949800CC13E1 /* UIImage+RoundedCorner.h */,
 				B57705BE1B4B949800CC13E1 /* UIImage+RoundedCorner.m */,
+				B52364441BE1FD050092692F /* Launch Screen.storyboard */,
 			);
 			path = Rythmium;
 			sourceTree = "<group>";
@@ -310,8 +310,8 @@
 			files = (
 				B523643F1BDE127A0092692F /* SF-UI-Display-Thin.otf in Resources */,
 				B54723B21B7668260012678B /* Main.storyboard in Resources */,
-				B577058C1B4B899500CC13E1 /* LaunchScreen.storyboard in Resources */,
 				B52364411BDE12810092692F /* SF-UI-Display-Ultralight.otf in Resources */,
+				B52364451BE1FD050092692F /* Launch Screen.storyboard in Resources */,
 				B57705891B4B899500CC13E1 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -399,14 +399,6 @@
 				B54723B11B7668260012678B /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		B577058A1B4B899500CC13E1 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B577058B1B4B899500CC13E1 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
