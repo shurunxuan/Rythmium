@@ -76,6 +76,7 @@ class ResultScene: SKScene {
         
         let scoreLabel = SKLabelNode()
         scoreLabel.text = NSString(format: "SCORE: %08i", score) as String
+        scoreLabel.fontName = "SFUIDisplay-Ultralight"
         scoreLabel.fontSize = ratio * 30
         scoreLabel.position = CGPointMake(width / 24 * 7, height / 3)
         scoreLabel.alpha = 0
@@ -84,7 +85,8 @@ class ResultScene: SKScene {
         
         let maxComboLabel = SKLabelNode()
         maxComboLabel.text = NSString(format: "Max Combo: %i", maxCombo) as String
-        if fullCombo { maxComboLabel.text = "FULL COMBO"; maxComboLabel.fontName = "SFUIDisplay-Light" }
+        maxComboLabel.fontName = "SFUIDisplay-Ultralight"
+        if fullCombo { maxComboLabel.text = "FULL COMBO"; maxComboLabel.fontName = "SFUIDisplay-Thin" }
         maxComboLabel.fontSize = ratio * 30
         maxComboLabel.position = CGPointMake(width / 24 * 7, height / 4)
         maxComboLabel.alpha = 0
@@ -132,6 +134,7 @@ class ResultScene: SKScene {
         
         let restartButton = SKLabelNode()
         restartButton.text = "RESTART"
+        restartButton.fontName = "SFUIDisplay-Ultralight"
         restartButton.fontSize = ratio * 45
         restartButton.position = CGPointMake(width / 16 + restartButton.frame.width / 2, height / 16)
         restartButton.name = "restartButton"
@@ -141,6 +144,7 @@ class ResultScene: SKScene {
         
         let newGameButton = SKLabelNode()
         newGameButton.text = "NEW GAME"
+        newGameButton.fontName = "SFUIDisplay-Ultralight"
         newGameButton.fontSize = ratio * 45
         newGameButton.position = CGPointMake(width / 16 * 15 - newGameButton.frame.width / 2, height / 16)
         newGameButton.name = "newGameButton"

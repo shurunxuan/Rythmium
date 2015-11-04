@@ -189,6 +189,7 @@ class GameScene: SKScene {
         
         
         countDownLabel.text = "3"
+        countDownLabel.fontName = "SFUIDisplay-Ultralight"
         countDownLabel.fontSize = ratio * 60
         countDownLabel.position = CGPointMake(width / 2, height / 2 - countDownLabel.frame.height / 2)
         
@@ -211,6 +212,8 @@ class GameScene: SKScene {
         artistLabel.text = exporter.songArtist()
         titleLabel.fontSize = ratio * 60
         artistLabel.fontSize = ratio * 60
+        titleLabel.fontName = "SFUIDisplay-Ultralight"
+        artistLabel.fontName = "SFUIDisplay-Ultralight"
         while titleLabel.frame.width > width * 0.9 || artistLabel.frame.width > width * 0.9 {
             titleLabel.fontSize--
             artistLabel.fontSize--
@@ -432,6 +435,7 @@ class GameScene: SKScene {
                     //}
                     let pauseLabel = SKLabelNode(text: "PAUSED")
                     pauseLabel.fontSize = ratio * 70
+                    pauseLabel.fontName = "SFUIDisplay-Ultralight"
                     pauseLabel.position = CGPointMake(width / 2, height * 0.65 - pauseLabel.frame.height / 2)
                     pauseLabel.zPosition = 300
                     pauseBackground.addChild(pauseLabel)
@@ -444,6 +448,7 @@ class GameScene: SKScene {
                     
                     let resumeLabel = SKLabelNode(text: "Resume")
                     resumeLabel.fontSize = ratio * 45
+                    resumeLabel.fontName = "SFUIDisplay-Ultralight"
                     resumeLabel.position = CGPointMake(width / 3 - resumeLabel.frame.width / 2, height / 2 - pauseLabel.frame.height * 0.65 - resumeLabel.frame.height)
                     resumeLabel.zPosition = 300
                     resumeLabel.name = "Resume"
@@ -452,6 +457,7 @@ class GameScene: SKScene {
                     
                     let restartLabel = SKLabelNode(text: "Restart")
                     restartLabel.fontSize = ratio * 45
+                    restartLabel.fontName = "SFUIDisplay-Ultralight"
                     restartLabel.position = CGPointMake(width / 2, height / 2 - pauseLabel.frame.height * 0.65 - restartLabel.frame.height)
                     restartLabel.zPosition = 300
                     restartLabel.name = "Restart"
@@ -460,6 +466,7 @@ class GameScene: SKScene {
                     
                     let exitLabel = SKLabelNode(text: "Exit")
                     exitLabel.fontSize = ratio * 45
+                    exitLabel.fontName = "SFUIDisplay-Ultralight"
                     exitLabel.position = CGPointMake(width / 3 * 2 + restartLabel.frame.width / 2, height / 2 - pauseLabel.frame.height * 0.65 - exitLabel.frame.height)
                     exitLabel.zPosition = 300
                     exitLabel.name = "Exit"
