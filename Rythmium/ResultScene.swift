@@ -160,11 +160,17 @@ class ResultScene: SKScene {
         for var differentJudge: Int = 0; differentJudge < 5; differentJudge++ {
             let JudgeLabel = SKNode()
             let str = String(differentJudges[differentJudge])
+            var maxWidth : CGFloat = 0
+            var numbers = [SKSpriteNode]()
             for var i = 0; i < str.characters.count; ++i {
                 let number = SKSpriteNode(imageNamed: judges[4 - differentJudge] + String(str[i]))
                 number.setScale(scale)
-                number.position = CGPointMake(CGFloat(i) * number.frame.width, 0)
-                JudgeLabel.addChild(number)
+                if number.frame.width > maxWidth { maxWidth = number.frame.width }
+                numbers.append(number)
+            }
+            for var i = 0; i < numbers.count; ++i {
+                numbers[i].position = CGPointMake(CGFloat(i) * maxWidth, 0)
+                JudgeLabel.addChild(numbers[i])
             }
             JudgeLabel.position = CGPointMake(width / 4 * 3 + JudgeLabel.frame.width / 2 + width / 20, judgesLabel[4 - differentJudge].position.y)
             JudgeLabel.alpha = 0

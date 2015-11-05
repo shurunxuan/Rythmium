@@ -58,13 +58,19 @@ class JudgementLabel : SKNode {
             var strPrefix: String = ""
             if judge == 3 { strPrefix = "c" }
             else if judge == 4 { strPrefix = "p" }
+            var maxWidth : CGFloat = 0
+            var numbers = [SKSpriteNode]()
             for var i: Int = 0; i < str.characters.count; ++i {
                 let number = SKSpriteNode(imageNamed: strPrefix + String(str[i]))
-                number.setScale(label.frame.height / number.frame.height * 0.8)
-                number.position = CGPointMake((CGFloat(i) - CGFloat(str.characters.count - 1) / 2.0) * number.frame.width, -number.frame.height / 2 - 4 * ratio)
-                self.addChild(number)
+                number.setScale(label.frame.height / number.frame.height * 1.5)
+                if number.frame.width > maxWidth { maxWidth = number.frame.width }
+                numbers.append(number)
             }
-            label.position = CGPointMake(0, label.frame.height / 2)
+            for var i: Int = 0; i < numbers.count; ++i {
+                numbers[i].position = CGPointMake((CGFloat(i) - CGFloat(str.characters.count - 1) / 2.0) * maxWidth, -numbers[i].frame.height / 2 - 4 * ratio)
+                self.addChild(numbers[i])
+            }
+            label.position = CGPointMake(0, label.frame.height / 2 + 4 * ratio)
         }
 
         self.position = CGPointMake(width / 2, height / 2)

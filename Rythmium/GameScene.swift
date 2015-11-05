@@ -622,6 +622,9 @@ class GameScene: SKScene {
                     
                     // debug only
                     //if CurrentTime > 1 {
+                    //    for var differentJudge: Int = 0; differentJudge < 5; differentJudge++ {
+                    //        differentJudges[differentJudge] = differentJudge + 1000
+                    //    }
                     //    Scene = ResultScene(size : CGSizeMake(width, height))
                     //    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
                     //}
