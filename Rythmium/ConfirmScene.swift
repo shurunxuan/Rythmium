@@ -195,8 +195,6 @@ class ConfirmScene: SKScene {
             let location = touch.locationInNode(self)
             let node = self.nodeAtPoint(location)
             
-            
-            // SKScene跳转
             if node.name != nil {
                 switch node.name!{
                 case "albumArtwork" :

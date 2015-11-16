@@ -9,25 +9,25 @@
 import UIKit
 import SpriteKit
 
-// 表示游戏阶段的枚举
+// Enumerate type that indicates the stage of the game.
 enum GameStage {
     case StartUp, Setting, Choose, Confirm, Analyze, Game, Result, About
 }
-// 表示可视化类型的枚举
+// Enumerate type that indicates the type of visualization, some more will be added.
 enum visualization {
     case Spectrum, None
 }
-
+// Enumerate type that indicates difficulty.
 enum difficulty {
     case easy, normal, hard, insane
 }
-// 全局变量
-var Stage = GameStage.StartUp                       // 游戏阶段
-var Scene: SKScene = SKScene()                      // 场景
-var exporter: MediaLibExport = MediaLibExport()     // 音乐导出
-var width: CGFloat = 0                              // 场景宽度
-var height: CGFloat = 0                             // 场景高度
-var ratio: CGFloat = 1                              // 与iPhone 6 Plus的比例
+
+var Stage = GameStage.StartUp                       // stage of the game
+var Scene: SKScene = SKScene()                      // presented scene
+var exporter: MediaLibExport = MediaLibExport()     // export & play the music
+var width: CGFloat = 0                              // width
+var height: CGFloat = 0                             // height
+var ratio: CGFloat = 1
 let staticNodesAppearAction = SKAction.fadeAlphaTo(1, duration: 0.5)
 let staticNodesDisappearAction = SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.5), SKAction.removeFromParent()])
 var background = SKSpriteNode()
@@ -69,10 +69,7 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-        
-        
-        // 使exporter显示
+
         self.addChildViewController(exporter)
         
         // Configure the view.
@@ -81,24 +78,22 @@ class GameViewController: UIViewController {
         /* Sprite Kit applies additional optimizations to improve rendering performance */
         skView.ignoresSiblingOrder = true
         
-        Scene = StartUpScene(size : skView.bounds.size) // 从StartUpScene启动
+        Scene = StartUpScene(size : skView.bounds.size)
         
-        // 读取屏幕大小
         width = Scene.frame.width
         height = Scene.frame.height
         ratio = width / 736.0
         
-        // 设置背景
         for child in backgrounds {
             child.size = CGSizeMake(width, height)
             child.position = CGPointMake(width / 2, height / 2)
             child.zPosition = -1000
         }
         
-        // 读取设置
+        // read settings
         if !FileClass.isExist("setting.cfg") {
             settingFile.CreateFile("setting.cfg")
-            settingFile.Write("Visualization\tSpectrum\nDifficulty\teasy\nLRC\tYes\ncolorfulTheme\tOn\n")
+            settingFile.Write("Visualization\tSpectrum\nDifficulty\teasy\nLRC\tYes\ncolorfulTheme\tOff\n")
         }
         settingFile.OpenFile("setting.cfg")
         let settingStr = settingFile.Read()
@@ -162,17 +157,8 @@ class GameViewController: UIViewController {
         /* Set the scale mode to scale to fit the window */
         Scene.scaleMode = .AspectFill
         
-        //skView.showsFPS = true
-        //skView.showsDrawCount = true
-        //skView.showsFields = true
-        //skView.showsNodeCount = true
-        //skView.showsQuadCount = true
-        //skView.shouldCullNonVisibleNodes = true
-        
         skView.presentScene(Scene)
-        
-        
-        
+
     }
     
     

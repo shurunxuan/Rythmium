@@ -149,6 +149,7 @@
 				B52364401BDE12810092692F /* SF-UI-Display-Ultralight.otf */,
 				B523643E1BDE127A0092692F /* SF-UI-Display-Thin.otf */,
 				B54723B01B7668260012678B /* Main.storyboard */,
+				B52D14811BEB2C6D000F467A /* Launch Screen.storyboard */,
 				B57705881B4B899500CC13E1 /* Assets.xcassets */,
 				B577058D1B4B899500CC13E1 /* Info.plist */,
 				B546E5F21B62153B00B82D58 /* FFT.swift */,
@@ -179,7 +180,6 @@
 				B57705BD1B4B949800CC13E1 /* UIImage+Resize.m */,
 				B57705B71B4B949800CC13E1 /* UIImage+RoundedCorner.h */,
 				B57705BE1B4B949800CC13E1 /* UIImage+RoundedCorner.m */,
-				B52D14811BEB2C6D000F467A /* Launch Screen.storyboard */,
 			);
 			path = Rythmium;
 			sourceTree = "<group>";

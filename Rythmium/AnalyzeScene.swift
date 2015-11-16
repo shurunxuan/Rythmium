@@ -84,9 +84,6 @@ class AnalyzeScene: SKScene {
                     while CafFile.OFFSET() != fileLength {
                         let d : Int16 = CafFile.ReadBinary()
                         CafFile.Peek(CafFile.OFFSET() + 2)
-                        //if d / 256 / 128 == 1 {
-                        //    d -= 65536
-                        //}
                         Left.append(d)
                     }
                     

@@ -161,16 +161,9 @@ class GameScene: SKScene {
             SKAction.group([SKAction.moveTo(CGPointMake(width / 4, height / 4), duration: AppearDelay), SKAction.scaleTo(1.0, duration: AppearDelay), SKAction.fadeAlphaTo(0.8, duration: 0.5)]),
             SKAction.group([SKAction.moveTo(CGPointMake(width * 3 / 4, height / 4), duration: AppearDelay), SKAction.scaleTo(1.0, duration: AppearDelay), SKAction.fadeAlphaTo(0.8, duration: 0.5)])]
         
-        //staticNodes = [Note(time: 0, center: CGPointMake(CGFloat(width / 4 * 3),CGFloat(height / 4 * 3)), radius: 140 * ratio),
-        //    Note(time: 0, center: CGPointMake(CGFloat(width / 4),CGFloat(height / 4 * 3)), radius: 140 * ratio),
-        //    Note(time: 0, center: CGPointMake(CGFloat(width / 4),CGFloat(height / 4)), radius: 140 * ratio),
-        //    Note(time: 0, center: CGPointMake(CGFloat(width / 4 * 3),CGFloat(height / 4)), radius: 140 * ratio)]
-        
         staticNodes = [SKSpriteNode(imageNamed: "ru"), SKSpriteNode(imageNamed: "lu"), SKSpriteNode(imageNamed: "ld"), SKSpriteNode(imageNamed: "rd")]
         
         for node in staticNodes {
-            //node.fillColor = SKColor.whiteColor()
-            //node.strokeColor = SKColor.clearColor()
             node.xScale = width / 2 / node.frame.width
             node.yScale = height / 2 / node.frame.height
             node.zPosition = -501
@@ -276,7 +269,6 @@ class GameScene: SKScene {
         }
         scoreLabel.runAction(SKAction.sequence([SKAction.waitForDuration(3), staticNodesAppearAction]))
         
-        //startTime = Double(currentTime) + 4
         hasLRC = buildLrcList(exporter.lyrics())
         if hasLRC && showLrc {
             LRCLabel.fontName = "SFUIDisplay-Ultralight"
@@ -430,9 +422,6 @@ class GameScene: SKScene {
                     
                     self.gameNode.paused = true
                     gameNode.setStayPaused()
-                    //for child in gameNode.children {
-                    //    child.paused = true
-                    //}
                     let pauseLabel = SKLabelNode(text: "PAUSED")
                     pauseLabel.fontSize = ratio * 70
                     pauseLabel.fontName = "SFUIDisplay-Ultralight"
@@ -502,9 +491,6 @@ class GameScene: SKScene {
                     if CurrentTime > 0 {
                         exporter.play()
                         countDownLabel.removeFromParent()
-                        //for child in gameNode.children {
-                        //    child.paused = false
-                        //}
                         pauseButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.5))
                         self.gameNode.unsetStayPaused()
                         self.gameNode.paused = false
@@ -679,7 +665,6 @@ class GameScene: SKScene {
             }
         }
         let B: CGFloat = 50.0
-        //lifeBackground.runAction(SKAction.fadeAlphaTo(CGFloat(1000 - life) * 2.0 / 10000.0, duration: 0.2))
         lifeBackground.runAction(SKAction.fadeAlphaTo(((B+1000.0)*B/(CGFloat(life)-(B+1000.0))+(B+1000.0))/5000.0, duration: 0.2))
         score += judge.score + (combo > 10 ? 10 : combo) * 100
         if score < 0 { score = 0 }
