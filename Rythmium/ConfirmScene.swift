@@ -36,6 +36,9 @@ class ConfirmScene: SKScene {
     var difficultyIndicator = [SKShapeNode(), SKShapeNode(), SKShapeNode(), SKShapeNode()]
     
     
+    var touch_particle: [Int : SKEmitterNode] = [:]
+    
+
     override func didMoveToView(view: SKView) {
         
         Stage = GameStage.StartUp
@@ -187,7 +190,36 @@ class ConfirmScene: SKScene {
         self.addChild(scaleBackground)
         
     }
+        override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        for touch in touches {
+            let location = touch.locationInNode(self)
+            let particle = touch_particle[touch.hash]
+            if (particle != nil)
+            { particle!.runAction(SKAction.moveTo(location, duration: 0)) }
+            
+        }
+    }
     
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        for touch in touches {
+            let particle = touch_particle[touch.hash]
+            if (particle != nil)
+            {
+                particle!.particleBirthRate = 0
+                for child in particle!.children {
+                    child.runAction(SKAction.sequence([SKAction.waitForDuration(1), SKAction.removeFromParent()]))
+                }
+                particle!.runAction(SKAction.sequence([SKAction.waitForDuration(1), SKAction.removeFromParent()]))
+            }
+            touch_particle[touch.hash] = nil
+        }
+    }
+    
+    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+        if (touches != nil) {
+            touchesEnded(touches!, withEvent: nil)
+        }
+    }
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         /* Called when a touch begins */
         
@@ -195,6 +227,13 @@ class ConfirmScene: SKScene {
             let location = touch.locationInNode(self)
             let node = self.nodeAtPoint(location)
             
+            let particle = Particle.copy() as! SKEmitterNode
+            particle.name = "particle" + String(touch.hash)
+            particle.position = location
+            particle.targetNode = self
+            self.addChild(particle)
+            touch_particle[touch.hash] = particle
+
             if node.name != nil {
                 switch node.name!{
                 case "albumArtwork" :

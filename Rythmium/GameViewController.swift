@@ -63,6 +63,8 @@ var showLrc: Bool = true
 
 var colorfulTheme: Bool = true
 
+let Particle = SKEmitterNode(fileNamed: "Particle.sks")!
+
 
 class GameViewController: UIViewController {
     
@@ -152,7 +154,7 @@ class GameViewController: UIViewController {
             }
         }
         
-        
+        Particle.zPosition = 10000
         
         /* Set the scale mode to scale to fit the window */
         Scene.scaleMode = .AspectFill

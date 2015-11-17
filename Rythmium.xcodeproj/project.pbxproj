@@ -15,6 +15,8 @@
 		B52D14821BEB2C6D000F467A /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B52D14811BEB2C6D000F467A /* Launch Screen.storyboard */; };
 		B546E5F31B62153B00B82D58 /* FFT.swift in Sources */ = {isa = PBXBuildFile; fileRef = B546E5F21B62153B00B82D58 /* FFT.swift */; };
 		B54723B21B7668260012678B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B54723B01B7668260012678B /* Main.storyboard */; };
+		B55F37EF1BF97DE20012C361 /* Particle.sks in Resources */ = {isa = PBXBuildFile; fileRef = B55F37ED1BF97DE20012C361 /* Particle.sks */; };
+		B55F37F01BF97DE20012C361 /* Particle.png in Resources */ = {isa = PBXBuildFile; fileRef = B55F37EE1BF97DE20012C361 /* Particle.png */; };
 		B5620D071BC7ABFA00293E68 /* AboutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5620D061BC7ABFA00293E68 /* AboutScene.swift */; };
 		B577057E1B4B899500CC13E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B577057D1B4B899500CC13E1 /* AppDelegate.swift */; };
 		B57705821B4B899500CC13E1 /* StartUpScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57705811B4B899500CC13E1 /* StartUpScene.swift */; };
@@ -63,6 +65,8 @@
 		B52D14811BEB2C6D000F467A /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		B546E5F21B62153B00B82D58 /* FFT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FFT.swift; sourceTree = "<group>"; };
 		B54723B11B7668260012678B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		B55F37ED1BF97DE20012C361 /* Particle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Particle.sks; sourceTree = "<group>"; };
+		B55F37EE1BF97DE20012C361 /* Particle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Particle.png; sourceTree = "<group>"; };
 		B5620D061BC7ABFA00293E68 /* AboutScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutScene.swift; sourceTree = "<group>"; };
 		B577057A1B4B899500CC13E1 /* Rythmium.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rythmium.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B577057D1B4B899500CC13E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -151,6 +155,8 @@
 				B54723B01B7668260012678B /* Main.storyboard */,
 				B52D14811BEB2C6D000F467A /* Launch Screen.storyboard */,
 				B57705881B4B899500CC13E1 /* Assets.xcassets */,
+				B55F37ED1BF97DE20012C361 /* Particle.sks */,
+				B55F37EE1BF97DE20012C361 /* Particle.png */,
 				B577058D1B4B899500CC13E1 /* Info.plist */,
 				B546E5F21B62153B00B82D58 /* FFT.swift */,
 				B57705C61B4B94DD00CC13E1 /* JudgementLabel.swift */,
@@ -311,6 +317,8 @@
 				B523643F1BDE127A0092692F /* SF-UI-Display-Thin.otf in Resources */,
 				B54723B21B7668260012678B /* Main.storyboard in Resources */,
 				B52364411BDE12810092692F /* SF-UI-Display-Ultralight.otf in Resources */,
+				B55F37EF1BF97DE20012C361 /* Particle.sks in Resources */,
+				B55F37F01BF97DE20012C361 /* Particle.png in Resources */,
 				B52D14821BEB2C6D000F467A /* Launch Screen.storyboard in Resources */,
 				B57705891B4B899500CC13E1 /* Assets.xcassets in Resources */,
 			);
