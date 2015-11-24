@@ -77,9 +77,7 @@ class ConfirmScene: SKScene {
             let bsFile = FileClass()
             bsFile.OpenFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
             let string = bsFile.Read()
-            print(string)
             let strList = string.componentsSeparatedByString("\t")
-            print(strList)
             bestScore = Int(strList[1])!
             bestScoreLabel.text = NSString(format: "BEST: %08i", bestScore) as String
             rankLabel = SKSpriteNode(imageNamed: strList[0])
@@ -123,9 +121,7 @@ class ConfirmScene: SKScene {
             bestScoreLabel.position = CGPointMake(((albumArtwork.position.x + albumArtwork.frame.width / 2) + (normalLabel.position.x - normalLabel.frame.width / 2)) / 2, insaneLabel.position.y)
             rankLabel.position = CGPointMake(bestScoreLabel.position.x, (dif * 3 + height / 3 + easyLabel.frame.height + bestScoreLabel.position.y + bestScoreLabel.frame.height) / 15 * 8)
         } else {
-            print(albumArtwork.position.x)
-            print(albumArtwork.frame.width)
-            dif = (241.5 + 207.0 / 2 - easyLabel.frame.height - height / 3) / 3
+            dif = ((241.5 + 207.0 / 2) * ratio - easyLabel.frame.height - height / 3) / 3
             normalLabel.position = CGPointMake(width / 3 * 2 + normalLabel.frame.width / 2, height / 3 + 2 * dif)
             easyLabel.position = CGPointMake(width / 3 * 2 + normalLabel.frame.width - easyLabel.frame.width / 2, height / 3 + 3 * dif)
             hardLabel.position = CGPointMake(width / 3 * 2 + normalLabel.frame.width - hardLabel.frame.width / 2, height / 3 + dif)
