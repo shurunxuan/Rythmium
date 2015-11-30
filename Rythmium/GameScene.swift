@@ -54,6 +54,7 @@ class GameScene: SKScene {
     
     //var staticNodes = [Note]()
     var staticNodes = [SKSpriteNode]()
+    //var staticNodes = [MYStaticNode]()
     
     var startTime: Double = 0.0
     
@@ -105,6 +106,18 @@ class GameScene: SKScene {
     var endTime: Double = -10
     
     var touch_particle: [Int : SKEmitterNode] = [:]
+    
+    var centerMaskCircle = SKShapeNode(circleOfRadius: 60)
+    var luMaskCircle = SKShapeNode(circleOfRadius: 32)
+    var ruMaskCircle = SKShapeNode(circleOfRadius: 32)
+    var ldMaskCircle = SKShapeNode(circleOfRadius: 32)
+    var rdMaskCircle = SKShapeNode(circleOfRadius: 32)
+    
+    var centerMask = SKCropNode()
+    var luMask = SKCropNode()
+    var ruMask = SKCropNode()
+    var ldMask = SKCropNode()
+    var rdMask = SKCropNode()
     
     override func didMoveToView(view: SKView) {
         Stage = GameStage.Game
@@ -163,11 +176,59 @@ class GameScene: SKScene {
             SKAction.group([SKAction.moveTo(CGPointMake(width / 4, height / 4), duration: AppearDelay), SKAction.scaleTo(1.0, duration: AppearDelay), SKAction.fadeAlphaTo(0.8, duration: 0.5)]),
             SKAction.group([SKAction.moveTo(CGPointMake(width * 3 / 4, height / 4), duration: AppearDelay), SKAction.scaleTo(1.0, duration: AppearDelay), SKAction.fadeAlphaTo(0.8, duration: 0.5)])]
         
-        staticNodes = [SKSpriteNode(imageNamed: "ru"), SKSpriteNode(imageNamed: "lu"), SKSpriteNode(imageNamed: "ld"), SKSpriteNode(imageNamed: "rd")]
+        staticNodes = [SKSpriteNode(imageNamed: "alpha"), SKSpriteNode(imageNamed: "alpha"), SKSpriteNode(imageNamed: "alpha"), SKSpriteNode(imageNamed: "alpha")]
+        //let ruRect = CGRectMake(width / 2, height / 2, width / 2, height / 2)
+        //let luRect = CGRectMake(0, height / 2, width / 2, height / 2)
+        //let ldRect = CGRectMake(0, 0, width / 2, height / 2)
+        //let rdRect = CGRectMake(width / 2, 0, width / 2, height / 2)
+        
+        //staticNodes = [MYStaticNode(rect: ruRect), MYStaticNode(rect: luRect), MYStaticNode(rect: ldRect), MYStaticNode(rect: rdRect)]
+        
+        centerMaskCircle.position = CGPointMake(width / 2, height / 2)
+        ruMaskCircle.position = CGPointMake(width / 4 * 3, height / 4 * 3)
+        luMaskCircle.position = CGPointMake(width / 4, height / 4 * 3)
+        ldMaskCircle.position = CGPointMake(width / 4, height / 4)
+        rdMaskCircle.position = CGPointMake(width / 4 * 3, height / 4)
+        
+        centerMaskCircle.strokeColor = SKColor.clearColor()
+        ruMaskCircle.strokeColor = SKColor.clearColor()
+        luMaskCircle.strokeColor = SKColor.clearColor()
+        ldMaskCircle.strokeColor = SKColor.clearColor()
+        rdMaskCircle.strokeColor = SKColor.clearColor()
+        
+        centerMaskCircle.fillColor = SKColor.whiteColor()
+        ruMaskCircle.fillColor = SKColor.whiteColor()
+        luMaskCircle.fillColor = SKColor.whiteColor()
+        ldMaskCircle.fillColor = SKColor.whiteColor()
+        rdMaskCircle.fillColor = SKColor.whiteColor()
+        
+        centerMask.maskNode = centerMaskCircle
+        ruMask.maskNode = ruMaskCircle
+        luMask.maskNode = luMaskCircle
+        ldMask.maskNode = ldMaskCircle
+        rdMask.maskNode = rdMaskCircle
+        
+        centerMask.addChild(Background.copy() as! SKSpriteNode)
+        ruMask.addChild(Background.copy() as! SKSpriteNode)
+        luMask.addChild(Background.copy() as! SKSpriteNode)
+        ldMask.addChild(Background.copy() as! SKSpriteNode)
+        rdMask.addChild(Background.copy() as! SKSpriteNode)
+        
+        centerMask.zPosition = -500
+        ruMask.zPosition = -500
+        luMask.zPosition = -500
+        ldMask.zPosition = -500
+        rdMask.zPosition = -500
+        
+        gameNode.addChild(centerMask)
+        gameNode.addChild(ruMask)
+        gameNode.addChild(luMask)
+        gameNode.addChild(ldMask)
+        gameNode.addChild(rdMask)
+        
         
         for node in staticNodes {
-            node.xScale = width / 2 / node.frame.width
-            node.yScale = height / 2 / node.frame.height
+            node.size = CGSizeMake(width / 2, height / 2)
             node.zPosition = -501
         }
         
@@ -288,9 +349,10 @@ class GameScene: SKScene {
         for touch in touches {
             let location = touch.locationInNode(self)
             let particle = touch_particle[touch.hash]
-            if (particle != nil)
-            { particle!.runAction(SKAction.moveTo(location, duration: 0)) }
-            
+            if (particle != nil) {
+                particle!.runAction(SKAction.moveTo(location, duration: 0))
+                particle!.particleBirthRate = 250 + 300 * touch.force
+            }
         }
     }
     
@@ -565,6 +627,8 @@ class GameScene: SKScene {
                             a1 *= q
                             spectrumBars[bar].fillColor = brightColorWithHue((CGFloat(bar) / CGFloat(barCount) + spectrumColorOffset) - CGFloat(Int(CGFloat(bar) / CGFloat(barCount) + spectrumColorOffset)))
                         }
+                        
+                        centerMaskCircle.setScale((CGFloat(sum(block)) / 10000.0 + 60.0) / 60.0)
                     }
                     
                     // lyrics

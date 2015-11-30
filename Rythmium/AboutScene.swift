@@ -47,11 +47,10 @@ class AboutScene: SKScene {
         for touch in touches {
             let location = touch.locationInNode(self)
             let particle = touch_particle[touch.hash]
-            if (particle != nil)
-            { particle!.runAction(SKAction.moveTo(location, duration: 0)) }
-            
-            print(touch.force)
-            
+            if (particle != nil) {
+                particle!.runAction(SKAction.moveTo(location, duration: 0))
+                particle!.particleBirthRate = 250 + 300 * touch.force
+            }
         }
     }
     
@@ -90,9 +89,7 @@ class AboutScene: SKScene {
             particle.targetNode = self
             self.addChild(particle)
             touch_particle[touch.hash] = particle
-            
-            print(touch.force)
-            
+
             if node.name != nil {
                 switch node.name!{
                 case  "backButton":

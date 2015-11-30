@@ -114,13 +114,14 @@ class SettingScene: SKScene {
         addChild(colorfulThemeOffButton)
         
     }
-        override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         for touch in touches {
             let location = touch.locationInNode(self)
             let particle = touch_particle[touch.hash]
-            if (particle != nil)
-            { particle!.runAction(SKAction.moveTo(location, duration: 0)) }
-            
+            if (particle != nil) {
+                particle!.runAction(SKAction.moveTo(location, duration: 0))
+                particle!.particleBirthRate = 250 + 300 * touch.force
+            }
         }
     }
     
