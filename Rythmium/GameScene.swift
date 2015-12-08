@@ -114,10 +114,6 @@ class GameScene: SKScene {
     var rdMaskCircle = SKShapeNode(circleOfRadius: 32)
     
     var centerMask = SKCropNode()
-    var luMask = SKCropNode()
-    var ruMask = SKCropNode()
-    var ldMask = SKCropNode()
-    var rdMask = SKCropNode()
     
     override func didMoveToView(view: SKView) {
         Stage = GameStage.Game
@@ -202,29 +198,18 @@ class GameScene: SKScene {
         ldMaskCircle.fillColor = SKColor.whiteColor()
         rdMaskCircle.fillColor = SKColor.whiteColor()
         
-        centerMask.maskNode = centerMaskCircle
-        ruMask.maskNode = ruMaskCircle
-        luMask.maskNode = luMaskCircle
-        ldMask.maskNode = ldMaskCircle
-        rdMask.maskNode = rdMaskCircle
+        centerMask.maskNode = SKNode()
+        centerMask.maskNode!.addChild(centerMaskCircle)
+        centerMask.maskNode!.addChild(ruMaskCircle)
+        centerMask.maskNode!.addChild(luMaskCircle)
+        centerMask.maskNode!.addChild(ldMaskCircle)
+        centerMask.maskNode!.addChild(rdMaskCircle)
         
         centerMask.addChild(Background.copy() as! SKSpriteNode)
-        ruMask.addChild(Background.copy() as! SKSpriteNode)
-        luMask.addChild(Background.copy() as! SKSpriteNode)
-        ldMask.addChild(Background.copy() as! SKSpriteNode)
-        rdMask.addChild(Background.copy() as! SKSpriteNode)
         
         centerMask.zPosition = -500
-        ruMask.zPosition = -500
-        luMask.zPosition = -500
-        ldMask.zPosition = -500
-        rdMask.zPosition = -500
         
         gameNode.addChild(centerMask)
-        gameNode.addChild(ruMask)
-        gameNode.addChild(luMask)
-        gameNode.addChild(ldMask)
-        gameNode.addChild(rdMask)
         
         
         for node in staticNodes {
@@ -277,48 +262,65 @@ class GameScene: SKScene {
         titleLabel.position = CGPointMake(width + titleLabel.frame.width / 2, height / 2 + countDownLabel.frame.height + titleLabel.frame.height * 0.05)
         artistLabel.position = CGPointMake(-artistLabel.frame.width / 2, height / 2 - countDownLabel.frame.height - artistLabel.frame.height * 1.05)
         
-        MSSFile.OpenFile(String(exporter.songID())+".mss")
-        let MSSString = MSSFile.Read()
-        var MSSList = MSSString.componentsSeparatedByString("\n")
-        var strengthList = [Double]()
-        strengthList.reserveCapacity(MSSList.count)
-        for var i = 1; i < MSSList.count - 1; ++i {
-            strengthList.append(Double(MSSList[i].componentsSeparatedByString("\t")[0])!)
-        }
-        strengthList.sortInPlace()
-        var noteCount: Int
-        switch difficultyType {
-        case difficulty.easy :
-            noteCount = MSSList.count / 3
-        case difficulty.normal :
-            noteCount = MSSList.count / 3 * 2
-        case difficulty.hard :
-            noteCount = MSSList.count - 1
-        case difficulty.insane :
-            noteCount = MSSList.count / 3 * 2
-        }
-        let leastStrength = strengthList[strengthList.count - noteCount + 1]
-        for var i: Int = 1; i < MSSList.count - 1; i++ {
-            var List = MSSList[i].componentsSeparatedByString("\t")
-            if Double(List[0]) >= leastStrength && Double(List[1]) > 0.5 {
-                var maxStrength: Double = 0
-                var maxNote = 0
-                if difficultyType != difficulty.insane {
-                    for var j = 2; j < 6; ++j {
-                        if Double(List[j])! > maxStrength {
-                            maxStrength = Double(List[j])!
-                            maxNote = j - 2
+
+        if difficultyType == difficulty.custom {
+            MSSFile.OpenFile(String(exporter.songID())+"_custom.mss")
+            let MSSString = MSSFile.Read()
+            var MSSList = MSSString.componentsSeparatedByString("\n")
+            for var i = 1; i < MSSList.count; ++i {
+                if !MSSList[i].isEmpty {
+                    let str = MSSList[i]
+                    let list = str.componentsSeparatedByString("\t")
+                    print(list)
+                    timeList[Int(list[1])!].append(Double(list[0])!)
+                }
+            }
+        } else {
+            MSSFile.OpenFile(String(exporter.songID())+".mss")
+            let MSSString = MSSFile.Read()
+            var MSSList = MSSString.componentsSeparatedByString("\n")
+            var strengthList = [Double]()
+            strengthList.reserveCapacity(MSSList.count)
+            for var i = 1; i < MSSList.count - 1; ++i {
+                strengthList.append(Double(MSSList[i].componentsSeparatedByString("\t")[0])!)
+            }
+            strengthList.sortInPlace()
+            var noteCount: Int
+            switch difficultyType {
+            case difficulty.easy :
+                noteCount = MSSList.count / 3
+            case difficulty.normal :
+                noteCount = MSSList.count / 3 * 2
+            case difficulty.hard :
+                noteCount = MSSList.count - 1
+            case difficulty.insane :
+                noteCount = MSSList.count / 3 * 2
+            default :
+                noteCount = MSSList.count - 1
+            }
+            let leastStrength = strengthList[strengthList.count - noteCount + 1]
+            for var i: Int = 1; i < MSSList.count - 1; i++ {
+                var List = MSSList[i].componentsSeparatedByString("\t")
+                if Double(List[0]) >= leastStrength && Double(List[1]) > 0.5 {
+                    var maxStrength: Double = 0
+                    var maxNote = 0
+                    if difficultyType != difficulty.insane {
+                        for var j = 2; j < 6; ++j {
+                            if Double(List[j])! > maxStrength {
+                                maxStrength = Double(List[j])!
+                                maxNote = j - 2
+                            }
                         }
-                    }
-                    timeList[maxNote].append(Double(List[1])!)
-                } else {
-                    if Double(List[2])! != 0.0 || Double(List[5])! != 0.0 {
-                        if Double(List[2])! > Double(List[5])! { timeList[0].append(Double(List[1])!) }
-                        else { timeList[3].append(Double(List[1])!) }
-                    }
-                    if Double(List[3])! != 0.0 || Double(List[4])! != 0.0 {
-                        if Double(List[3])! > Double(List[4])! { timeList[1].append(Double(List[1])!) }
-                        else { timeList[2].append(Double(List[1])!) }
+                        timeList[maxNote].append(Double(List[1])!)
+                    } else {
+                        if Double(List[2])! != 0.0 || Double(List[5])! != 0.0 {
+                            if Double(List[2])! > Double(List[5])! { timeList[0].append(Double(List[1])!) }
+                            else { timeList[3].append(Double(List[1])!) }
+                        }
+                        if Double(List[3])! != 0.0 || Double(List[4])! != 0.0 {
+                            if Double(List[3])! > Double(List[4])! { timeList[1].append(Double(List[1])!) }
+                            else { timeList[2].append(Double(List[1])!) }
+                        }
                     }
                 }
             }

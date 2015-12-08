@@ -170,6 +170,8 @@ class ConfirmScene: SKScene {
             addChild(difficultyIndicator[2])
         case difficulty.insane:
             addChild(difficultyIndicator[3])
+        default:
+            break
         }
         
         self.addChild(Background)
@@ -379,6 +381,10 @@ class ConfirmScene: SKScene {
                         }
                         settings["Difficulty"] = "insane"
                     }
+                case "bestScoreLabel" :
+                    difficultyType = difficulty.custom
+                    Scene = AnalyzeScene(size : CGSizeMake(width, height))
+                    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
                 case "startGameButton" :
                     SaveSetting()
                     Scene = AnalyzeScene(size : CGSizeMake(width, height))
@@ -389,6 +395,10 @@ class ConfirmScene: SKScene {
                 case "titleButton" :
                     Scene = StartUpScene(size : CGSizeMake(width, height))
                     View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                case "rankLabel" :
+                    Scene = CustomScene(size : CGSizeMake(width, height))
+                    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+
                 default:
                     break
                 }

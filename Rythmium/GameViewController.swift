@@ -19,7 +19,7 @@ enum visualization {
 }
 // Enumerate type that indicates difficulty.
 enum difficulty {
-    case easy, normal, hard, insane
+    case easy, normal, hard, insane, custom
 }
 
 var Stage = GameStage.StartUp                       // stage of the game
