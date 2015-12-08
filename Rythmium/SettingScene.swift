@@ -26,6 +26,8 @@ class SettingScene: SKScene {
     
     var touch_particle: [Int : SKEmitterNode] = [:]
     
+    var heightOffset: CGFloat = 0
+    
 
     override func didMoveToView(view: SKView) {
         
@@ -36,35 +38,37 @@ class SettingScene: SKScene {
         backButton.fontSize = 32 * ratio
         backButton.position = CGPointMake(width / 8, height / 8 - backButton.frame.height / 2)
         
+        heightOffset = (backButton.position.y + backButton.frame.height) / 2.0
+        
         visualizationLabel.fontName = "SFUIDisplay-Ultralight"
         visualizationLabel.name = "visualizationLabel"
         visualizationLabel.fontSize = 32 * ratio
-        visualizationLabel.position = CGPointMake(width / 4, height / 2 + 50 * ratio)
+        visualizationLabel.position = CGPointMake(width / 4, height / 2 + heightOffset + 40 * ratio)
         
         visualizationSpectrumButton.fontName = "SFUIDisplay-Ultralight"
         visualizationSpectrumButton.name = "visualizationSpectrumButton"
         visualizationSpectrumButton.fontSize = 32 * ratio
-        visualizationSpectrumButton.position = CGPointMake(width / 3 * 2, height / 2 + 50 * ratio)
+        visualizationSpectrumButton.position = CGPointMake(width / 3 * 2, height / 2 + heightOffset + 40 * ratio)
         
         visualizationNoneButton.fontName = "SFUIDisplay-Ultralight"
         visualizationNoneButton.name = "visualizationNoneButton"
         visualizationNoneButton.fontSize = 32 * ratio
-        visualizationNoneButton.position = CGPointMake(width / 8 * 7, height / 2 + 50 * ratio)
+        visualizationNoneButton.position = CGPointMake(width / 8 * 7, height / 2 + heightOffset + 40 * ratio)
         
         colorfulThemeLabel.fontName = "SFUIDisplay-Ultralight"
         colorfulThemeLabel.name = "colorfulThemeLabel"
         colorfulThemeLabel.fontSize = 32 * ratio
-        colorfulThemeLabel.position = CGPointMake(width / 4, height / 2 - colorfulThemeLabel.frame.height - 50 * ratio)
+        colorfulThemeLabel.position = CGPointMake(width / 4, height / 2 + heightOffset - colorfulThemeLabel.frame.height - 60 * ratio)
         
         colorfulThemeOnButton.fontName = "SFUIDisplay-Ultralight"
         colorfulThemeOnButton.name = "colorfulThemeOnButton"
         colorfulThemeOnButton.fontSize = 32 * ratio
-        colorfulThemeOnButton.position = CGPointMake(width / 3 * 2, height / 2 - colorfulThemeOnButton.frame.height - 50 * ratio)
+        colorfulThemeOnButton.position = CGPointMake(width / 3 * 2, height / 2 + heightOffset - colorfulThemeOnButton.frame.height - 60 * ratio)
         
         colorfulThemeOffButton.fontName = "SFUIDisplay-Ultralight"
         colorfulThemeOffButton.name = "colorfulThemeOffButton"
         colorfulThemeOffButton.fontSize = 32 * ratio
-        colorfulThemeOffButton.position = CGPointMake(width / 8 * 7, height / 2 - colorfulThemeOnButton.frame.height - 50 * ratio)
+        colorfulThemeOffButton.position = CGPointMake(width / 8 * 7, height / 2 + heightOffset - colorfulThemeOnButton.frame.height - 60 * ratio)
         
         let SpectrumIndicatorRect = CGRectMake(visualizationSpectrumButton.position.x - visualizationSpectrumButton.frame.width / 2 - 5 * ratio, visualizationSpectrumButton.position.y - visualizationSpectrumButton.frame.height / 2 + 5 * ratio, visualizationSpectrumButton.frame.width + 10 * ratio, visualizationSpectrumButton.frame.height + 10 * ratio)
         let NoneIndicatorRect = CGRectMake(visualizationNoneButton.position.x - visualizationNoneButton.frame.width / 2 - 5 * ratio, visualizationNoneButton.position.y - visualizationNoneButton.frame.height / 2 + 5 * ratio, visualizationNoneButton.frame.width + 10 * ratio, visualizationSpectrumButton.frame.height + 10 * ratio)

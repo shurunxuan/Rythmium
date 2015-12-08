@@ -243,6 +243,7 @@ class GameScene: SKScene {
         
         
         pauseButton = SKSpriteNode(imageNamed: "pauseButton")
+        pauseButton.setScale(ratio)
         pauseButton.position = CGPointMake(pauseButton.frame.width * 0.55, height - pauseButton.frame.height * 0.55)
         pauseButton.name = "pauseButton"
         pauseButton.alpha = 0
@@ -565,6 +566,13 @@ class GameScene: SKScene {
                     exitLabel.zPosition = 300
                     exitLabel.name = "Exit"
                     pauseBackground.addChild(exitLabel)
+                    
+                    let settingButton = SKSpriteNode(imageNamed: "setting")
+                    settingButton.setScale(ratio)
+                    settingButton.position = CGPointMake(width - settingButton.frame.width * 0.55, height - settingButton.frame.height * 0.55)
+                    settingButton.zPosition = 300
+                    settingButton.name = "settingButton"
+                    //pauseBackground.addChild(settingButton)
                     
                     if hasLRC {
                         if (!showLrc) { showLrcLabel.text = "Lyrics: Off" }

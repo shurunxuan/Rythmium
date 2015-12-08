@@ -13,7 +13,7 @@ class StartUpScene: SKScene {
     var titleLabel = SKLabelNode(text: "Rythmium")
     var startGameButton = SKLabelNode(text: "START GAME")
     var settingButton = SKLabelNode(text: "SETTINGS")
-    var aboutButton = SKLabelNode(text: "ABOUT")
+    var aboutButton = SKSpriteNode(imageNamed: "about")
     
     var Background = SKSpriteNode()
     
@@ -26,12 +26,11 @@ class StartUpScene: SKScene {
         titleLabel.fontName = "SFUIDisplay-Ultralight"
         startGameButton.fontName = "SFUIDisplay-Ultralight"
         settingButton.fontName = "SFUIDisplay-Ultralight"
-        aboutButton.fontName = "SFUIDisplay-Ultralight"
         
         titleLabel.fontSize = 80 * ratio
         startGameButton.fontSize = 40 * ratio
         settingButton.fontSize = 40 * ratio
-        aboutButton.fontSize = 40 * ratio
+        aboutButton.setScale(ratio)
         
         titleLabel.name = "titleLabel"
         startGameButton.name = "startGameButton"
@@ -39,9 +38,9 @@ class StartUpScene: SKScene {
         aboutButton.name = "aboutButton"
         
         titleLabel.position = CGPointMake(width / 2, height * 17 / 24 - titleLabel.frame.height / 2.0)
-        settingButton.position = CGPointMake(width / 2, height / 3 - settingButton.frame.height)
+        settingButton.position = CGPointMake(width / 2, height / 3 - settingButton.frame.height * 1.5)
         startGameButton.position = CGPointMake(width / 2, settingButton.position.y + settingButton.frame.height * 1.5)
-        aboutButton.position = CGPointMake(width / 2, settingButton.position.y - settingButton.frame.height * 1.5)
+        aboutButton.position = CGPointMake(width - aboutButton.frame.width * 0.55, aboutButton.frame.height * 0.55)
         
         if background.texture == nil {
             background = backgrounds[Int(arc4random() % 5)].copy() as! SKSpriteNode

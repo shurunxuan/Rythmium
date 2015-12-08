@@ -153,8 +153,8 @@ class GameViewController: UIViewController {
                 }
             }
         }
-        
-        Particle.zPosition = 10000
+
+        Particle.particleZPosition = 10000
         
         /* Set the scale mode to scale to fit the window */
         Scene.scaleMode = .AspectFill
