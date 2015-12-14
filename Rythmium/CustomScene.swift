@@ -58,7 +58,7 @@ class CustomScene: SKScene {
         
         self.view?.multipleTouchEnabled = true
         
-        Background = background.copy() as! SKSpriteNode
+        Background = backgroundDark.copy() as! SKSpriteNode
         Background.alpha = 1
         self.addChild(Background)
 

@@ -42,7 +42,7 @@ class AnalyzeScene: SKScene {
         analyzingLabels[0].position = CGPointMake(width / 2, height / 2)
         analyzingLabels[1].position = CGPointMake(width / 2, height / 2 - analyzingLabels[1].frame.height)
         
-        Background = background.copy() as! SKSpriteNode
+        Background = backgroundDark.copy() as! SKSpriteNode
         self.addChild(Background)
         
         needFFT = !FileClass.isExist(String(exporter.songID())+".mss")
@@ -108,7 +108,7 @@ class AnalyzeScene: SKScene {
             if Double(currentTime) - startTime > 0.5 {
                 Scene = GameScene(size : CGSizeMake(width, height))
                 View.presentScene(Scene)//, transition: SKTransition.crossFadeWithDuration(0.5))
-                background.removeFromParent()
+                backgroundDark.removeFromParent()
             }
         }
     }

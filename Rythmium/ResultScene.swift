@@ -20,7 +20,7 @@ class ResultScene: SKScene {
     override func didMoveToView(view: SKView) {
         Stage = GameStage.Result
         
-        Background = background.copy() as! SKSpriteNode
+        Background = backgroundDark.copy() as! SKSpriteNode
         var rankLabel = SKSpriteNode()
         let percentage = Double(score) / Double(totalScore) * 100
         if percentage > 95 { rank = "S" }

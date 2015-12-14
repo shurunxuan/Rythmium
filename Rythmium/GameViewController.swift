@@ -30,9 +30,10 @@ var height: CGFloat = 0                             // height
 var ratio: CGFloat = 1
 let staticNodesAppearAction = SKAction.fadeAlphaTo(1, duration: 0.5)
 let staticNodesDisappearAction = SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.5), SKAction.removeFromParent()])
-var background = SKSpriteNode()
+var backgroundDark = SKSpriteNode()
 
 var backgrounds = [SKSpriteNode(texture: SKTexture(imageNamed: "Background1")), SKSpriteNode(texture: SKTexture(imageNamed: "Background2")), SKSpriteNode(texture: SKTexture(imageNamed: "Background3")), SKSpriteNode(texture: SKTexture(imageNamed: "Background4")), SKSpriteNode(texture: SKTexture(imageNamed: "Background5"))]
+
 var isNormalBackground = true
 
 var score: Int = 0

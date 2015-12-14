@@ -87,7 +87,7 @@ class ConfirmScene: SKScene {
 
         rankLabel.setScale(1.2 * ratio)
         
-        Background = background.copy() as! SKSpriteNode
+        Background = backgroundDark.copy() as! SKSpriteNode
         
         var dif: CGFloat = 0
         
@@ -289,12 +289,14 @@ class ConfirmScene: SKScene {
                             let string = bsFile.Read()
                             let strList = string.componentsSeparatedByString("\t")
                             bestScore = Int(strList[1])!
-                            bestScoreLabel.text = NSString(format: "BEST: %08i", bestScore) as String
+                            bestScoreLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.runBlock({self.bestScoreLabel.text = NSString(format: "BEST: %08i", bestScore) as String}), SKAction.fadeInWithDuration(0.25)]))
+                            
                             rankLabel.removeAllActions()
                             rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: strList[0])), SKAction.fadeInWithDuration(0.25)]))
                         } else {
                             hasBestScore = false
-                            bestScoreLabel.text = "BEST: ????????"
+                            bestScoreLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.runBlock({self.bestScoreLabel.text = "BEST: ????????"}), SKAction.fadeInWithDuration(0.25)]))
+                            
                             rankLabel.removeAllActions()
                             rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: "Q")), SKAction.fadeInWithDuration(0.25)]))
                         }
@@ -316,12 +318,12 @@ class ConfirmScene: SKScene {
                             let string = bsFile.Read()
                             let strList = string.componentsSeparatedByString("\t")
                             bestScore = Int(strList[1])!
-                            bestScoreLabel.text = NSString(format: "BEST: %08i", bestScore) as String
+                            bestScoreLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.runBlock({self.bestScoreLabel.text = NSString(format: "BEST: %08i", bestScore) as String}), SKAction.fadeInWithDuration(0.25)]))
                             rankLabel.removeAllActions()
                             rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: strList[0])), SKAction.fadeInWithDuration(0.25)]))
                         } else {
                             hasBestScore = false
-                            bestScoreLabel.text = "BEST: ????????"
+                            bestScoreLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.runBlock({self.bestScoreLabel.text = "BEST: ????????"}), SKAction.fadeInWithDuration(0.25)]))
                             rankLabel.removeAllActions()
                             rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: "Q")), SKAction.fadeInWithDuration(0.25)]))
                         }
@@ -343,12 +345,12 @@ class ConfirmScene: SKScene {
                             let string = bsFile.Read()
                             let strList = string.componentsSeparatedByString("\t")
                             bestScore = Int(strList[1])!
-                            bestScoreLabel.text = NSString(format: "BEST: %08i", bestScore) as String
+                            bestScoreLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.runBlock({self.bestScoreLabel.text = NSString(format: "BEST: %08i", bestScore) as String}), SKAction.fadeInWithDuration(0.25)]))
                             rankLabel.removeAllActions()
                             rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: strList[0])), SKAction.fadeInWithDuration(0.25)]))
                         } else {
                             hasBestScore = false
-                            bestScoreLabel.text = "BEST: ????????"
+                            bestScoreLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.runBlock({self.bestScoreLabel.text = "BEST: ????????"}), SKAction.fadeInWithDuration(0.25)]))
                             rankLabel.removeAllActions()
                             rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: "Q")), SKAction.fadeInWithDuration(0.25)]))
                         }
@@ -370,12 +372,12 @@ class ConfirmScene: SKScene {
                             let string = bsFile.Read()
                             let strList = string.componentsSeparatedByString("\t")
                             bestScore = Int(strList[1])!
-                            bestScoreLabel.text = NSString(format: "BEST: %08i", bestScore) as String
+                            bestScoreLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.runBlock({self.bestScoreLabel.text = NSString(format: "BEST: %08i", bestScore) as String}), SKAction.fadeInWithDuration(0.25)]))
                             rankLabel.removeAllActions()
                             rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: strList[0])), SKAction.fadeInWithDuration(0.25)]))
                         } else {
                             hasBestScore = false
-                            bestScoreLabel.text = "BEST: ????????"
+                            bestScoreLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.runBlock({self.bestScoreLabel.text = "BEST: ????????"}), SKAction.fadeInWithDuration(0.25)]))
                             rankLabel.removeAllActions()
                             rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: "Q")), SKAction.fadeInWithDuration(0.25)]))
                         }

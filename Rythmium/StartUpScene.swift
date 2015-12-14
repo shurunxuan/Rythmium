@@ -42,10 +42,14 @@ class StartUpScene: SKScene {
         startGameButton.position = CGPointMake(width / 2, settingButton.position.y + settingButton.frame.height * 1.5)
         aboutButton.position = CGPointMake(width - aboutButton.frame.width * 0.55, aboutButton.frame.height * 0.55)
         
-        if background.texture == nil {
-            background = backgrounds[Int(arc4random() % 5)].copy() as! SKSpriteNode
+        if backgroundDark.texture == nil {
+            let num = Int(arc4random() % 5)
+            backgroundDark = SKSpriteNode(texture: SKTexture(image: UIImage(CGImage: backgrounds[num].texture!.CGImage).applyDarkEffect()))
+            backgroundDark.size = CGSizeMake(width, height)
+            backgroundDark.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame))
+            backgroundDark.zPosition = -1000
         }
-        Background = background.copy() as! SKSpriteNode
+        Background = backgroundDark.copy() as! SKSpriteNode
         
         self.addChild(Background)
         self.addChild(titleLabel)

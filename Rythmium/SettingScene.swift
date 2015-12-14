@@ -107,7 +107,7 @@ class SettingScene: SKScene {
             addChild(colorfulThemeIndicator[1])
         }
         
-        Background = background.copy() as! SKSpriteNode
+        Background = backgroundDark.copy() as! SKSpriteNode
         addChild(Background)
         addChild(backButton)
         addChild(visualizationLabel)

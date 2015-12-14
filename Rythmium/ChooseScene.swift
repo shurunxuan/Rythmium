@@ -17,7 +17,7 @@ class ChooseScene: SKScene {
     override func didMoveToView(view: SKView) {
         
         Stage = GameStage.Choose
-        Background = background.copy() as! SKSpriteNode
+        Background = backgroundDark.copy() as! SKSpriteNode
         addChild(Background)
         exporter.ChooseSong()
     }
@@ -102,17 +102,20 @@ class ChooseScene: SKScene {
                 } else {
                     size = CGSizeMake(height / backgroundHeight! * backgroundWidth!, height)
                 }
-                background = SKSpriteNode(texture: SKTexture(image: exporter.Song().artwork!.imageWithSize(size)!.resizedImage(size, interpolationQuality: CGInterpolationQuality.Low).applyDarkEffect()))
-                //background.size = CGSize(width: 736, height: 414)
-                background.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame))
-                background.zPosition = -1000
+                backgroundDark = SKSpriteNode(texture: SKTexture(image: exporter.Song().artwork!.imageWithSize(size)!.resizedImage(size, interpolationQuality: CGInterpolationQuality.Low).applyDarkEffect()))
+                backgroundDark.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame))
+                backgroundDark.zPosition = -1000
                 isNormalBackground = false
             } else if !isNormalBackground {
                 isNormalBackground = true
-                background = backgrounds[Int(arc4random() % 5)].copy() as! SKSpriteNode
+                let num = Int(arc4random() % 5)
+                backgroundDark = SKSpriteNode(texture: SKTexture(image: UIImage(CGImage: backgrounds[num].texture!.CGImage).applyDarkEffect()))
+                backgroundDark.size = CGSizeMake(width, height)
+                backgroundDark.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame))
+                backgroundDark.zPosition = -1000
             }
             Background.removeFromParent()
-            Background = background.copy() as! SKSpriteNode
+            Background = backgroundDark.copy() as! SKSpriteNode
             self.addChild(Background)
             Scene = ConfirmScene(size : CGSizeMake(width, height))
             View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))

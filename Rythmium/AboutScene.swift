@@ -37,7 +37,8 @@ class AboutScene: SKScene {
         nameLabel.fontSize = 60 * ratio
         nameLabel.position = CGPointMake(width / 2, (height - backButton.position.y - backButton.frame.height) / 2 - 10 * ratio)
         
-        Background = background.copy() as! SKSpriteNode
+        Background = backgroundDark.copy() as! SKSpriteNode
+        
         addChild(Background)
         addChild(backButton)
         addChild(positionLabel)
