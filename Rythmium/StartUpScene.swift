@@ -44,7 +44,7 @@ class StartUpScene: SKScene {
         
         if backgroundDark.texture == nil {
             let num = Int(arc4random() % 5)
-            backgroundDark = SKSpriteNode(texture: SKTexture(image: UIImage(CGImage: backgrounds[num].texture!.CGImage).applyDarkEffect()))
+            backgroundDark = SKSpriteNode(texture: SKTexture(image: UIImage(CGImage: backgrounds[num].texture!.CGImage()).applyDarkEffect()))
             backgroundDark.size = CGSizeMake(width, height)
             backgroundDark.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame))
             backgroundDark.zPosition = -1000

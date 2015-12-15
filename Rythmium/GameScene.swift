@@ -263,6 +263,9 @@ class GameScene: SKScene {
         titleLabel.position = CGPointMake(width + titleLabel.frame.width / 2, height / 2 + countDownLabel.frame.height + titleLabel.frame.height * 0.05)
         artistLabel.position = CGPointMake(-artistLabel.frame.width / 2, height / 2 - countDownLabel.frame.height - artistLabel.frame.height * 1.05)
         
+        titleLabel.name = "titleLabel"
+        artistLabel.name = "artistLabel"
+        
 
         if difficultyType == difficulty.custom {
             MSSFile.OpenFile(String(exporter.songID())+"_custom.mss")
@@ -528,6 +531,10 @@ class GameScene: SKScene {
                     
                     self.gameNode.paused = true
                     gameNode.setStayPaused()
+                    
+                    self.childNodeWithName("titleLabel")?.removeFromParent()
+                    self.childNodeWithName("aritstLabel")?.removeFromParent()
+                    
                     let pauseLabel = SKLabelNode(text: "PAUSED")
                     pauseLabel.fontSize = ratio * 70
                     pauseLabel.fontName = "SFUIDisplay-Ultralight"
@@ -633,7 +640,7 @@ class GameScene: SKScene {
                             x += block[Int(a1 * q)] * Double(a1 * q - floor(a1 * q))
                             //spectrumBars[bar].yScale = CGFloat(x) / 15000.0 * height
                             //spectrumBars[bar].removeAllActions()
-                            spectrumBars[bar].runAction(SKAction.scaleYTo(CGFloat(x) / log(CGFloat(barCount)) * 2 / 20000.0 * height, duration: 0.1))
+                            spectrumBars[bar].runAction(SKAction.scaleYTo(CGFloat(x) / log(CGFloat(barCount)) * 2 / 20000.0 * height, duration: 0.05))
                             a1 *= q
                             spectrumBars[bar].fillColor = brightColorWithHue((CGFloat(bar) / CGFloat(barCount) + spectrumColorOffset) - CGFloat(Int(CGFloat(bar) / CGFloat(barCount) + spectrumColorOffset)))
                         }
