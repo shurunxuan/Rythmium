@@ -68,7 +68,7 @@ class ConfirmScene: SKScene {
         normalLabel.name = "normalLabel"
         hardLabel.name = "hardLabel"
         insaneLabel.name = "insaneLabel"
-        bestScoreLabel.name = "bestScoreLabel"
+        //bestScoreLabel.name = "bestScoreLabel"
         
         rankLabel = SKSpriteNode(imageNamed: "Q")
         
@@ -83,7 +83,7 @@ class ConfirmScene: SKScene {
             rankLabel = SKSpriteNode(imageNamed: strList[0])
         }
         
-        rankLabel.name = "rankLabel"
+        //rankLabel.name = "rankLabel"
 
         rankLabel.setScale(1.2 * ratio)
         
