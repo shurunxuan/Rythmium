@@ -534,6 +534,7 @@ class GameScene: SKScene {
                     
                     self.childNodeWithName("titleLabel")?.removeFromParent()
                     self.childNodeWithName("aritstLabel")?.removeFromParent()
+                    for node in staticNodes { node.alpha = 0.05 }
                     
                     let pauseLabel = SKLabelNode(text: "PAUSED")
                     pauseLabel.fontSize = ratio * 70
