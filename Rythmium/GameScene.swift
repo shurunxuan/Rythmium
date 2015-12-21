@@ -107,11 +107,11 @@ class GameScene: SKScene {
     
     var touch_particle: [Int : SKEmitterNode] = [:]
     
-    var centerMaskCircle = SKShapeNode(circleOfRadius: 60)
-    var luMaskCircle = SKShapeNode(circleOfRadius: 32)
-    var ruMaskCircle = SKShapeNode(circleOfRadius: 32)
-    var ldMaskCircle = SKShapeNode(circleOfRadius: 32)
-    var rdMaskCircle = SKShapeNode(circleOfRadius: 32)
+    var centerMaskCircle = SKShapeNode(circleOfRadius: 60 * ratio)
+    var luMaskCircle = SKShapeNode(circleOfRadius: 32 * ratio)
+    var ruMaskCircle = SKShapeNode(circleOfRadius: 32 * ratio)
+    var ldMaskCircle = SKShapeNode(circleOfRadius: 32 * ratio)
+    var rdMaskCircle = SKShapeNode(circleOfRadius: 32 * ratio)
     
     var centerMask = SKCropNode()
     
@@ -124,10 +124,16 @@ class GameScene: SKScene {
         Background.alpha = 1
         self.addChild(Background)
         
-        if visualizationType == visualization.Spectrum {
+        if visualizationType == visualization.SpectrumNormal || visualizationType == visualization.SpectrumCircle {
             spectrumBars.reserveCapacity(barCount)
             for var bar: Int = 0; bar < barCount; ++bar {
-                spectrumBars.append(SKShapeNode(rect: CGRect(x: width / CGFloat(barCount) * CGFloat(bar), y: 0, width: width * 0.8 / CGFloat(barCount), height: 1)))
+                if visualizationType == visualization.SpectrumNormal {
+                    spectrumBars.append(SKShapeNode(rect: CGRect(x: width / CGFloat(barCount) * CGFloat(bar), y: 0, width: width * 0.8 / CGFloat(barCount), height: 1)))
+                } else {
+                    spectrumBars.append(SKShapeNode(rect: CGRect(x: -width * 0.3 / CGFloat(barCount), y: 0, width: width * 0.6 / CGFloat(barCount), height: 1)))
+                    spectrumBars[bar].position = CGPoint(x: width / 2, y: height / 2)
+                    spectrumBars[bar].zRotation = 2 * 3.1415926535 * (CGFloat(bar) - 3.5) / CGFloat(barCount)
+                }
                 
                 spectrumBars[bar].alpha = 0.1
                 spectrumBars[bar].zPosition = -500
@@ -137,6 +143,7 @@ class GameScene: SKScene {
                 self.addChild(spectrumBars[bar])
             }
         }
+        if visualizationType == visualization.SpectrumCircle { centerMaskCircle.setScale(80.0 / 60.0) }
         
         lifeBackground = SKShapeNode(rectOfSize: self.size)
         lifeBackground.fillColor = SKColor.redColor()
@@ -266,7 +273,7 @@ class GameScene: SKScene {
         titleLabel.name = "titleLabel"
         artistLabel.name = "artistLabel"
         
-
+        
         if difficultyType == difficulty.custom {
             MSSFile.OpenFile(String(exporter.songID())+"_custom.mss")
             let MSSString = MSSFile.Read()
@@ -627,7 +634,7 @@ class GameScene: SKScene {
                     if colorfulTheme { spectrumColorOffset += 0.01 }
                     
                     // visualization
-                    if visualizationType == visualization.Spectrum {
+                    if visualizationType == visualization.SpectrumNormal || visualizationType == visualization.SpectrumCircle {
                         let q: CGFloat = pow(2.0, 1.0 / (CGFloat(barCount) / 8.0))
                         var a1: CGFloat = 1
                         let s = Int(a1 / (q - 1) * (pow(q, CGFloat(barCount)) - 1)) * 2
@@ -641,12 +648,17 @@ class GameScene: SKScene {
                             x += block[Int(a1 * q)] * Double(a1 * q - floor(a1 * q))
                             //spectrumBars[bar].yScale = CGFloat(x) / 15000.0 * height
                             //spectrumBars[bar].removeAllActions()
+                            if visualizationType == visualization.SpectrumNormal {
                             spectrumBars[bar].runAction(SKAction.scaleYTo(CGFloat(x) / log(CGFloat(barCount)) * 2 / 20000.0 * height, duration: 0.05))
+                            } else {
+                               spectrumBars[bar].runAction(SKAction.scaleYTo((CGFloat(x) / log(CGFloat(barCount)) * 2 / 20000.0 * height + 70.0 * ratio), duration: 0.05))
+                            }
                             a1 *= q
                             spectrumBars[bar].fillColor = brightColorWithHue((CGFloat(bar) / CGFloat(barCount) + spectrumColorOffset) - CGFloat(Int(CGFloat(bar) / CGFloat(barCount) + spectrumColorOffset)))
                         }
-                        
-                        centerMaskCircle.setScale((CGFloat(sum(block)) / 10000.0 + 60.0) / 60.0)
+                        if visualizationType == visualization.SpectrumNormal {
+                            centerMaskCircle.setScale((CGFloat(sum(block)) / 10000.0 + 60.0 * ratio) / (60.0 * ratio))
+                        }
                     }
                     
                     // lyrics

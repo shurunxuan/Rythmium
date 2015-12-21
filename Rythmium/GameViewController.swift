@@ -15,7 +15,7 @@ enum GameStage {
 }
 // Enumerate type that indicates the type of visualization, some more will be added.
 enum visualization {
-    case Spectrum, None
+    case SpectrumNormal, SpectrumCircle, None
 }
 // Enumerate type that indicates difficulty.
 enum difficulty {
@@ -43,7 +43,7 @@ var maxCombo: Int = 0
 var fullCombo = true
 var differentJudges = [0, 0, 0, 0, 0]
 
-var visualizationType = visualization.Spectrum
+var visualizationType = visualization.SpectrumNormal
 var difficultyType = difficulty.easy
 
 var View = SKView()
@@ -96,7 +96,7 @@ class GameViewController: UIViewController {
         // read settings
         if !FileClass.isExist("setting.cfg") {
             settingFile.CreateFile("setting.cfg")
-            settingFile.Write("Visualization\tSpectrum\nDifficulty\teasy\nLRC\tYes\ncolorfulTheme\tOff\n")
+            settingFile.Write("Visualization\tSpectrumNormal\nDifficulty\teasy\nLRC\tYes\ncolorfulTheme\tOff\n")
         }
         settingFile.OpenFile("setting.cfg")
         let settingStr = settingFile.Read()
@@ -110,8 +110,10 @@ class GameViewController: UIViewController {
                 switch content {
                 case "Visualization" :
                     switch value {
-                    case "Spectrum" :
-                        visualizationType = visualization.Spectrum
+                    case "SpectrumNormal" :
+                        visualizationType = visualization.SpectrumNormal
+                    case "SpectrumCircle" :
+                        visualizationType = visualization.SpectrumCircle
                     case "None" :
                         visualizationType = visualization.None
                     default :
