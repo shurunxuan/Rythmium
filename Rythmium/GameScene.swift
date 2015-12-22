@@ -91,7 +91,7 @@ class GameScene: SKScene {
     
     var spectrumBars = [SKShapeNode]()
     
-    let barCount = 16
+    var barCount = 16
     
     var staticNodeScale: [CGFloat] = [0.5, 0.5, 0.5, 0.5]
     
@@ -123,16 +123,26 @@ class GameScene: SKScene {
         Background = backgroundDark.copy() as! SKSpriteNode
         Background.alpha = 1
         self.addChild(Background)
-        
+        if visualizationType == visualization.SpectrumCircle { barCount = 24 }
         if visualizationType == visualization.SpectrumNormal || visualizationType == visualization.SpectrumCircle {
             spectrumBars.reserveCapacity(barCount)
             for var bar: Int = 0; bar < barCount; ++bar {
                 if visualizationType == visualization.SpectrumNormal {
                     spectrumBars.append(SKShapeNode(rect: CGRect(x: width / CGFloat(barCount) * CGFloat(bar), y: 0, width: width * 0.8 / CGFloat(barCount), height: 1)))
                 } else {
-                    spectrumBars.append(SKShapeNode(rect: CGRect(x: -width * 0.3 / CGFloat(barCount), y: 0, width: width * 0.6 / CGFloat(barCount), height: 1)))
-                    spectrumBars[bar].position = CGPoint(x: width / 2, y: height / 2)
-                    spectrumBars[bar].zRotation = 2 * 3.1415926535 * (CGFloat(bar) - 3.5) / CGFloat(barCount)
+                    let Bar = SKShapeNode()
+                    let path = CGPathCreateMutable()
+                    CGPathAddArc(path, nil, 0, 0, 1, -3.1415926535 / 1.05 / CGFloat(barCount), 3.1415926535 / 1.05 / CGFloat(barCount), false)
+                    CGPathAddLineToPoint(path, nil, 0, 0)
+                    CGPathCloseSubpath(path)
+                    Bar.path = path
+                    
+                    //spectrumBars.append(SKShapeNode(rect: CGRect(x: -width * 0.3 / CGFloat(barCount), y: 0, width: width * 0.6 / CGFloat(barCount), height: 1)))
+                    //spectrumBars[bar].position = CGPoint(x: width / 2, y: height / 2)
+                    //spectrumBars[bar].zRotation = 2 * 3.1415926535 * (CGFloat(bar) - 3.5) / CGFloat(barCount)
+                    Bar.position = CGPoint(x: width / 2, y: height / 2)
+                    Bar.zRotation = 2 * 3.1415926535 * (CGFloat(bar) + 0.5) / CGFloat(barCount)
+                    spectrumBars.append(Bar)
                 }
                 
                 spectrumBars[bar].alpha = 0.1
@@ -651,7 +661,9 @@ class GameScene: SKScene {
                             if visualizationType == visualization.SpectrumNormal {
                             spectrumBars[bar].runAction(SKAction.scaleYTo(CGFloat(x) / log(CGFloat(barCount)) * 2 / 20000.0 * height, duration: 0.05))
                             } else {
-                               spectrumBars[bar].runAction(SKAction.scaleYTo((CGFloat(x) / log(CGFloat(barCount)) * 2 / 20000.0 * height + 70.0 * ratio), duration: 0.05))
+                                //spectrumBars[bar].runAction(SKAction.scaleYTo((CGFloat(x) / log(CGFloat(barCount)) * 2 / 20000.0 * height + 70.0 * ratio), duration: 0.05))
+                                x *= (1.0 + Double(barCount - bar) / Double(barCount) * 3.0)
+                                spectrumBars[bar].runAction(SKAction.scaleTo((CGFloat(x) / log(CGFloat(barCount)) * 2 / 30000.0 * height + 79 * ratio), duration: 0.05))
                             }
                             a1 *= q
                             spectrumBars[bar].fillColor = brightColorWithHue((CGFloat(bar) / CGFloat(barCount) + spectrumColorOffset) - CGFloat(Int(CGFloat(bar) / CGFloat(barCount) + spectrumColorOffset)))

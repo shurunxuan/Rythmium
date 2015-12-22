@@ -39,6 +39,8 @@
 		B5C464D71B4BB9CE007CD279 /* ResultScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C464D61B4BB9CE007CD279 /* ResultScene.swift */; };
 		B5E31BC91B4BA5A8002186A4 /* AnalyzeScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E31BC81B4BA5A8002186A4 /* AnalyzeScene.swift */; };
 		B5EA2DE61B7E867000A7E163 /* SaveSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5EA2DE51B7E867000A7E163 /* SaveSetting.swift */; };
+		B5EBDBC51C27F70C00054168 /* BestScoreParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = B5EBDBC31C27F70C00054168 /* BestScoreParticle.sks */; };
+		B5EBDBC61C27F70C00054168 /* BestScoreParticle.png in Resources */ = {isa = PBXBuildFile; fileRef = B5EBDBC41C27F70C00054168 /* BestScoreParticle.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,6 +106,8 @@
 		B5C464D61B4BB9CE007CD279 /* ResultScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultScene.swift; sourceTree = "<group>"; };
 		B5E31BC81B4BA5A8002186A4 /* AnalyzeScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyzeScene.swift; sourceTree = "<group>"; };
 		B5EA2DE51B7E867000A7E163 /* SaveSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveSetting.swift; sourceTree = "<group>"; };
+		B5EBDBC31C27F70C00054168 /* BestScoreParticle.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = BestScoreParticle.sks; sourceTree = "<group>"; };
+		B5EBDBC41C27F70C00054168 /* BestScoreParticle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BestScoreParticle.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,14 +166,16 @@
 				B57705881B4B899500CC13E1 /* Assets.xcassets */,
 				B55F37ED1BF97DE20012C361 /* Particle.sks */,
 				B55F37EE1BF97DE20012C361 /* Particle.png */,
+				B5EBDBC31C27F70C00054168 /* BestScoreParticle.sks */,
+				B5EBDBC41C27F70C00054168 /* BestScoreParticle.png */,
 				B577058D1B4B899500CC13E1 /* Info.plist */,
 				B546E5F21B62153B00B82D58 /* FFT.swift */,
 				B57705C61B4B94DD00CC13E1 /* JudgementLabel.swift */,
+				B57705811B4B899500CC13E1 /* StartUpScene.swift */,
 				B57705C71B4B94DD00CC13E1 /* Note.swift */,
 				B5EA2DE51B7E867000A7E163 /* SaveSetting.swift */,
 				B504365E1BC4F92200F6ECB2 /* Lyrics.swift */,
 				B577057D1B4B899500CC13E1 /* AppDelegate.swift */,
-				B57705811B4B899500CC13E1 /* StartUpScene.swift */,
 				B5091C061B823176004CC75D /* ChooseScene.swift */,
 				B5091C081B82356E004CC75D /* ConfirmScene.swift */,
 				B5E31BC81B4BA5A8002186A4 /* AnalyzeScene.swift */,
@@ -324,6 +330,8 @@
 				B54723B21B7668260012678B /* Main.storyboard in Resources */,
 				B52364411BDE12810092692F /* SF-UI-Display-Ultralight.otf in Resources */,
 				B55F37EF1BF97DE20012C361 /* Particle.sks in Resources */,
+				B5EBDBC51C27F70C00054168 /* BestScoreParticle.sks in Resources */,
+				B5EBDBC61C27F70C00054168 /* BestScoreParticle.png in Resources */,
 				B56FA56A1BFABCDB00B9B7AD /* logo.png in Resources */,
 				B55F37F01BF97DE20012C361 /* Particle.png in Resources */,
 				B52D14821BEB2C6D000F467A /* Launch Screen.storyboard in Resources */,

@@ -15,10 +15,14 @@ class ResultScene: SKScene {
     var isGameOver = false
     var rank = "F"
     var touch_particle: [Int : SKEmitterNode] = [:]
+    var bestScoreParticle = SKEmitterNode(fileNamed: "BestScoreParticle.sks")!
     
 
     override func didMoveToView(view: SKView) {
         Stage = GameStage.Result
+        
+        bestScoreParticle.position = CGPointMake(width / 2, height)
+        bestScoreParticle.targetNode = self
         
         Background = backgroundDark.copy() as! SKSpriteNode
         var rankLabel = SKSpriteNode()
@@ -68,13 +72,15 @@ class ResultScene: SKScene {
                 let bsFile = FileClass()
                 bsFile.OpenFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
                 bsFile.Write(rank + "\t" + String(score))
-                // add bestScore animation
+                addChild(bestScoreParticle)
+                bestScoreParticle.runAction(SKAction.sequence([SKAction.waitForDuration(4), SKAction.runBlock({self.bestScoreParticle.particleBirthRate = 0})]))
             }
         } else {
             let bsFile = FileClass()
             bsFile.CreateFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
             bsFile.Write(rank + "\t" + String(score))
-            // add bestScore animation
+            addChild(bestScoreParticle)
+            bestScoreParticle.runAction(SKAction.sequence([SKAction.waitForDuration(4), SKAction.runBlock({self.bestScoreParticle.particleBirthRate = 0})]))
         }
         
         let scoreLabel = SKLabelNode()
