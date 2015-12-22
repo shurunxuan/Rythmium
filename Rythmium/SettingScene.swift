@@ -14,10 +14,11 @@ class SettingScene: SKScene {
     
     var visualizationLabel = SKLabelNode(text: "Visualization")
     var visualizationSpectrumButton = SKLabelNode(text: "Spectrum")
-    var visualizationSpectrumNormalButton = SKLabelNode(text: "Normal")
-    var visualizationSpectrumCircleButton = SKLabelNode(text: "Circle")
     var visualizationNoneButton = SKLabelNode(text: "None")
     var visualizationIndicator = [SKShapeNode(), SKShapeNode()]
+    var visualizationSpectrumLabel = SKLabelNode(text: "Spectrum Type")
+    var visualizationSpectrumNormalButton = SKLabelNode(text: "Normal")
+    var visualizationSpectrumCircleButton = SKLabelNode(text: "Circle")
     var visualizationSpectrumIndicator = [SKShapeNode(), SKShapeNode()]
     
     var colorfulThemeLabel = SKLabelNode(text: "Colorful Theme")
@@ -48,6 +49,11 @@ class SettingScene: SKScene {
         visualizationLabel.fontSize = 32 * ratio
         visualizationLabel.position = CGPointMake(width / 4, height / 2 + heightOffset + 40 * ratio)
         
+        visualizationSpectrumLabel.fontName = "SFUIDisplay-Ultralight"
+        visualizationSpectrumLabel.name = "visualizationLabel"
+        visualizationSpectrumLabel.fontSize = 32 * ratio
+        visualizationSpectrumLabel.position = CGPointMake(width / 4, height / 2 + heightOffset - visualizationSpectrumLabel.frame.height + 10 * ratio)
+        
         visualizationSpectrumButton.fontName = "SFUIDisplay-Ultralight"
         visualizationSpectrumButton.name = "visualizationSpectrumButton"
         visualizationSpectrumButton.fontSize = 32 * ratio
@@ -55,13 +61,13 @@ class SettingScene: SKScene {
         
         visualizationSpectrumNormalButton.fontName = "SFUIDisplay-Ultralight"
         visualizationSpectrumNormalButton.name = "visualizationSpectrumNormalButton"
-        visualizationSpectrumNormalButton.fontSize = 28 * ratio
-        visualizationSpectrumNormalButton.position = CGPointMake(width / 3 * 2, visualizationSpectrumButton.position.y - visualizationSpectrumNormalButton.frame.height - 15 * ratio)
+        visualizationSpectrumNormalButton.fontSize = 32 * ratio
+        visualizationSpectrumNormalButton.position = CGPointMake(width / 3 * 2, height / 2 + heightOffset - visualizationSpectrumLabel.frame.height + 10 * ratio)
         
         visualizationSpectrumCircleButton.fontName = "SFUIDisplay-Ultralight"
         visualizationSpectrumCircleButton.name = "visualizationSpectrumCircleButton"
-        visualizationSpectrumCircleButton.fontSize = 28 * ratio
-        visualizationSpectrumCircleButton.position = CGPointMake(width / 3 * 2, visualizationSpectrumNormalButton.position.y - visualizationSpectrumCircleButton.frame.height - 12 * ratio)
+        visualizationSpectrumCircleButton.fontSize = 32 * ratio
+        visualizationSpectrumCircleButton.position = CGPointMake(width / 8 * 7, height / 2 + heightOffset - visualizationSpectrumLabel.frame.height + 10 * ratio)
         
         visualizationNoneButton.fontName = "SFUIDisplay-Ultralight"
         visualizationNoneButton.name = "visualizationNoneButton"
@@ -95,8 +101,8 @@ class SettingScene: SKScene {
             indicator.alpha = 0.2
         }
         
-        let SpectrumNormalIndicatorRect = CGRectMake(visualizationSpectrumNormalButton.position.x - visualizationSpectrumNormalButton.frame.width / 2 - 5 * ratio, visualizationSpectrumNormalButton.position.y - visualizationSpectrumNormalButton.frame.height / 2 + 5 * ratio, visualizationSpectrumNormalButton.frame.width + 10 * ratio, visualizationSpectrumNormalButton.frame.height + 10 * ratio)
-        let SpectrumCircleIndicatorRect = CGRectMake(visualizationSpectrumCircleButton.position.x - visualizationSpectrumCircleButton.frame.width / 2 - 5 * ratio, visualizationSpectrumCircleButton.position.y - visualizationSpectrumCircleButton.frame.height / 2 + 5 * ratio, visualizationSpectrumCircleButton.frame.width + 10 * ratio, visualizationSpectrumNormalButton.frame.height + 10 * ratio)
+        let SpectrumNormalIndicatorRect = CGRectMake(visualizationSpectrumNormalButton.position.x - visualizationSpectrumNormalButton.frame.width / 2 - 5 * ratio, visualizationSpectrumNormalButton.position.y - visualizationSpectrumNormalButton.frame.height / 2 + 5 * ratio, visualizationSpectrumNormalButton.frame.width + 10 * ratio, visualizationSpectrumNormalButton.frame.height + 15 * ratio)
+        let SpectrumCircleIndicatorRect = CGRectMake(visualizationSpectrumCircleButton.position.x - visualizationSpectrumCircleButton.frame.width / 2 - 5 * ratio, visualizationSpectrumCircleButton.position.y - visualizationSpectrumCircleButton.frame.height / 2 + 5 * ratio, visualizationSpectrumCircleButton.frame.width + 10 * ratio, visualizationSpectrumNormalButton.frame.height + 15 * ratio)
         visualizationSpectrumIndicator[0] = SKShapeNode(rect: SpectrumNormalIndicatorRect, cornerRadius: 5)
         visualizationSpectrumIndicator[1] = SKShapeNode(rect: SpectrumCircleIndicatorRect, cornerRadius: 5)
         visualizationSpectrumIndicator[0].name = "visualizationIndicatorSpectrumNormal"
@@ -121,11 +127,13 @@ class SettingScene: SKScene {
         
         switch visualizationType {
         case visualization.SpectrumNormal:
+            addChild(visualizationSpectrumLabel)
             addChild(visualizationIndicator[0])
             addChild(visualizationSpectrumIndicator[0])
             addChild(visualizationSpectrumNormalButton)
             addChild(visualizationSpectrumCircleButton)
         case visualization.SpectrumCircle:
+            addChild(visualizationSpectrumLabel)
             addChild(visualizationIndicator[0])
             addChild(visualizationSpectrumIndicator[1])
             addChild(visualizationSpectrumNormalButton)
@@ -213,6 +221,8 @@ class SettingScene: SKScene {
                         visualizationSpectrumIndicator[0].removeAllActions()
                         visualizationSpectrumIndicator[0].runAction(SKAction.fadeAlphaTo(0.2, duration: 0.2))
                         addChild(visualizationSpectrumIndicator[0])
+                        visualizationSpectrumLabel.runAction(SKAction.fadeAlphaTo(1, duration: 0.2))
+                        addChild(visualizationSpectrumLabel)
                         visualizationSpectrumNormalButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.2))
                         addChild(visualizationSpectrumNormalButton)
                         visualizationSpectrumCircleButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.2))
@@ -250,6 +260,7 @@ class SettingScene: SKScene {
                         visualizationIndicator[1].removeAllActions()
                         visualizationIndicator[1].runAction(SKAction.fadeAlphaTo(0.2, duration: 0.2))
                         addChild(visualizationIndicator[1])
+                        visualizationSpectrumLabel.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))
                         visualizationSpectrumNormalButton.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))
                         visualizationSpectrumCircleButton.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))
                         visualizationSpectrumIndicator[0].runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))

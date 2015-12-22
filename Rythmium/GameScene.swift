@@ -128,7 +128,7 @@ class GameScene: SKScene {
             spectrumBars.reserveCapacity(barCount)
             for var bar: Int = 0; bar < barCount; ++bar {
                 if visualizationType == visualization.SpectrumNormal {
-                    spectrumBars.append(SKShapeNode(rect: CGRect(x: width / CGFloat(barCount) * CGFloat(bar), y: 0, width: width * 0.8 / CGFloat(barCount), height: 1)))
+                    spectrumBars.append(SKShapeNode(rect: CGRect(x: width / CGFloat(barCount) * CGFloat(bar), y: 0, width: width * 0.95 / CGFloat(barCount), height: 1)))
                 } else {
                     let Bar = SKShapeNode()
                     let path = CGPathCreateMutable()
@@ -153,7 +153,7 @@ class GameScene: SKScene {
                 self.addChild(spectrumBars[bar])
             }
         }
-        if visualizationType == visualization.SpectrumCircle { centerMaskCircle.setScale(80.0 / 60.0) }
+        //if visualizationType == visualization.SpectrumCircle { centerMaskCircle.setScale(80.0 / 60.0) }
         
         lifeBackground = SKShapeNode(rectOfSize: self.size)
         lifeBackground.fillColor = SKColor.redColor()
@@ -663,7 +663,7 @@ class GameScene: SKScene {
                             } else {
                                 //spectrumBars[bar].runAction(SKAction.scaleYTo((CGFloat(x) / log(CGFloat(barCount)) * 2 / 20000.0 * height + 70.0 * ratio), duration: 0.05))
                                 x *= (1.0 + Double(barCount - bar) / Double(barCount) * 3.0)
-                                spectrumBars[bar].runAction(SKAction.scaleTo((CGFloat(x) / log(CGFloat(barCount)) * 2 / 30000.0 * height + 79 * ratio), duration: 0.05))
+                                spectrumBars[bar].runAction(SKAction.scaleTo((CGFloat(x) / log(CGFloat(barCount)) * 2 / 30000.0 * height + 60 * ratio), duration: 0.05))
                             }
                             a1 *= q
                             spectrumBars[bar].fillColor = brightColorWithHue((CGFloat(bar) / CGFloat(barCount) + spectrumColorOffset) - CGFloat(Int(CGFloat(bar) / CGFloat(barCount) + spectrumColorOffset)))

@@ -31,9 +31,11 @@ class AnalyzeScene: SKScene {
     
     var Background = SKSpriteNode()
     
+    var touch_particle: [Int : SKEmitterNode] = [:]
+    
     override func didMoveToView(view: SKView) {
         Stage = GameStage.Analyze
-        
+        self.view?.multipleTouchEnabled = true
         
         for label in analyzingLabels {
             label.fontName = "SFUIDisplay-Ultralight"
@@ -47,70 +49,100 @@ class AnalyzeScene: SKScene {
         
         needFFT = !FileClass.isExist(String(exporter.songID())+".mss")
         
+        self.addChild(analyzingLabels[0])
+        if !needFFT {
+            analyzingLabels[0].text = "LOADING..."
+            analyzingLabels[0].position = CGPointMake(width / 2, height / 2 - analyzingLabels[0].frame.height / 2)
+        } else {
+            self.addChild(analyzingLabels[1])
+        }
+        
+        for label in analyzingLabels {
+            label.runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.fadeOutWithDuration(1), SKAction.fadeInWithDuration(1)])))
+        }
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), {
+            
+            if self.needFFT || visualizationType != visualization.None {
+                exporter.Export()
+                Left.removeAll()
+                self.CafFile.OpenFile("export-pcm.caf")
+                self.CafFile.Peek(4088)
+                let fileLength1 = 256 * 256 * 256 * self.CafFile.ReadBinary(1) + 256 * 256 * self.CafFile.ReadBinary(1)
+                let fileLength2 = 256 * self.CafFile.ReadBinary(1) + self.CafFile.ReadBinary(1) + 4092
+                let fileLength = fileLength1 + fileLength2
+                self.CafFile.Peek(4096)
+                
+                Left.reserveCapacity(fileLength / 4)
+                while self.CafFile.OFFSET() != fileLength {
+                    let d : Int16 = self.CafFile.ReadBinary()
+                    self.CafFile.Peek(self.CafFile.OFFSET() + 2)
+                    Left.append(d)
+                }
+                
+                if self.needFFT {
+                    self.FFT(String(exporter.songID())+".mss", fileLength: fileLength)
+                }
+            }
+
+            dispatch_async(dispatch_get_main_queue(), {
+                Scene = GameScene(size : CGSizeMake(width, height))
+                View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+            })  
+        })
     }
+    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        for touch in touches {
+            let location = touch.locationInNode(self)
+            let particle = touch_particle[touch.hash]
+            if (particle != nil) {
+                particle!.runAction(SKAction.moveTo(location, duration: 0))
+                particle!.particleBirthRate = 250 + 300 * touch.force
+            }
+        }
+    }
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        for touch in touches {
+            let particle = touch_particle[touch.hash]
+            if (particle != nil)
+            {
+                particle!.particleBirthRate = 0
+                for child in particle!.children {
+                    child.runAction(SKAction.sequence([SKAction.waitForDuration(1), SKAction.removeFromParent()]))
+                }
+                particle!.runAction(SKAction.sequence([SKAction.waitForDuration(1), SKAction.removeFromParent()]))
+            }
+            touch_particle[touch.hash] = nil
+        }
+    }
+    
+    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+        if (touches != nil) {
+            touchesEnded(touches!, withEvent: nil)
+        }
+    }
+    
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         /* Called when a touch begins */
+        
+        for touch in touches {
+            let location = touch.locationInNode(self)
+
+            let particle = Particle.copy() as! SKEmitterNode
+            particle.name = "particle" + String(touch.hash)
+            particle.position = location
+            particle.targetNode = self
+            self.addChild(particle)
+            touch_particle[touch.hash] = particle
+        }
     }
     
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         
-        if state == 0 {
-            if Init {
-                Init = false
-                startTime = Double(currentTime)
-                self.addChild(analyzingLabels[0])
-                if !needFFT {
-                    analyzingLabels[0].text = "LOADING..."
-                    analyzingLabels[0].position = CGPointMake(width / 2, height / 2 - analyzingLabels[0].frame.height / 2)
-                } else {
-                    self.addChild(analyzingLabels[1])
-                }
-            }
-            
-            if Double(currentTime) - startTime > 1 && Background.alpha > 0.95 {
-                if needFFT || visualizationType != visualization.None {
-                    exporter.Export()
-                    Left.removeAll()
-                    CafFile.OpenFile("export-pcm.caf")
-                    CafFile.Peek(4088)
-                    let fileLength1 = 256 * 256 * 256 * CafFile.ReadBinary(1) + 256 * 256 * CafFile.ReadBinary(1)
-                    let fileLength2 = 256 * CafFile.ReadBinary(1) + CafFile.ReadBinary(1) + 4092
-                    let fileLength = fileLength1 + fileLength2
-                    CafFile.Peek(4096)
-                    
-                    Left.reserveCapacity(fileLength / 4)
-                    while CafFile.OFFSET() != fileLength {
-                        let d : Int16 = CafFile.ReadBinary()
-                        CafFile.Peek(CafFile.OFFSET() + 2)
-                        Left.append(d)
-                    }
-                    
-                    if needFFT {
-                        FFT(String(exporter.songID())+".mss", fileLength: fileLength)
-                    }
-                }
-                for label in analyzingLabels {
-                    label.runAction(SKAction.sequence([SKAction.waitForDuration(0.5), staticNodesDisappearAction]))
-                }
-                //needFFT = false
-                state = 1
-                Init = true
-                
-            }
-        }
-        if state == 1 {
-            if Init {
-                startTime = Double(currentTime)
-                Init = false
-            }
-            if Double(currentTime) - startTime > 0.5 {
-                Scene = GameScene(size : CGSizeMake(width, height))
-                View.presentScene(Scene)//, transition: SKTransition.crossFadeWithDuration(0.5))
-                backgroundDark.removeFromParent()
-            }
-        }
+        
     }
     
     
