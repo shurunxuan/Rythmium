@@ -72,15 +72,13 @@ class ResultScene: SKScene {
                 let bsFile = FileClass()
                 bsFile.OpenFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
                 bsFile.Write(rank + "\t" + String(score))
-                addChild(bestScoreParticle)
-                bestScoreParticle.runAction(SKAction.sequence([SKAction.waitForDuration(4), SKAction.runBlock({self.bestScoreParticle.particleBirthRate = 0})]))
+                BestScoreSpark()
             }
         } else {
             let bsFile = FileClass()
             bsFile.CreateFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
             bsFile.Write(rank + "\t" + String(score))
-            addChild(bestScoreParticle)
-            bestScoreParticle.runAction(SKAction.sequence([SKAction.waitForDuration(4), SKAction.runBlock({self.bestScoreParticle.particleBirthRate = 0})]))
+            BestScoreSpark()
         }
         
         let scoreLabel = SKLabelNode()
@@ -267,6 +265,17 @@ class ResultScene: SKScene {
     
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+    }
+    
+    func BestScoreSpark() {
+        srand48(Int(time(nil)))
+        for var i: Int = 0; i < 6; ++i {
+            let particle = bestScoreParticle.copy() as! SKEmitterNode
+            particle.position = CGPointMake(CGFloat(drand48()) * width, CGFloat(drand48()) * height / 2 + height / 2)
+            self.addChild(particle)
+            particle.particleBirthRate = 0
+            particle.runAction(SKAction.sequence([SKAction.waitForDuration(0.5 * Double(i + 1)), SKAction.runBlock({particle.particleBirthRate = 2000}), SKAction.waitForDuration(0.2), SKAction.runBlock({particle.particleBirthRate = 0}), SKAction.waitForDuration(1), SKAction.removeFromParent()]))
+        }
     }
 }
 

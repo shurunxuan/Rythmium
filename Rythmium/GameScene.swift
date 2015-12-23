@@ -253,8 +253,8 @@ class GameScene: SKScene {
         
         gameNode.alpha = 1
         gameNode.addChild(countDownLabel)
-        gameNode.addChild(titleLabel)
-        gameNode.addChild(artistLabel)
+        //gameNode.addChild(titleLabel)
+        //gameNode.addChild(artistLabel)
         gameNode.addChild(scoreLabel)
         
         
@@ -273,10 +273,10 @@ class GameScene: SKScene {
         artistLabel.fontSize = ratio * 60
         titleLabel.fontName = "SFUIDisplay-Ultralight"
         artistLabel.fontName = "SFUIDisplay-Ultralight"
-        while titleLabel.frame.width > width * 0.9 || artistLabel.frame.width > width * 0.9 {
-            titleLabel.fontSize--
-            artistLabel.fontSize--
-        }
+        //while titleLabel.frame.width > width * 0.9 || artistLabel.frame.width > width * 0.9 {
+        //    titleLabel.fontSize--
+        //    artistLabel.fontSize--
+        //}
         titleLabel.position = CGPointMake(width + titleLabel.frame.width / 2, height / 2 + countDownLabel.frame.height + titleLabel.frame.height * 0.05)
         artistLabel.position = CGPointMake(-artistLabel.frame.width / 2, height / 2 - countDownLabel.frame.height - artistLabel.frame.height * 1.05)
         
@@ -514,17 +514,41 @@ class GameScene: SKScene {
             CurrentTime = Double(currentTime) - startTime
             if Int(CurrentTime) < 0 {
                 countDownLabel.text = String(-Int(CurrentTime))
-                let t0 = CGFloat(CurrentTime + 3.5)
-                let t1 = CGFloat(CurrentTime + 3.5)
-                let X_A = CGFloat(1)
-                let f0 = (t0-X_A)*(t0-X_A)*(t0-X_A)
-                let f1 = (X_A*X_A*X_A)
-                let f00 = f0 / f1
-                let f01 = (width + titleLabel.frame.width) / 2
-                let f10 = (t1-X_A)*(t1-X_A)*(t1-X_A)/(X_A*X_A*X_A)
-                let f11 = (width + artistLabel.frame.width) / 2
-                titleLabel.position.x = width + titleLabel.frame.width / 2 - (f00+1) * f01
-                artistLabel.position.x = -artistLabel.frame.width / 2 + (f10+1) * f11
+                //let t0 = CGFloat(CurrentTime + 3.5)
+                //let t1 = CGFloat(CurrentTime + 3.5)
+                //let X_A = CGFloat(1)
+                //let f0 = (t0-X_A)*(t0-X_A)*(t0-X_A)
+                //let f1 = (X_A*X_A*X_A)
+                //let f00 = f0 / f1
+                //let f01 = (width + titleLabel.frame.width) / 2
+                //let f10 = (t1-X_A)*(t1-X_A)*(t1-X_A)/(X_A*X_A*X_A)
+                //let f11 = (width + artistLabel.frame.width) / 2
+                
+                //let EW = width / 8 // Ease in width
+                //let ET: CGFloat = 0.4 // Ease in time
+                //
+                //let FW_1 = titleLabel.frame.width // frame width
+                //let v1_1_t1 = FW_1 + width - 2 * EW
+                //let v_t = 3 - 2 * ET
+                //let v1_1 = v1_1_t1 / v_t
+                //let v0_1 = (2 * EW / ET) - v1_1
+                //let a_1 = (v0_1 - v1_1) / ET
+                //let FW_2 = artistLabel.frame.width // frame width
+                //let v1_2_t1 = FW_2 + width - 2 * EW
+                //let v1_2 = v1_2_t1 / v_t
+                //let v0_2 = (2 * EW / ET) - v1_2
+                //let a_2 = (v0_2 - v1_2) / ET
+                //let t = (CGFloat(CurrentTime) + 3.9)
+                //if t > 3 - ET {
+                //    titleLabel.position.x = width - (FW_1 / 2 + width - EW + v1_1 * (t - 3 + ET) + 0.5 * a_1 * (t - 3 + ET) * (t - 3 + ET))
+                //    artistLabel.position.x = FW_2 / 2 + width - EW + v1_2 * (t - 3 + ET) + 0.5 * a_2 * (t - 3 + ET) * (t - 3 + ET)
+                //} else if t > ET {
+                //    titleLabel.position.x = width - (EW + v1_1 * (t - ET) - FW_1 / 2)
+                //    artistLabel.position.x = EW + v1_2 * (t - ET) - FW_2 / 2
+                //} else {
+                //    titleLabel.position.x = width - (v0_1 * t - 0.5 * a_1 * t * t - FW_1 / 2)
+                //    artistLabel.position.x = v0_2 * t - 0.5 * a_2 * t * t - FW_2 / 2
+                //}
             }
             if Int(CurrentTime) == 0 {
                 countDownLabel.text = "START!"
@@ -651,19 +675,14 @@ class GameScene: SKScene {
                         let block = fft(Array(Left[i ..< i + s]))
                         
                         for var bar: Int = 0; bar < barCount; ++bar {
-                            //let a = Int(512 / Double(barCount) * Double(bar))
-                            //let b = Int(512.0 / Double(barCount) * Double(bar + 1))
                             var x = sum(Array(block[Int(a1) - 1 ..< Int(a1 * q)]))
                             x -= block[Int(a1) - 1] * Double(a1 - floor(a1))
                             x += block[Int(a1 * q)] * Double(a1 * q - floor(a1 * q))
-                            //spectrumBars[bar].yScale = CGFloat(x) / 15000.0 * height
-                            //spectrumBars[bar].removeAllActions()
+                            x *= (1.0 + Double(barCount - bar) / Double(barCount) * 3.0)
                             if visualizationType == visualization.SpectrumNormal {
-                            spectrumBars[bar].runAction(SKAction.scaleYTo(CGFloat(x) / log(CGFloat(barCount)) * 2 / 20000.0 * height, duration: 0.05))
+                            spectrumBars[bar].runAction(SKAction.scaleYTo(CGFloat(x) / log(CGFloat(barCount)) * 2 / 30000.0 * height, duration: 0.05))
                             } else {
-                                //spectrumBars[bar].runAction(SKAction.scaleYTo((CGFloat(x) / log(CGFloat(barCount)) * 2 / 20000.0 * height + 70.0 * ratio), duration: 0.05))
-                                x *= (1.0 + Double(barCount - bar) / Double(barCount) * 3.0)
-                                spectrumBars[bar].runAction(SKAction.scaleTo((CGFloat(x) / log(CGFloat(barCount)) * 2 / 30000.0 * height + 60 * ratio), duration: 0.05))
+                                spectrumBars[bar].runAction(SKAction.scaleTo((CGFloat(x) / log(CGFloat(barCount)) * 2 / 35000.0 * height + 60 * ratio), duration: 0.05))
                             }
                             a1 *= q
                             spectrumBars[bar].fillColor = brightColorWithHue((CGFloat(bar) / CGFloat(barCount) + spectrumColorOffset) - CGFloat(Int(CGFloat(bar) / CGFloat(barCount) + spectrumColorOffset)))
