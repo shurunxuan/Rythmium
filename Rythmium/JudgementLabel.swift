@@ -34,13 +34,13 @@ class JudgementLabel : SKNode {
         
         var label: SKSpriteNode
 
-        if TimeDifference < 0.08 { label = SKSpriteNode(imageNamed: "PERFECT"); judge = 4; score = 1000 }
+        if TimeDifference < 0.06 { label = SKSpriteNode(imageNamed: "PERFECT"); judge = 4; score = 1000 }
 
-        else if TimeDifference < 0.16 { label = SKSpriteNode(imageNamed: "COOL"); judge = 3; score = 800 }
+        else if TimeDifference < 0.12 { label = SKSpriteNode(imageNamed: "COOL"); judge = 3; score = 800 }
 
-        else if TimeDifference < 0.24 { label = SKSpriteNode(imageNamed: "FINE"); judge = 2; score = 400 }
+        else if TimeDifference < 0.16 { label = SKSpriteNode(imageNamed: "FINE"); judge = 2; score = 400 }
 
-        else if TimeDifference < 0.30 { label = SKSpriteNode(imageNamed: "BAD"); judge = 1; score = 0 }
+        else if TimeDifference < 0.20 { label = SKSpriteNode(imageNamed: "BAD"); judge = 1; score = 0 }
 
         else { label = SKSpriteNode(imageNamed: "MISS"); judge = 0; score = -100 }
         label.setScale(0.3 * ratio)

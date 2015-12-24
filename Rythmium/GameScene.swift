@@ -115,6 +115,8 @@ class GameScene: SKScene {
     
     var centerMask = SKCropNode()
     
+    var Fft = 0
+    
     override func didMoveToView(view: SKView) {
         Stage = GameStage.Game
         
@@ -668,7 +670,7 @@ class GameScene: SKScene {
                     if colorfulTheme { spectrumColorOffset += 0.01 }
                     
                     // visualization
-                    if visualizationType == visualization.SpectrumNormal || visualizationType == visualization.SpectrumCircle {
+                    if visualizationType == visualization.SpectrumNormal || visualizationType == visualization.SpectrumCircle && Fft == 0 {
                         let q: CGFloat = pow(2.0, 1.0 / (CGFloat(barCount) / 8.0))
                         var a1: CGFloat = 1
                         let s = Int(a1 / (q - 1) * (pow(q, CGFloat(barCount)) - 1)) * 2
@@ -691,6 +693,8 @@ class GameScene: SKScene {
                             centerMaskCircle.setScale((CGFloat(sum(block)) / 10000.0 + 60.0 * ratio) / (60.0 * ratio))
                         }
                     }
+                    
+                    Fft = (Fft + 1) % 3
                     
                     // lyrics
                     if hasLRC {
