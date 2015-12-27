@@ -20,6 +20,8 @@ class ChooseScene: SKScene {
         Background = backgroundDark.copy() as! SKSpriteNode
         addChild(Background)
         exporter.ChooseSong()
+        
+        restarted = false
     }
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         for touch in touches {

@@ -66,6 +66,8 @@ var colorfulTheme: Bool = true
 
 let Particle = SKEmitterNode(fileNamed: "Particle.sks")!
 
+var restarted: Bool = false
+
 
 class GameViewController: UIViewController {
     

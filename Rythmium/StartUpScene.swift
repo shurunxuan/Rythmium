@@ -56,6 +56,8 @@ class StartUpScene: SKScene {
         self.addChild(settingButton)
         self.addChild(startGameButton)
         self.addChild(aboutButton)
+        
+        restarted = false
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {

@@ -248,9 +248,11 @@ class ResultScene: SKScene {
                 case "restartButton" :
                     exporter.player().seekToTime(CMTimeMakeWithSeconds(0, 1))
                     exporter.player().pause()
-                    Scene = GameScene(size : CGSizeMake(width, height))
+                    restarted = true
+                    Scene = ConfirmScene(size : CGSizeMake(width, height))
                     View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
                 case "newGameButton" :
+                    restarted = false
                     Scene = ChooseScene(size : CGSizeMake(width, height))
                     View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
                 default:

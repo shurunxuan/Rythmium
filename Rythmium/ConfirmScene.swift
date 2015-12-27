@@ -302,7 +302,7 @@ class ConfirmScene: SKScene {
                         }
                         settings["Difficulty"] = "easy"
                     }
-                case  "normalLabel":
+                case "normalLabel":
                     if difficultyType != difficulty.normal {
                         for indicator in difficultyIndicator {
                             indicator.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))
@@ -329,7 +329,7 @@ class ConfirmScene: SKScene {
                         }
                         settings["Difficulty"] = "normal"
                     }
-                case  "hardLabel":
+                case "hardLabel":
                     if difficultyType != difficulty.hard {
                         for indicator in difficultyIndicator {
                             indicator.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))
@@ -356,7 +356,7 @@ class ConfirmScene: SKScene {
                         }
                         settings["Difficulty"] = "hard"
                     }
-                case  "insaneLabel":
+                case "insaneLabel":
                     if difficultyType != difficulty.insane {
                         for indicator in difficultyIndicator {
                             indicator.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))

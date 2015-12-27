@@ -64,31 +64,34 @@ class AnalyzeScene: SKScene {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), {
             
             if self.needFFT || visualizationType != visualization.None {
-                exporter.Export()
-                Left.removeAll()
-                self.CafFile.OpenFile("export-pcm.caf")
-                self.CafFile.Peek(4088)
-                let fileLength1 = 256 * 256 * 256 * self.CafFile.ReadBinary(1) + 256 * 256 * self.CafFile.ReadBinary(1)
-                let fileLength2 = 256 * self.CafFile.ReadBinary(1) + self.CafFile.ReadBinary(1) + 4092
-                let fileLength = fileLength1 + fileLength2
-                self.CafFile.Peek(4096)
-                
-                Left.reserveCapacity(fileLength / 4)
-                while self.CafFile.OFFSET() != fileLength {
-                    let d : Int16 = self.CafFile.ReadBinary()
-                    self.CafFile.Peek(self.CafFile.OFFSET() + 2)
-                    Left.append(d)
-                }
-                
-                if self.needFFT {
-                    self.FFT(String(exporter.songID())+".mss", fileLength: fileLength)
+                if !restarted {
+                    exporter.Export()
+                    Left.removeAll()
+                    self.CafFile.OpenFile("export-pcm.caf")
+                    self.CafFile.Peek(4088)
+                    let fileLength1 = 256 * 256 * 256 * self.CafFile.ReadBinary(1) + 256 * 256 * self.CafFile.ReadBinary(1)
+                    let fileLength2 = 256 * self.CafFile.ReadBinary(1) + self.CafFile.ReadBinary(1) + 4092
+                    let fileLength = fileLength1 + fileLength2
+                    self.CafFile.Peek(4096)
+                    
+                    Left.reserveCapacity(fileLength / 4)
+                    while self.CafFile.OFFSET() != fileLength {
+                        let d : Int16 = self.CafFile.ReadBinary()
+                        self.CafFile.Peek(self.CafFile.OFFSET() + 2)
+                        Left.append(d)
+                    }
+                    
+                    
+                    if self.needFFT {
+                        self.FFT(String(exporter.songID())+".mss", fileLength: fileLength)
+                    }
                 }
             }
-
+            
             dispatch_async(dispatch_get_main_queue(), {
                 Scene = GameScene(size : CGSizeMake(width, height))
                 View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
-            })  
+            })
         })
     }
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -129,7 +132,7 @@ class AnalyzeScene: SKScene {
         
         for touch in touches {
             let location = touch.locationInNode(self)
-
+            
             let particle = Particle.copy() as! SKEmitterNode
             particle.name = "particle" + String(touch.hash)
             particle.position = location
