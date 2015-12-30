@@ -425,6 +425,16 @@ class GameScene: SKScene {
                     GameScene.pauseInit = true
                     pauseBackground.removeAllChildren()
                     pauseBackground.removeFromParent()
+                    for var i = 0; i < 4; ++i {
+                        for note in DisplayingNoteList[i] {
+                            note.removeFromParent()
+                        }
+                        NotePointer[i][0] = NotePointer[i][1]
+                        DisplayingNoteList[i].removeAll()
+                    }
+                    exporter.play()
+                    self.gameNode.unsetStayPaused()
+                    self.gameNode.paused = false
                     self.addChild(countDownLabel)
                 case "Restart" :
                     exporter.player().seekToTime(CMTimeMakeWithSeconds(0, 1))
@@ -510,6 +520,10 @@ class GameScene: SKScene {
     }
     
     override func update(currentTime: CFTimeInterval) {
+        print(CurrentTime)
+        for var i = 0; i < 4; ++i {
+            print(NotePointer[i][0], "\t", NotePointer[i][1])
+        }
         /* Called before each frame is rendered */
         if Init { startTime = Double(currentTime) + 3.9; Init = false }
         if !playing {
@@ -569,7 +583,8 @@ class GameScene: SKScene {
             
             if GameScene.pause {
                 if GameScene.pauseInit {
-                    
+                    startTime = exporter.player().currentTime().seconds
+                    exporter.player().seekToTime(CMTime(seconds: exporter.player().currentTime().seconds - 3.0, preferredTimescale: 1))
                     exporter.player().pause()
                     
                     self.gameNode.paused = true
@@ -633,6 +648,7 @@ class GameScene: SKScene {
                         showLrcLabel.name = "showLrcLabel"
                         showLrcLabel.zPosition = 300
                         pauseBackground.addChild(showLrcLabel)
+                        LRCLabel.text = ""
                     }
                     pauseBackground.zPosition = 1001
                     
@@ -642,157 +658,154 @@ class GameScene: SKScene {
                     self.addChild(pauseBackground)
                     GameScene.pauseInit = false
                 }
-                startTime = Double(currentTime) + 4
+                
             } else {
+                CurrentTime = CMTimeGetSeconds(exporter.player().currentTime())
                 if GameScene.pauseInit {
-                    CurrentTime = Double(currentTime) - startTime
-                    if Int(CurrentTime) < 0 {
-                        countDownLabel.text = String(-Int(CurrentTime))
+                    //CurrentTime = Double(currentTime) - startTime
+                    if Int(CurrentTime - startTime) < 0 {
+                        countDownLabel.text = String(-Int(CurrentTime - startTime))
                     }
-                    if Int(CurrentTime) == 0 {
+                    if Int(CurrentTime - startTime) == 0 {
                         countDownLabel.text = "START!"
                     }
-                    if CurrentTime > 0 {
-                        exporter.play()
+                    if CurrentTime > startTime {
+                        
                         countDownLabel.removeFromParent()
                         pauseButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.5))
-                        self.gameNode.unsetStayPaused()
-                        self.gameNode.paused = false
                         GameScene.pauseInit = false
                     }
                     
                     
-                } else {
-                    CurrentTime = CMTimeGetSeconds(exporter.player().currentTime())
-                    var i = Int(CurrentTime * 44100.0)
-                    if i < 0 { i = 0 }
+                }
+                var i = Int(CurrentTime * 44100.0)
+                if i < 0 { i = 0 }
+                
+                if colorfulTheme { spectrumColorOffset += 0.01 }
+                
+                // visualization
+                if visualizationType == visualization.SpectrumNormal || visualizationType == visualization.SpectrumCircle && Fft == 0 {
+                    let q: CGFloat = pow(2.0, 1.0 / (CGFloat(barCount) / 8.0))
+                    var a1: CGFloat = 1
+                    let s = Int(a1 / (q - 1) * (pow(q, CGFloat(barCount)) - 1)) * 2
+                    let block = fft(Array(Left[i ..< i + s]))
                     
-                    if colorfulTheme { spectrumColorOffset += 0.01 }
-                    
-                    // visualization
-                    if visualizationType == visualization.SpectrumNormal || visualizationType == visualization.SpectrumCircle && Fft == 0 {
-                        let q: CGFloat = pow(2.0, 1.0 / (CGFloat(barCount) / 8.0))
-                        var a1: CGFloat = 1
-                        let s = Int(a1 / (q - 1) * (pow(q, CGFloat(barCount)) - 1)) * 2
-                        let block = fft(Array(Left[i ..< i + s]))
-                        
-                        for var bar: Int = 0; bar < barCount; ++bar {
-                            var x = sum(Array(block[Int(a1) - 1 ..< Int(a1 * q)]))
-                            x -= block[Int(a1) - 1] * Double(a1 - floor(a1))
-                            x += block[Int(a1 * q)] * Double(a1 * q - floor(a1 * q))
-                            x *= (1.0 + Double(barCount - bar) / Double(barCount) * 3.0)
-                            if visualizationType == visualization.SpectrumNormal {
-                            spectrumBars[bar].runAction(SKAction.scaleYTo(CGFloat(x) / log(CGFloat(barCount)) * 2 / 30000.0 * height, duration: 0.05))
-                            } else {
-                                spectrumBars[bar].runAction(SKAction.scaleTo((CGFloat(x) / log(CGFloat(barCount)) * 2 / 35000.0 * height + 60 * ratio), duration: 0.05))
-                            }
-                            a1 *= q
-                            spectrumBars[bar].fillColor = brightColorWithHue((CGFloat(bar) / CGFloat(barCount) + spectrumColorOffset) - CGFloat(Int(CGFloat(bar) / CGFloat(barCount) + spectrumColorOffset)))
-                        }
+                    for var bar: Int = 0; bar < barCount; ++bar {
+                        var x = sum(Array(block[Int(a1) - 1 ..< Int(a1 * q)]))
+                        x -= block[Int(a1) - 1] * Double(a1 - floor(a1))
+                        x += block[Int(a1 * q)] * Double(a1 * q - floor(a1 * q))
+                        x *= (1.0 + Double(barCount - bar) / Double(barCount) * 3.0)
                         if visualizationType == visualization.SpectrumNormal {
-                            centerMaskCircle.setScale((CGFloat(sum(block)) / 10000.0 + 60.0 * ratio) / (60.0 * ratio))
+                            spectrumBars[bar].runAction(SKAction.scaleYTo(CGFloat(x) / log(CGFloat(barCount)) * 2 / 30000.0 * height, duration: 0.05))
+                        } else {
+                            spectrumBars[bar].runAction(SKAction.scaleTo((CGFloat(x) / log(CGFloat(barCount)) * 2 / 35000.0 * height + 60 * ratio), duration: 0.05))
+                        }
+                        a1 *= q
+                        spectrumBars[bar].fillColor = brightColorWithHue((CGFloat(bar) / CGFloat(barCount) + spectrumColorOffset) - CGFloat(Int(CGFloat(bar) / CGFloat(barCount) + spectrumColorOffset)))
+                    }
+                    if visualizationType == visualization.SpectrumNormal {
+                        centerMaskCircle.setScale((CGFloat(sum(block)) / 10000.0 + 60.0 * ratio) / (60.0 * ratio))
+                    }
+                }
+                
+                Fft = (Fft + 1) % 3
+                
+                // lyrics
+                if hasLRC {
+                    if CurrentTime > LrcTimeList[LRCPointer] {
+                        //print(LrcList[Double(LrcTimeList[LRCPointer])])
+                        LRCLabel.text = LrcList[Double(LrcTimeList[LRCPointer])]!
+                        //LRCLabel.position = CGPointMake(LRCLabel.frame.width / 2 + 10 * ratio, 10 * ratio)
+                        if LRCLabel.frame.width < width - 20 * ratio {
+                            LRCLabel.position = CGPointMake(width / 2, 10 * ratio)
+                        } else {
+                            var timeToNextLrc: Double = 0
+                            if LRCPointer + 1 == LrcTimeList.count { timeToNextLrc = 3 }
+                            else { timeToNextLrc = LrcTimeList[LRCPointer + 1] - LrcTimeList[LRCPointer] }
+                            let stillDuration = timeToNextLrc * 0.5
+                            let moveDuration = timeToNextLrc * 0.3
+                            LRCLabel.position = CGPointMake(10 * ratio + LRCLabel.frame.width / 2, 10 * ratio)
+                            let moveAction = SKAction.moveToX(width - 10 * ratio - LRCLabel.frame.width / 2, duration: moveDuration)
+                            moveAction.timingMode = SKActionTimingMode.EaseInEaseOut
+                            LRCLabel.runAction(SKAction.sequence([SKAction.waitForDuration(stillDuration), moveAction]))
+                        }
+                        ++LRCPointer
+                        if LRCPointer == LrcTimeList.count {
+                            LRCLabel.text = ""
+                            hasLRC = false
                         }
                     }
-                    
-                    Fft = (Fft + 1) % 3
-                    
-                    // lyrics
-                    if hasLRC {
-                        if CurrentTime > LrcTimeList[LRCPointer] {
-                            //print(LrcList[Double(LrcTimeList[LRCPointer])])
-                            LRCLabel.text = LrcList[Double(LrcTimeList[LRCPointer])]!
-                            //LRCLabel.position = CGPointMake(LRCLabel.frame.width / 2 + 10 * ratio, 10 * ratio)
-                            if LRCLabel.frame.width < width - 20 * ratio {
-                                LRCLabel.position = CGPointMake(width / 2, 10 * ratio)
-                            } else {
-                                var timeToNextLrc: Double = 0
-                                if LRCPointer + 1 == LrcTimeList.count { timeToNextLrc = 3 }
-                                else { timeToNextLrc = LrcTimeList[LRCPointer + 1] - LrcTimeList[LRCPointer] }
-                                let stillDuration = timeToNextLrc * 0.5
-                                let moveDuration = timeToNextLrc * 0.3
-                                LRCLabel.position = CGPointMake(10 * ratio + LRCLabel.frame.width / 2, 10 * ratio)
-                                let moveAction = SKAction.moveToX(width - 10 * ratio - LRCLabel.frame.width / 2, duration: moveDuration)
-                                moveAction.timingMode = SKActionTimingMode.EaseInEaseOut
-                                LRCLabel.runAction(SKAction.sequence([SKAction.waitForDuration(stillDuration), moveAction]))
-                            }
-                            ++LRCPointer
-                            if LRCPointer == LrcTimeList.count {
-                                LRCLabel.text = ""
-                                hasLRC = false
-                            }
+                }
+                
+                // note appear
+                for var pos: Int = 0; pos < 4; pos++ {
+                    if !AppearStop[pos] && CurrentTime + AppearDelay > timeList[pos][NotePointer[pos][0]] {
+                        DisplayingNoteList[pos].append(Note(
+                            time: timeList[pos][NotePointer[pos][0]],
+                            center: CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)),
+                            radius: 60 * ratio))
+                        
+                        gameNode.addChild(DisplayingNoteList[pos].last!)
+                        DisplayingNoteList[pos].last!.runAction(appearAction[pos])
+                        NotePointer[pos][0]++
+                        if NotePointer[pos][0] >= timeList[pos].count {
+                            NotePointer[pos][0]--
+                            AppearStop[pos] = true
                         }
                     }
-                    
-                    // note appear
-                    for var pos: Int = 0; pos < 4; pos++ {
-                        if !AppearStop[pos] && CurrentTime + AppearDelay > timeList[pos][NotePointer[pos][0]] {
-                            DisplayingNoteList[pos].append(Note(
-                                time: timeList[pos][NotePointer[pos][0]],
-                                center: CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)),
-                                radius: 60 * ratio))
+                }
+                
+                // note not hit, disappear
+                for var pos: Int = 0; pos < 4; pos++ {
+                    if NotePointer[pos][1] < timeList[pos].count {
+                        if CurrentTime - 0.3 > timeList[pos][NotePointer[pos][1]] {
+                            // miss judge
+                            let judge = Judgement(CurrentTime, NoteTime: DisplayingNoteList[pos][0].Time)
+                            let displayingNote = DisplayingNoteList[pos].removeAtIndex(0)
+                            staticNodes[pos].removeAllActions()
+                            staticNodes[pos].alpha = 0.4
+                            switch judge {
+                            case 4 :
+                                staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 250.0 / 255.0, green: 191.0 / 255.0, blue: 87.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                            case 3 :
+                                staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 202.0 / 255.0, green: 202.0 / 255.0, blue: 202.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                            case 2 :
+                                staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 166.0 / 255.0, green: 221.0 / 255.0, blue: 116.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                            case 1 :
+                                staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 144.0 / 255.0, green: 173.0 / 255.0, blue: 223.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                            case 0 :
+                                staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 255.0 / 255.0, green: 128.0 / 255.0, blue: 130.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                            default :
+                                break
+                            }
                             
-                            gameNode.addChild(DisplayingNoteList[pos].last!)
-                            DisplayingNoteList[pos].last!.runAction(appearAction[pos])
-                            NotePointer[pos][0]++
-                            if NotePointer[pos][0] >= timeList[pos].count {
-                                NotePointer[pos][0]--
-                                AppearStop[pos] = true
-                            }
+                            let colorizeAction1 = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
+                            colorizeAction1.timingMode = SKActionTimingMode.EaseIn
+                            let colorizeAction2 = SKAction.fadeAlphaTo(0.05, duration: 0.5)
+                            colorizeAction2.timingMode = SKActionTimingMode.EaseIn
+                            staticNodes[pos].runAction(SKAction.group([colorizeAction1, colorizeAction2]))
+                            displayingNote.runAction(disappearSequenceNotHit)
+                            NotePointer[pos][1]++
                         }
                     }
-                    
-                    // note not hit, disappear
-                    for var pos: Int = 0; pos < 4; pos++ {
-                        if NotePointer[pos][1] < timeList[pos].count {
-                            if CurrentTime - 0.3 > timeList[pos][NotePointer[pos][1]] {
-                                // miss judge
-                                let judge = Judgement(CurrentTime, NoteTime: DisplayingNoteList[pos][0].Time)
-                                let displayingNote = DisplayingNoteList[pos].removeAtIndex(0)
-                                staticNodes[pos].removeAllActions()
-                                staticNodes[pos].alpha = 0.4
-                                switch judge {
-                                case 4 :
-                                    staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 250.0 / 255.0, green: 191.0 / 255.0, blue: 87.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
-                                case 3 :
-                                    staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 202.0 / 255.0, green: 202.0 / 255.0, blue: 202.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
-                                case 2 :
-                                    staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 166.0 / 255.0, green: 221.0 / 255.0, blue: 116.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
-                                case 1 :
-                                    staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 144.0 / 255.0, green: 173.0 / 255.0, blue: 223.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
-                                case 0 :
-                                    staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 255.0 / 255.0, green: 128.0 / 255.0, blue: 130.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
-                                default :
-                                    break
-                                }
-                                
-                                let colorizeAction1 = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
-                                colorizeAction1.timingMode = SKActionTimingMode.EaseIn
-                                let colorizeAction2 = SKAction.fadeAlphaTo(0.05, duration: 0.5)
-                                colorizeAction2.timingMode = SKActionTimingMode.EaseIn
-                                staticNodes[pos].runAction(SKAction.group([colorizeAction1, colorizeAction2]))
-                                displayingNote.runAction(disappearSequenceNotHit)
-                                NotePointer[pos][1]++
-                            }
-                        }
-                    }
-                    
-                    // debug only
-                    //if CurrentTime > 1 {
-                    //    for var differentJudge: Int = 0; differentJudge < 5; differentJudge++ {
-                    //        differentJudges[differentJudge] = differentJudge + 1000
-                    //    }
-                    //    Scene = ResultScene(size : CGSizeMake(width, height))
-                    //    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
-                    //}
-                    
-                    // end of game
-                    if NotePointer[0][1] >= timeList[0].count && NotePointer[1][1] >= timeList[1].count && NotePointer[2][1] >= timeList[2].count && NotePointer[3][1] >= timeList[3].count {
-                        if endTime < 0 { endTime = CurrentTime }
-                        if CurrentTime - endTime > 1 {
-                            totalScore -= 4500
-                            Scene = ResultScene(size : CGSizeMake(width, height))
-                            View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
-                        }
+                }
+                
+                // debug only
+                //if CurrentTime > 1 {
+                //    for var differentJudge: Int = 0; differentJudge < 5; differentJudge++ {
+                //        differentJudges[differentJudge] = differentJudge + 1000
+                //    }
+                //    Scene = ResultScene(size : CGSizeMake(width, height))
+                //    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                //}
+                
+                // end of game
+                if NotePointer[0][1] >= timeList[0].count && NotePointer[1][1] >= timeList[1].count && NotePointer[2][1] >= timeList[2].count && NotePointer[3][1] >= timeList[3].count {
+                    if endTime < 0 { endTime = CurrentTime }
+                    if CurrentTime - endTime > 1 {
+                        totalScore -= 4500
+                        Scene = ResultScene(size : CGSizeMake(width, height))
+                        View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
                     }
                 }
             }
