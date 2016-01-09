@@ -131,7 +131,6 @@ BOOL coreAudioCanOpenURL (NSURL* url) {
         return;
     }
     song = [[mediaItemCollection items] objectAtIndex:0];
-    NSLog(@"opened file %@", song);
 
     
     title = [song valueForProperty:MPMediaItemPropertyTitle];
@@ -185,7 +184,6 @@ BOOL coreAudioCanOpenURL (NSURL* url) {
     // set up output file
     NSString *outputPath = [myDocumentsDirectory() stringByAppendingPathComponent:@"export-pcm.caf"];
     NSURL *outputURL = [NSURL fileURLWithPath:outputPath];
-    NSLog (@"creating output file %@", outputURL);
     AudioFileID outputFile;
     CheckResult(AudioFileCreateWithURL((__bridge CFURLRef)outputURL,
                                        kAudioFileCAFType,
@@ -226,8 +224,6 @@ BOOL coreAudioCanOpenURL (NSURL* url) {
                                            &frameCount,
                                            convertedData.mBuffers[0].mData),
                      "Couldn't write packets to file");
-        
-        NSLog (@"Converted %u bytes", (unsigned int)outputFilePacketPosition);
         
         // advance the output file write location
         outputFilePacketPosition += (frameCount * myPCMFormat.mBytesPerPacket);

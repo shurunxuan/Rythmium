@@ -294,7 +294,6 @@ class GameScene: SKScene {
                 if !MSSList[i].isEmpty {
                     let str = MSSList[i]
                     let list = str.componentsSeparatedByString("\t")
-                    print(list)
                     timeList[Int(list[1])!].append(Double(list[0])!)
                 }
             }
@@ -520,10 +519,6 @@ class GameScene: SKScene {
     }
     
     override func update(currentTime: CFTimeInterval) {
-        print(CurrentTime)
-        for var i = 0; i < 4; ++i {
-            print(NotePointer[i][0], "\t", NotePointer[i][1])
-        }
         /* Called before each frame is rendered */
         if Init { startTime = Double(currentTime) + 3.9; Init = false }
         if !playing {

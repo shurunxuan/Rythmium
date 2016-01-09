@@ -55,7 +55,7 @@ class StartUpScene: SKScene {
         self.addChild(titleLabel)
         self.addChild(settingButton)
         self.addChild(startGameButton)
-        self.addChild(aboutButton)
+        //self.addChild(aboutButton)
         
         restarted = false
     }
