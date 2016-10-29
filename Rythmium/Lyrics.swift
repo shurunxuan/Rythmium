@@ -25,22 +25,22 @@ extension String
 {
     subscript(integerIndex: Int) -> Character
         {
-            let index = startIndex.advancedBy(integerIndex)
+            let index = characters.index(startIndex, offsetBy: integerIndex)
             return self[index]
     }
     
-    subscript(integerRange: Range<Int>) -> String
-        {
-            let start = startIndex.advancedBy(integerRange.startIndex)
-            let end = startIndex.advancedBy(integerRange.endIndex)
-            let range = start..<end
-            return self[range]
+    subscript (r: CountableClosedRange<Int>) -> String {
+        get {
+            let startIndex =  self.index(self.startIndex, offsetBy: r.lowerBound)
+            let endIndex = self.index(startIndex, offsetBy: r.upperBound - r.lowerBound)
+            return self[startIndex...endIndex]
+        }
     }
 }
 
-func isLrc(lrc: String?) -> Bool {
+func isLrc(_ lrc: String?) -> Bool {
     if lrc == nil { return false }
-    let strList = lrc!.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
+    let strList = lrc!.components(separatedBy: CharacterSet.newlines)
     for str in strList where !str.isEmpty {
         if !str.hasPrefix("[") {
             return false
@@ -49,14 +49,14 @@ func isLrc(lrc: String?) -> Bool {
     return true
 }
 
-func buildLrcList(lrc: String?) -> Bool {
+func buildLrcList(_ lrc: String?) -> Bool {
     
     LrcList = [:]
     LrcTimeList = []
     
     if !isLrc(lrc) { return false }
     
-    let strList = lrc!.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet())
+    let strList = lrc!.components(separatedBy: CharacterSet.newlines)
     
     var offset: Double = 0.0
     
@@ -71,7 +71,7 @@ func buildLrcList(lrc: String?) -> Bool {
     
     for line in strList where !line.isEmpty {
         if line[1].toInt() >= 48 && line[1].toInt() <= 57 {
-            let list = line.componentsSeparatedByString("]")
+            let list = line.components(separatedBy: "]")
             let lyric = list.last
             for timeStamp in list where timeStamp.hasPrefix("[") {
                 let minute = Double(timeStamp[1...2])
@@ -84,6 +84,6 @@ func buildLrcList(lrc: String?) -> Bool {
             }
         }
     }
-    LrcTimeList.sortInPlace()
+    LrcTimeList.sort()
     return true
 }

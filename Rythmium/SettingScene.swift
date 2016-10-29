@@ -33,112 +33,112 @@ class SettingScene: SKScene {
     var heightOffset: CGFloat = 0
     
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         
-        Stage = GameStage.Setting
+        Stage = GameStage.setting
         
         backButton.fontName = "SFUIDisplay-Ultralight"
         backButton.name = "backButton"
         backButton.fontSize = 32 * ratio
-        backButton.position = CGPointMake(width / 8, height / 8 - backButton.frame.height / 2)
+        backButton.position = CGPoint(x: width / 8, y: height / 8 - backButton.frame.height / 2)
         
         heightOffset = (backButton.position.y + backButton.frame.height) / 2.0
         
         visualizationLabel.fontName = "SFUIDisplay-Ultralight"
         visualizationLabel.name = "visualizationLabel"
         visualizationLabel.fontSize = 32 * ratio
-        visualizationLabel.position = CGPointMake(width / 4, height / 2 + heightOffset + 40 * ratio)
+        visualizationLabel.position = CGPoint(x: width / 4, y: height / 2 + heightOffset + 40 * ratio)
         
         visualizationSpectrumLabel.fontName = "SFUIDisplay-Ultralight"
         visualizationSpectrumLabel.name = "visualizationLabel"
         visualizationSpectrumLabel.fontSize = 32 * ratio
-        visualizationSpectrumLabel.position = CGPointMake(width / 4, height / 2 + heightOffset - visualizationSpectrumLabel.frame.height + 10 * ratio)
+        visualizationSpectrumLabel.position = CGPoint(x: width / 4, y: height / 2 + heightOffset - visualizationSpectrumLabel.frame.height + 10 * ratio)
         
         visualizationSpectrumButton.fontName = "SFUIDisplay-Ultralight"
         visualizationSpectrumButton.name = "visualizationSpectrumButton"
         visualizationSpectrumButton.fontSize = 32 * ratio
-        visualizationSpectrumButton.position = CGPointMake(width / 3 * 2, height / 2 + heightOffset + 40 * ratio)
+        visualizationSpectrumButton.position = CGPoint(x: width / 3 * 2, y: height / 2 + heightOffset + 40 * ratio)
         
         visualizationSpectrumNormalButton.fontName = "SFUIDisplay-Ultralight"
         visualizationSpectrumNormalButton.name = "visualizationSpectrumNormalButton"
         visualizationSpectrumNormalButton.fontSize = 32 * ratio
-        visualizationSpectrumNormalButton.position = CGPointMake(width / 3 * 2, height / 2 + heightOffset - visualizationSpectrumLabel.frame.height + 10 * ratio)
+        visualizationSpectrumNormalButton.position = CGPoint(x: width / 3 * 2, y: height / 2 + heightOffset - visualizationSpectrumLabel.frame.height + 10 * ratio)
         
         visualizationSpectrumCircleButton.fontName = "SFUIDisplay-Ultralight"
         visualizationSpectrumCircleButton.name = "visualizationSpectrumCircleButton"
         visualizationSpectrumCircleButton.fontSize = 32 * ratio
-        visualizationSpectrumCircleButton.position = CGPointMake(width / 8 * 7, height / 2 + heightOffset - visualizationSpectrumLabel.frame.height + 10 * ratio)
+        visualizationSpectrumCircleButton.position = CGPoint(x: width / 8 * 7, y: height / 2 + heightOffset - visualizationSpectrumLabel.frame.height + 10 * ratio)
         
         visualizationNoneButton.fontName = "SFUIDisplay-Ultralight"
         visualizationNoneButton.name = "visualizationNoneButton"
         visualizationNoneButton.fontSize = 32 * ratio
-        visualizationNoneButton.position = CGPointMake(width / 8 * 7, height / 2 + heightOffset + 40 * ratio)
+        visualizationNoneButton.position = CGPoint(x: width / 8 * 7, y: height / 2 + heightOffset + 40 * ratio)
         
         colorfulThemeLabel.fontName = "SFUIDisplay-Ultralight"
         colorfulThemeLabel.name = "colorfulThemeLabel"
         colorfulThemeLabel.fontSize = 32 * ratio
-        colorfulThemeLabel.position = CGPointMake(width / 4, height / 2 + heightOffset - colorfulThemeLabel.frame.height - 60 * ratio)
+        colorfulThemeLabel.position = CGPoint(x: width / 4, y: height / 2 + heightOffset - colorfulThemeLabel.frame.height - 60 * ratio)
         
         colorfulThemeOnButton.fontName = "SFUIDisplay-Ultralight"
         colorfulThemeOnButton.name = "colorfulThemeOnButton"
         colorfulThemeOnButton.fontSize = 32 * ratio
-        colorfulThemeOnButton.position = CGPointMake(width / 3 * 2, height / 2 + heightOffset - colorfulThemeOnButton.frame.height - 60 * ratio)
+        colorfulThemeOnButton.position = CGPoint(x: width / 3 * 2, y: height / 2 + heightOffset - colorfulThemeOnButton.frame.height - 60 * ratio)
         
         colorfulThemeOffButton.fontName = "SFUIDisplay-Ultralight"
         colorfulThemeOffButton.name = "colorfulThemeOffButton"
         colorfulThemeOffButton.fontSize = 32 * ratio
-        colorfulThemeOffButton.position = CGPointMake(width / 8 * 7, height / 2 + heightOffset - colorfulThemeOnButton.frame.height - 60 * ratio)
+        colorfulThemeOffButton.position = CGPoint(x: width / 8 * 7, y: height / 2 + heightOffset - colorfulThemeOnButton.frame.height - 60 * ratio)
         
-        let SpectrumIndicatorRect = CGRectMake(visualizationSpectrumButton.position.x - visualizationSpectrumButton.frame.width / 2 - 5 * ratio, visualizationSpectrumButton.position.y - visualizationSpectrumButton.frame.height / 2 + 5 * ratio, visualizationSpectrumButton.frame.width + 10 * ratio, visualizationSpectrumButton.frame.height + 10 * ratio)
-        let NoneIndicatorRect = CGRectMake(visualizationNoneButton.position.x - visualizationNoneButton.frame.width / 2 - 5 * ratio, visualizationNoneButton.position.y - visualizationNoneButton.frame.height / 2 + 5 * ratio, visualizationNoneButton.frame.width + 10 * ratio, visualizationSpectrumButton.frame.height + 10 * ratio)
+        let SpectrumIndicatorRect = CGRect(x: visualizationSpectrumButton.position.x - visualizationSpectrumButton.frame.width / 2 - 5 * ratio, y: visualizationSpectrumButton.position.y - visualizationSpectrumButton.frame.height / 2 + 5 * ratio, width: visualizationSpectrumButton.frame.width + 10 * ratio, height: visualizationSpectrumButton.frame.height + 10 * ratio)
+        let NoneIndicatorRect = CGRect(x: visualizationNoneButton.position.x - visualizationNoneButton.frame.width / 2 - 5 * ratio, y: visualizationNoneButton.position.y - visualizationNoneButton.frame.height / 2 + 5 * ratio, width: visualizationNoneButton.frame.width + 10 * ratio, height: visualizationSpectrumButton.frame.height + 10 * ratio)
         visualizationIndicator[0] = SKShapeNode(rect: SpectrumIndicatorRect, cornerRadius: 5)
         visualizationIndicator[1] = SKShapeNode(rect: NoneIndicatorRect, cornerRadius: 5)
         visualizationIndicator[0].name = "visualizationIndicatorSpectrum"
         visualizationIndicator[1].name = "visualizationIndicatorNone"
         for indicator in visualizationIndicator {
-            indicator.strokeColor = SKColor.clearColor()
-            indicator.fillColor = SKColor.whiteColor()
+            indicator.strokeColor = SKColor.clear
+            indicator.fillColor = SKColor.white
             indicator.alpha = 0.2
         }
         
-        let SpectrumNormalIndicatorRect = CGRectMake(visualizationSpectrumNormalButton.position.x - visualizationSpectrumNormalButton.frame.width / 2 - 5 * ratio, visualizationSpectrumNormalButton.position.y - visualizationSpectrumNormalButton.frame.height / 2 + 5 * ratio, visualizationSpectrumNormalButton.frame.width + 10 * ratio, visualizationSpectrumNormalButton.frame.height + 15 * ratio)
-        let SpectrumCircleIndicatorRect = CGRectMake(visualizationSpectrumCircleButton.position.x - visualizationSpectrumCircleButton.frame.width / 2 - 5 * ratio, visualizationSpectrumCircleButton.position.y - visualizationSpectrumCircleButton.frame.height / 2 + 5 * ratio, visualizationSpectrumCircleButton.frame.width + 10 * ratio, visualizationSpectrumNormalButton.frame.height + 15 * ratio)
+        let SpectrumNormalIndicatorRect = CGRect(x: visualizationSpectrumNormalButton.position.x - visualizationSpectrumNormalButton.frame.width / 2 - 5 * ratio, y: visualizationSpectrumNormalButton.position.y - visualizationSpectrumNormalButton.frame.height / 2 + 5 * ratio, width: visualizationSpectrumNormalButton.frame.width + 10 * ratio, height: visualizationSpectrumNormalButton.frame.height + 15 * ratio)
+        let SpectrumCircleIndicatorRect = CGRect(x: visualizationSpectrumCircleButton.position.x - visualizationSpectrumCircleButton.frame.width / 2 - 5 * ratio, y: visualizationSpectrumCircleButton.position.y - visualizationSpectrumCircleButton.frame.height / 2 + 5 * ratio, width: visualizationSpectrumCircleButton.frame.width + 10 * ratio, height: visualizationSpectrumNormalButton.frame.height + 15 * ratio)
         visualizationSpectrumIndicator[0] = SKShapeNode(rect: SpectrumNormalIndicatorRect, cornerRadius: 5)
         visualizationSpectrumIndicator[1] = SKShapeNode(rect: SpectrumCircleIndicatorRect, cornerRadius: 5)
         visualizationSpectrumIndicator[0].name = "visualizationIndicatorSpectrumNormal"
         visualizationSpectrumIndicator[1].name = "visualizationIndicatorSpectrumCircle"
         for indicator in visualizationSpectrumIndicator {
-            indicator.strokeColor = SKColor.clearColor()
-            indicator.fillColor = SKColor.whiteColor()
+            indicator.strokeColor = SKColor.clear
+            indicator.fillColor = SKColor.white
             indicator.alpha = 0.2
         }
         
-        let OnIndicatorRect = CGRectMake(colorfulThemeOnButton.position.x - colorfulThemeOnButton.frame.width / 2 - 5 * ratio, colorfulThemeOnButton.position.y - colorfulThemeOnButton.frame.height / 2 + 5 * ratio, colorfulThemeOnButton.frame.width + 10 * ratio, colorfulThemeOnButton.frame.height + 15 * ratio)
-        let NoIndicatorRect = CGRectMake(colorfulThemeOffButton.position.x - colorfulThemeOffButton.frame.width / 2 - 5 * ratio, colorfulThemeOffButton.position.y - colorfulThemeOffButton.frame.height / 2 + 5 * ratio, colorfulThemeOffButton.frame.width + 10 * ratio, colorfulThemeOffButton.frame.height + 15 * ratio)
+        let OnIndicatorRect = CGRect(x: colorfulThemeOnButton.position.x - colorfulThemeOnButton.frame.width / 2 - 5 * ratio, y: colorfulThemeOnButton.position.y - colorfulThemeOnButton.frame.height / 2 + 5 * ratio, width: colorfulThemeOnButton.frame.width + 10 * ratio, height: colorfulThemeOnButton.frame.height + 15 * ratio)
+        let NoIndicatorRect = CGRect(x: colorfulThemeOffButton.position.x - colorfulThemeOffButton.frame.width / 2 - 5 * ratio, y: colorfulThemeOffButton.position.y - colorfulThemeOffButton.frame.height / 2 + 5 * ratio, width: colorfulThemeOffButton.frame.width + 10 * ratio, height: colorfulThemeOffButton.frame.height + 15 * ratio)
         colorfulThemeIndicator[0] = SKShapeNode(rect: OnIndicatorRect, cornerRadius: 5)
         colorfulThemeIndicator[1] = SKShapeNode(rect: NoIndicatorRect, cornerRadius: 5)
         colorfulThemeIndicator[0].name = "colorfulThemeIndicatorOn"
         colorfulThemeIndicator[1].name = "colorfulThemeIndicatorOff"
         for indicator in colorfulThemeIndicator {
-            indicator.strokeColor = SKColor.clearColor()
-            indicator.fillColor = SKColor.whiteColor()
+            indicator.strokeColor = SKColor.clear
+            indicator.fillColor = SKColor.white
             indicator.alpha = 0.2
         }
         
         switch visualizationType {
-        case visualization.SpectrumNormal:
+        case visualization.spectrumNormal:
             addChild(visualizationSpectrumLabel)
             addChild(visualizationIndicator[0])
             addChild(visualizationSpectrumIndicator[0])
             addChild(visualizationSpectrumNormalButton)
             addChild(visualizationSpectrumCircleButton)
-        case visualization.SpectrumCircle:
+        case visualization.spectrumCircle:
             addChild(visualizationSpectrumLabel)
             addChild(visualizationIndicator[0])
             addChild(visualizationSpectrumIndicator[1])
             addChild(visualizationSpectrumNormalButton)
             addChild(visualizationSpectrumCircleButton)
-        case visualization.None:
+        case visualization.none:
             addChild(visualizationIndicator[1])
         }
         
@@ -159,43 +159,43 @@ class SettingScene: SKScene {
         addChild(colorfulThemeOffButton)
         
     }
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
-            let location = touch.locationInNode(self)
+            let location = touch.location(in: self)
             let particle = touch_particle[touch.hash]
             if (particle != nil) {
-                particle!.runAction(SKAction.moveTo(location, duration: 0))
+                particle!.run(SKAction.move(to: location, duration: 0))
                 particle!.particleBirthRate = 250 + 300 * touch.force
             }
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let particle = touch_particle[touch.hash]
             if (particle != nil)
             {
                 particle!.particleBirthRate = 0
                 for child in particle!.children {
-                    child.runAction(SKAction.sequence([SKAction.waitForDuration(1), SKAction.removeFromParent()]))
+                    child.run(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.removeFromParent()]))
                 }
-                particle!.runAction(SKAction.sequence([SKAction.waitForDuration(1), SKAction.removeFromParent()]))
+                particle!.run(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.removeFromParent()]))
             }
             touch_particle[touch.hash] = nil
         }
     }
     
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         if (touches != nil) {
-            touchesEnded(touches!, withEvent: nil)
+            touchesEnded(touches, with: nil)
         }
     }
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         /* Called when a touch begins */
         
         for touch in touches {
-            let location = touch.locationInNode(self)
-            let node = self.nodeAtPoint(location)
+            let location = touch.location(in: self)
+            let node = self.atPoint(location)
             
             let particle = Particle.copy() as! SKEmitterNode
             particle.name = "particle" + String(touch.hash)
@@ -208,73 +208,73 @@ class SettingScene: SKScene {
                 switch node.name!{
                 case  "backButton":
                     SaveSetting()
-                    Scene = StartUpScene(size : CGSizeMake(width, height))
-                    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                    Scene = StartUpScene(size : CGSize(width: width, height: height))
+                    View.presentScene(Scene, transition: SKTransition.crossFade(withDuration: 0.5))
                 case  "visualizationSpectrumButton":
-                    if visualizationType != visualization.SpectrumNormal && visualizationType != visualization.SpectrumCircle {
+                    if visualizationType != visualization.spectrumNormal && visualizationType != visualization.spectrumCircle {
                         for indicator in visualizationIndicator {
-                            indicator.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))
+                            indicator.run(SKAction.sequence([SKAction.fadeAlpha(to: 0, duration: 0.2), SKAction.removeFromParent()]))
                         }
                         visualizationIndicator[0].removeAllActions()
-                        visualizationIndicator[0].runAction(SKAction.fadeAlphaTo(0.2, duration: 0.2))
+                        visualizationIndicator[0].run(SKAction.fadeAlpha(to: 0.2, duration: 0.2))
                         addChild(visualizationIndicator[0])
                         visualizationSpectrumIndicator[0].removeAllActions()
-                        visualizationSpectrumIndicator[0].runAction(SKAction.fadeAlphaTo(0.2, duration: 0.2))
+                        visualizationSpectrumIndicator[0].run(SKAction.fadeAlpha(to: 0.2, duration: 0.2))
                         addChild(visualizationSpectrumIndicator[0])
-                        visualizationSpectrumLabel.runAction(SKAction.fadeAlphaTo(1, duration: 0.2))
+                        visualizationSpectrumLabel.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
                         addChild(visualizationSpectrumLabel)
-                        visualizationSpectrumNormalButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.2))
+                        visualizationSpectrumNormalButton.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
                         addChild(visualizationSpectrumNormalButton)
-                        visualizationSpectrumCircleButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.2))
+                        visualizationSpectrumCircleButton.run(SKAction.fadeAlpha(to: 1, duration: 0.2))
                         addChild(visualizationSpectrumCircleButton)
-                        visualizationType = visualization.SpectrumNormal
+                        visualizationType = visualization.spectrumNormal
                         settings["Visualization"] = "SpectrumNormal"
                     }
                 case  "visualizationSpectrumNormalButton":
-                    if visualizationType != visualization.SpectrumNormal {
+                    if visualizationType != visualization.spectrumNormal {
                         for indicator in visualizationSpectrumIndicator {
-                            indicator.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))
+                            indicator.run(SKAction.sequence([SKAction.fadeAlpha(to: 0, duration: 0.2), SKAction.removeFromParent()]))
                         }
                         visualizationSpectrumIndicator[0].removeAllActions()
-                        visualizationSpectrumIndicator[0].runAction(SKAction.fadeAlphaTo(0.2, duration: 0.2))
+                        visualizationSpectrumIndicator[0].run(SKAction.fadeAlpha(to: 0.2, duration: 0.2))
                         addChild(visualizationSpectrumIndicator[0])
-                        visualizationType = visualization.SpectrumNormal
+                        visualizationType = visualization.spectrumNormal
                         settings["Visualization"] = "SpectrumCircle"
                     }
                 case  "visualizationSpectrumCircleButton":
-                    if visualizationType != visualization.SpectrumCircle {
+                    if visualizationType != visualization.spectrumCircle {
                         for indicator in visualizationSpectrumIndicator {
-                            indicator.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))
+                            indicator.run(SKAction.sequence([SKAction.fadeAlpha(to: 0, duration: 0.2), SKAction.removeFromParent()]))
                         }
                         visualizationSpectrumIndicator[1].removeAllActions()
-                        visualizationSpectrumIndicator[1].runAction(SKAction.fadeAlphaTo(0.2, duration: 0.2))
+                        visualizationSpectrumIndicator[1].run(SKAction.fadeAlpha(to: 0.2, duration: 0.2))
                         addChild(visualizationSpectrumIndicator[1])
-                        visualizationType = visualization.SpectrumCircle
+                        visualizationType = visualization.spectrumCircle
                         settings["Visualization"] = "SpectrumCircle"
                     }
                 case  "visualizationNoneButton":
-                    if visualizationType != visualization.None {
+                    if visualizationType != visualization.none {
                         for indicator in visualizationIndicator {
-                            indicator.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))
+                            indicator.run(SKAction.sequence([SKAction.fadeAlpha(to: 0, duration: 0.2), SKAction.removeFromParent()]))
                         }
                         visualizationIndicator[1].removeAllActions()
-                        visualizationIndicator[1].runAction(SKAction.fadeAlphaTo(0.2, duration: 0.2))
+                        visualizationIndicator[1].run(SKAction.fadeAlpha(to: 0.2, duration: 0.2))
                         addChild(visualizationIndicator[1])
-                        visualizationSpectrumLabel.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))
-                        visualizationSpectrumNormalButton.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))
-                        visualizationSpectrumCircleButton.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))
-                        visualizationSpectrumIndicator[0].runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))
-                        visualizationSpectrumIndicator[1].runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))
-                        visualizationType = visualization.None
+                        visualizationSpectrumLabel.run(SKAction.sequence([SKAction.fadeAlpha(to: 0, duration: 0.2), SKAction.removeFromParent()]))
+                        visualizationSpectrumNormalButton.run(SKAction.sequence([SKAction.fadeAlpha(to: 0, duration: 0.2), SKAction.removeFromParent()]))
+                        visualizationSpectrumCircleButton.run(SKAction.sequence([SKAction.fadeAlpha(to: 0, duration: 0.2), SKAction.removeFromParent()]))
+                        visualizationSpectrumIndicator[0].run(SKAction.sequence([SKAction.fadeAlpha(to: 0, duration: 0.2), SKAction.removeFromParent()]))
+                        visualizationSpectrumIndicator[1].run(SKAction.sequence([SKAction.fadeAlpha(to: 0, duration: 0.2), SKAction.removeFromParent()]))
+                        visualizationType = visualization.none
                         settings["Visualization"] = "None"
                     }
                 case  "colorfulThemeOnButton":
                     if !colorfulTheme {
                         for indicator in colorfulThemeIndicator {
-                            indicator.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))
+                            indicator.run(SKAction.sequence([SKAction.fadeAlpha(to: 0, duration: 0.2), SKAction.removeFromParent()]))
                         }
                         colorfulThemeIndicator[0].removeAllActions()
-                        colorfulThemeIndicator[0].runAction(SKAction.fadeAlphaTo(0.2, duration: 0.2))
+                        colorfulThemeIndicator[0].run(SKAction.fadeAlpha(to: 0.2, duration: 0.2))
                         addChild(colorfulThemeIndicator[0])
                         colorfulTheme = true
                         settings["colorfulTheme"] = "On"
@@ -282,10 +282,10 @@ class SettingScene: SKScene {
                 case  "colorfulThemeOffButton":
                     if colorfulTheme {
                         for indicator in colorfulThemeIndicator {
-                            indicator.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))
+                            indicator.run(SKAction.sequence([SKAction.fadeAlpha(to: 0, duration: 0.2), SKAction.removeFromParent()]))
                         }
                         colorfulThemeIndicator[1].removeAllActions()
-                        colorfulThemeIndicator[1].runAction(SKAction.fadeAlphaTo(0.2, duration: 0.2))
+                        colorfulThemeIndicator[1].run(SKAction.fadeAlpha(to: 0.2, duration: 0.2))
                         addChild(colorfulThemeIndicator[1])
                         colorfulTheme = false
                         settings["colorfulTheme"] = "Off"
@@ -299,7 +299,7 @@ class SettingScene: SKScene {
         }
     }
     
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         /* Called before each frame is rendered */
     }
 }

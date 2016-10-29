@@ -39,9 +39,9 @@ class ConfirmScene: SKScene {
     var touch_particle: [Int : SKEmitterNode] = [:]
     
 
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         
-        Stage = GameStage.StartUp
+        Stage = GameStage.startUp
 
         titleButton.fontName = "SFUIDisplay-Thin"
         startGameButton.fontName = "SFUIDisplay-Thin"
@@ -75,12 +75,12 @@ class ConfirmScene: SKScene {
         if FileClass.isExist(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs") {
             hasBestScore = true
             let bsFile = FileClass()
-            bsFile.OpenFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
-            let string = bsFile.Read()
-            let strList = string.componentsSeparatedByString("\t")
-            bestScore = Int(strList[1])!
+            bsFile.openFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
+            let string = bsFile.read()
+            let strList = string?.components(separatedBy: "\t")
+            bestScore = Int((strList?[1])!)!
             bestScoreLabel.text = NSString(format: "BEST: %08i", bestScore) as String
-            rankLabel = SKSpriteNode(imageNamed: strList[0])
+            rankLabel = SKSpriteNode(imageNamed: (strList?[0])!)
         }
         
         //rankLabel.name = "rankLabel"
@@ -91,19 +91,19 @@ class ConfirmScene: SKScene {
         
         var dif: CGFloat = 0
         
-        artViewBackground = exporter.Song().artwork
+        artViewBackground = exporter.song().artwork
         //.imageWithSize(CGSize(width: 100, height: 100))
         if (artViewBackground != nil) {
-            let backgroundWidth = artViewBackground?.imageWithSize(CGSizeMake(100, 100))!.size.width
-            let backgroundHeight = artViewBackground?.imageWithSize(CGSizeMake(100, 100))!.size.height
-            let size = CGSizeMake(backgroundWidth! / backgroundHeight! * height * 2, height * 2)
-            albumArtwork = SKSpriteNode(texture: SKTexture(image: exporter.Song().artwork!.imageWithSize(size)!.resizedImage(size, interpolationQuality: CGInterpolationQuality.High)))
+            let backgroundWidth = artViewBackground?.image(at: CGSize(width: 100, height: 100))!.size.width
+            let backgroundHeight = artViewBackground?.image(at: CGSize(width: 100, height: 100))!.size.height
+            let size = CGSize(width: backgroundWidth! / backgroundHeight! * height * 2, height: height * 2)
+            albumArtwork = SKSpriteNode(texture: SKTexture(image: exporter.song().artwork!.image(at: size)!.resizedImage(size, interpolationQuality: CGInterpolationQuality.high)))
             albumArtwork.name = "albumArtwork"
             albumArtwork.zPosition = 500
             albumArtwork.setScale(0.25)
             originalScale = 0.25
             //background.size = CGSize(width: 736, height: 414)
-            originalPosition = CGPointMake(width / 5, height / 3 + size.height / 8)
+            originalPosition = CGPoint(x: width / 5, y: height / 3 + size.height / 8)
             albumArtwork.position = originalPosition
             if (albumArtwork.frame.width / albumArtwork.frame.height) < (width / height) {
                 scaling = height / albumArtwork.frame.height / 4
@@ -114,41 +114,41 @@ class ConfirmScene: SKScene {
             dif = (albumArtwork.position.y + albumArtwork.frame.height / 2 - easyLabel.frame.height - height / 3) / 3
             //print(albumArtwork.position.y)
             //print(albumArtwork.frame.height)
-            easyLabel.position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - easyLabel.frame.width / 2, height / 3 + 3 * dif)
-            normalLabel.position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - normalLabel.frame.width / 2, height / 3 + 2 * dif)
-            hardLabel.position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - hardLabel.frame.width / 2, height / 3 + dif)
-            insaneLabel.position = CGPointMake(width - albumArtwork.position.x + albumArtwork.frame.width / 2 - insaneLabel.frame.width / 2, height / 3)
-            bestScoreLabel.position = CGPointMake(((albumArtwork.position.x + albumArtwork.frame.width / 2) + (normalLabel.position.x - normalLabel.frame.width / 2)) / 2, insaneLabel.position.y)
-            rankLabel.position = CGPointMake(bestScoreLabel.position.x, (dif * 3 + height / 3 + easyLabel.frame.height + bestScoreLabel.position.y + bestScoreLabel.frame.height) / 15 * 8)
+            easyLabel.position = CGPoint(x: width - albumArtwork.position.x + albumArtwork.frame.width / 2 - easyLabel.frame.width / 2, y: height / 3 + 3 * dif)
+            normalLabel.position = CGPoint(x: width - albumArtwork.position.x + albumArtwork.frame.width / 2 - normalLabel.frame.width / 2, y: height / 3 + 2 * dif)
+            hardLabel.position = CGPoint(x: width - albumArtwork.position.x + albumArtwork.frame.width / 2 - hardLabel.frame.width / 2, y: height / 3 + dif)
+            insaneLabel.position = CGPoint(x: width - albumArtwork.position.x + albumArtwork.frame.width / 2 - insaneLabel.frame.width / 2, y: height / 3)
+            bestScoreLabel.position = CGPoint(x: ((albumArtwork.position.x + albumArtwork.frame.width / 2) + (normalLabel.position.x - normalLabel.frame.width / 2)) / 2, y: insaneLabel.position.y)
+            rankLabel.position = CGPoint(x: bestScoreLabel.position.x, y: (dif * 3 + height / 3 + easyLabel.frame.height + bestScoreLabel.position.y + bestScoreLabel.frame.height) / 15 * 8)
         } else {
             dif = ((241.5 + 207.0 / 2) * ratio - easyLabel.frame.height - height / 3) / 3
-            normalLabel.position = CGPointMake(width / 3 * 2 + normalLabel.frame.width / 2, height / 3 + 2 * dif)
-            easyLabel.position = CGPointMake(width / 3 * 2 + normalLabel.frame.width - easyLabel.frame.width / 2, height / 3 + 3 * dif)
-            hardLabel.position = CGPointMake(width / 3 * 2 + normalLabel.frame.width - hardLabel.frame.width / 2, height / 3 + dif)
-            insaneLabel.position = CGPointMake(width / 3 * 2 + normalLabel.frame.width - insaneLabel.frame.width / 2, height / 3)
-            bestScoreLabel.position = CGPointMake(width / 24 * 7, insaneLabel.position.y)
-            rankLabel.position = CGPointMake(bestScoreLabel.position.x, (dif * 3 + height / 3 + easyLabel.frame.height + bestScoreLabel.position.y + bestScoreLabel.frame.height) / 15 * 8)
+            normalLabel.position = CGPoint(x: width / 3 * 2 + normalLabel.frame.width / 2, y: height / 3 + 2 * dif)
+            easyLabel.position = CGPoint(x: width / 3 * 2 + normalLabel.frame.width - easyLabel.frame.width / 2, y: height / 3 + 3 * dif)
+            hardLabel.position = CGPoint(x: width / 3 * 2 + normalLabel.frame.width - hardLabel.frame.width / 2, y: height / 3 + dif)
+            insaneLabel.position = CGPoint(x: width / 3 * 2 + normalLabel.frame.width - insaneLabel.frame.width / 2, y: height / 3)
+            bestScoreLabel.position = CGPoint(x: width / 24 * 7, y: insaneLabel.position.y)
+            rankLabel.position = CGPoint(x: bestScoreLabel.position.x, y: (dif * 3 + height / 3 + easyLabel.frame.height + bestScoreLabel.position.y + bestScoreLabel.frame.height) / 15 * 8)
         }
-        scaleBackground = SKShapeNode(rectOfSize: self.size)
-        scaleBackground.fillColor = SKColor.blackColor()
+        scaleBackground = SKShapeNode(rectOf: self.size)
+        scaleBackground.fillColor = SKColor.black
         scaleBackground.zPosition = 499
         scaleBackground.alpha = 0
-        scaleBackground.position = CGPointMake(width / 2, height / 2)
-        scaleBackground.strokeColor = SKColor.clearColor()
+        scaleBackground.position = CGPoint(x: width / 2, y: height / 2)
+        scaleBackground.strokeColor = SKColor.clear
         scaleBackground.name = "scaleBackground"
         
         
         
-        titleButton.position = CGPointMake(width / 8 * 7, height / 8 - titleButton.frame.height / 2)
-        startGameButton.position = CGPointMake(width / 2, height / 8 - startGameButton.frame.height / 2)
-        backButton.position = CGPointMake(width / 8, height / 8 - backButton.frame.height / 2)
+        titleButton.position = CGPoint(x: width / 8 * 7, y: height / 8 - titleButton.frame.height / 2)
+        startGameButton.position = CGPoint(x: width / 2, y: height / 8 - startGameButton.frame.height / 2)
+        backButton.position = CGPoint(x: width / 8, y: height / 8 - backButton.frame.height / 2)
         
         
         
-        difficultyIndicator[0] = SKShapeNode(rect: CGRectMake(easyLabel.position.x - easyLabel.frame.width / 2 - 5 * ratio, height / 3 + 3 * dif - 5 * ratio, easyLabel.frame.width + 10 * ratio, easyLabel.frame.height + 10 * ratio), cornerRadius: 5)
-        difficultyIndicator[1] = SKShapeNode(rect: CGRectMake(normalLabel.position.x - normalLabel.frame.width / 2 - 5 * ratio, height / 3 + 2 * dif - 5 * ratio, normalLabel.frame.width + 10 * ratio, normalLabel.frame.height + 10 * ratio), cornerRadius: 5)
-        difficultyIndicator[2] = SKShapeNode(rect: CGRectMake(hardLabel.position.x - hardLabel.frame.width / 2 - 5 * ratio, height / 3 + dif - 5 * ratio, hardLabel.frame.width + 10 * ratio, hardLabel.frame.height + 10 * ratio), cornerRadius: 5)
-        difficultyIndicator[3] = SKShapeNode(rect: CGRectMake(insaneLabel.position.x - insaneLabel.frame.width / 2 - 5 * ratio, height / 3 - 5 * ratio, insaneLabel.frame.width + 10 * ratio, insaneLabel.frame.height + 10 * ratio), cornerRadius: 5)
+        difficultyIndicator[0] = SKShapeNode(rect: CGRect(x: easyLabel.position.x - easyLabel.frame.width / 2 - 5 * ratio, y: height / 3 + 3 * dif - 5 * ratio, width: easyLabel.frame.width + 10 * ratio, height: easyLabel.frame.height + 10 * ratio), cornerRadius: 5)
+        difficultyIndicator[1] = SKShapeNode(rect: CGRect(x: normalLabel.position.x - normalLabel.frame.width / 2 - 5 * ratio, y: height / 3 + 2 * dif - 5 * ratio, width: normalLabel.frame.width + 10 * ratio, height: normalLabel.frame.height + 10 * ratio), cornerRadius: 5)
+        difficultyIndicator[2] = SKShapeNode(rect: CGRect(x: hardLabel.position.x - hardLabel.frame.width / 2 - 5 * ratio, y: height / 3 + dif - 5 * ratio, width: hardLabel.frame.width + 10 * ratio, height: hardLabel.frame.height + 10 * ratio), cornerRadius: 5)
+        difficultyIndicator[3] = SKShapeNode(rect: CGRect(x: insaneLabel.position.x - insaneLabel.frame.width / 2 - 5 * ratio, y: height / 3 - 5 * ratio, width: insaneLabel.frame.width + 10 * ratio, height: insaneLabel.frame.height + 10 * ratio), cornerRadius: 5)
         
         difficultyIndicator[0].name = "easyIndicator"
         difficultyIndicator[1].name = "normalIndicator"
@@ -156,8 +156,8 @@ class ConfirmScene: SKScene {
         difficultyIndicator[3].name = "insaneIndicator"
         
         for indicator in difficultyIndicator {
-            indicator.strokeColor = SKColor.clearColor()
-            indicator.fillColor = SKColor.whiteColor()
+            indicator.strokeColor = SKColor.clear
+            indicator.fillColor = SKColor.white
             indicator.alpha = 0.2
         }
         
@@ -188,43 +188,43 @@ class ConfirmScene: SKScene {
         self.addChild(scaleBackground)
         
     }
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
-            let location = touch.locationInNode(self)
+            let location = touch.location(in: self)
             let particle = touch_particle[touch.hash]
             if (particle != nil) {
-                particle!.runAction(SKAction.moveTo(location, duration: 0))
+                particle!.run(SKAction.move(to: location, duration: 0))
                 particle!.particleBirthRate = 250 + 300 * touch.force
             }
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let particle = touch_particle[touch.hash]
             if (particle != nil)
             {
                 particle!.particleBirthRate = 0
                 for child in particle!.children {
-                    child.runAction(SKAction.sequence([SKAction.waitForDuration(1), SKAction.removeFromParent()]))
+                    child.run(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.removeFromParent()]))
                 }
-                particle!.runAction(SKAction.sequence([SKAction.waitForDuration(1), SKAction.removeFromParent()]))
+                particle!.run(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.removeFromParent()]))
             }
             touch_particle[touch.hash] = nil
         }
     }
     
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         if (touches != nil) {
-            touchesEnded(touches!, withEvent: nil)
+            touchesEnded(touches, with: nil)
         }
     }
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         /* Called when a touch begins */
         
         for touch in touches {
-            let location = touch.locationInNode(self)
-            let node = self.nodeAtPoint(location)
+            let location = touch.location(in: self)
+            let node = self.atPoint(location)
             
             let particle = Particle.copy() as! SKEmitterNode
             particle.name = "particle" + String(touch.hash)
@@ -238,168 +238,168 @@ class ConfirmScene: SKScene {
                 case "albumArtwork" :
                     if !scaled {
                         scaled = true
-                        let action1 = SKAction.scaleTo(scaling, duration: 0.5)
-                        let action2 = SKAction.moveTo(CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)), duration: 0.5)
-                        let action3 = SKAction.fadeAlphaTo(1, duration: 0.5)
-                        action1.timingMode = SKActionTimingMode.EaseOut
-                        action2.timingMode = SKActionTimingMode.EaseOut
-                        action3.timingMode = SKActionTimingMode.EaseOut
+                        let action1 = SKAction.scale(to: scaling, duration: 0.5)
+                        let action2 = SKAction.move(to: CGPoint(x: self.frame.midX, y: self.frame.midY), duration: 0.5)
+                        let action3 = SKAction.fadeAlpha(to: 1, duration: 0.5)
+                        action1.timingMode = SKActionTimingMode.easeOut
+                        action2.timingMode = SKActionTimingMode.easeOut
+                        action3.timingMode = SKActionTimingMode.easeOut
                         let action = SKAction.group([action1, action2])
-                        albumArtwork.runAction(action)
+                        albumArtwork.run(action)
                         
-                        scaleBackground.runAction(action3)
+                        scaleBackground.run(action3)
                     } else {
                         scaled = false
-                        let action1 = SKAction.scaleTo(originalScale, duration: 0.5)
-                        let action2 = SKAction.moveTo(originalPosition, duration: 0.5)
-                        let action3 = SKAction.fadeAlphaTo(0, duration: 0.5)
-                        action1.timingMode = SKActionTimingMode.EaseOut
-                        action2.timingMode = SKActionTimingMode.EaseOut
-                        action3.timingMode = SKActionTimingMode.EaseOut
+                        let action1 = SKAction.scale(to: originalScale, duration: 0.5)
+                        let action2 = SKAction.move(to: originalPosition, duration: 0.5)
+                        let action3 = SKAction.fadeAlpha(to: 0, duration: 0.5)
+                        action1.timingMode = SKActionTimingMode.easeOut
+                        action2.timingMode = SKActionTimingMode.easeOut
+                        action3.timingMode = SKActionTimingMode.easeOut
                         let action = SKAction.group([action1, action2])
-                        albumArtwork.runAction(action)
-                        scaleBackground.runAction(action3)
+                        albumArtwork.run(action)
+                        scaleBackground.run(action3)
                     }
                 case "scaleBackground" :
                     if scaled {
                         scaled = false
-                        let action1 = SKAction.scaleTo(originalScale, duration: 0.5)
-                        let action2 = SKAction.moveTo(originalPosition, duration: 0.5)
-                        let action3 = SKAction.fadeAlphaTo(0, duration: 0.5)
-                        action1.timingMode = SKActionTimingMode.EaseOut
-                        action2.timingMode = SKActionTimingMode.EaseOut
-                        action3.timingMode = SKActionTimingMode.EaseOut
+                        let action1 = SKAction.scale(to: originalScale, duration: 0.5)
+                        let action2 = SKAction.move(to: originalPosition, duration: 0.5)
+                        let action3 = SKAction.fadeAlpha(to: 0, duration: 0.5)
+                        action1.timingMode = SKActionTimingMode.easeOut
+                        action2.timingMode = SKActionTimingMode.easeOut
+                        action3.timingMode = SKActionTimingMode.easeOut
                         let action = SKAction.group([action1, action2])
-                        albumArtwork.runAction(action)
-                        scaleBackground.runAction(action3)
+                        albumArtwork.run(action)
+                        scaleBackground.run(action3)
                     }
                 case  "easyLabel":
                     if difficultyType != difficulty.easy {
                         for indicator in difficultyIndicator {
-                            indicator.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))
+                            indicator.run(SKAction.sequence([SKAction.fadeAlpha(to: 0, duration: 0.2), SKAction.removeFromParent()]))
                         }
                         difficultyIndicator[0].removeAllActions()
-                        difficultyIndicator[0].runAction(SKAction.fadeAlphaTo(0.2, duration: 0.2))
+                        difficultyIndicator[0].run(SKAction.fadeAlpha(to: 0.2, duration: 0.2))
                         addChild(difficultyIndicator[0])
                         difficultyType = difficulty.easy
                         if FileClass.isExist(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs") {
                             hasBestScore = true
                             let bsFile = FileClass()
-                            bsFile.OpenFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
-                            let string = bsFile.Read()
-                            let strList = string.componentsSeparatedByString("\t")
-                            bestScore = Int(strList[1])!
-                            bestScoreLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.runBlock({self.bestScoreLabel.text = NSString(format: "BEST: %08i", bestScore) as String}), SKAction.fadeInWithDuration(0.25)]))
+                            bsFile.openFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
+                            let string = bsFile.read()
+                            let strList = string?.components(separatedBy: "\t")
+                            bestScore = Int((strList?[1])!)!
+                            bestScoreLabel.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.25), SKAction.run({self.bestScoreLabel.text = NSString(format: "BEST: %08i", bestScore) as String}), SKAction.fadeIn(withDuration: 0.25)]))
                             
                             rankLabel.removeAllActions()
-                            rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: strList[0])), SKAction.fadeInWithDuration(0.25)]))
+                            rankLabel.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.25), SKAction.setTexture(SKTexture(imageNamed: (strList?[0])!)), SKAction.fadeIn(withDuration: 0.25)]))
                         } else {
                             hasBestScore = false
-                            bestScoreLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.runBlock({self.bestScoreLabel.text = "BEST: ????????"}), SKAction.fadeInWithDuration(0.25)]))
+                            bestScoreLabel.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.25), SKAction.run({self.bestScoreLabel.text = "BEST: ????????"}), SKAction.fadeIn(withDuration: 0.25)]))
                             
                             rankLabel.removeAllActions()
-                            rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: "Q")), SKAction.fadeInWithDuration(0.25)]))
+                            rankLabel.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.25), SKAction.setTexture(SKTexture(imageNamed: "Q")), SKAction.fadeIn(withDuration: 0.25)]))
                         }
                         settings["Difficulty"] = "easy"
                     }
                 case "normalLabel":
                     if difficultyType != difficulty.normal {
                         for indicator in difficultyIndicator {
-                            indicator.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))
+                            indicator.run(SKAction.sequence([SKAction.fadeAlpha(to: 0, duration: 0.2), SKAction.removeFromParent()]))
                         }
                         difficultyIndicator[1].removeAllActions()
-                        difficultyIndicator[1].runAction(SKAction.fadeAlphaTo(0.2, duration: 0.2))
+                        difficultyIndicator[1].run(SKAction.fadeAlpha(to: 0.2, duration: 0.2))
                         addChild(difficultyIndicator[1])
                         difficultyType = difficulty.normal
                         if FileClass.isExist(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs") {
                             hasBestScore = true
                             let bsFile = FileClass()
-                            bsFile.OpenFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
-                            let string = bsFile.Read()
-                            let strList = string.componentsSeparatedByString("\t")
-                            bestScore = Int(strList[1])!
-                            bestScoreLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.runBlock({self.bestScoreLabel.text = NSString(format: "BEST: %08i", bestScore) as String}), SKAction.fadeInWithDuration(0.25)]))
+                            bsFile.openFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
+                            let string = bsFile.read()
+                            let strList = string?.components(separatedBy: "\t")
+                            bestScore = Int((strList?[1])!)!
+                            bestScoreLabel.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.25), SKAction.run({self.bestScoreLabel.text = NSString(format: "BEST: %08i", bestScore) as String}), SKAction.fadeIn(withDuration: 0.25)]))
                             rankLabel.removeAllActions()
-                            rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: strList[0])), SKAction.fadeInWithDuration(0.25)]))
+                            rankLabel.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.25), SKAction.setTexture(SKTexture(imageNamed: (strList?[0])!)), SKAction.fadeIn(withDuration: 0.25)]))
                         } else {
                             hasBestScore = false
-                            bestScoreLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.runBlock({self.bestScoreLabel.text = "BEST: ????????"}), SKAction.fadeInWithDuration(0.25)]))
+                            bestScoreLabel.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.25), SKAction.run({self.bestScoreLabel.text = "BEST: ????????"}), SKAction.fadeIn(withDuration: 0.25)]))
                             rankLabel.removeAllActions()
-                            rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: "Q")), SKAction.fadeInWithDuration(0.25)]))
+                            rankLabel.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.25), SKAction.setTexture(SKTexture(imageNamed: "Q")), SKAction.fadeIn(withDuration: 0.25)]))
                         }
                         settings["Difficulty"] = "normal"
                     }
                 case "hardLabel":
                     if difficultyType != difficulty.hard {
                         for indicator in difficultyIndicator {
-                            indicator.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))
+                            indicator.run(SKAction.sequence([SKAction.fadeAlpha(to: 0, duration: 0.2), SKAction.removeFromParent()]))
                         }
                         difficultyIndicator[2].removeAllActions()
-                        difficultyIndicator[2].runAction(SKAction.fadeAlphaTo(0.2, duration: 0.2))
+                        difficultyIndicator[2].run(SKAction.fadeAlpha(to: 0.2, duration: 0.2))
                         addChild(difficultyIndicator[2])
                         difficultyType = difficulty.hard
                         if FileClass.isExist(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs") {
                             hasBestScore = true
                             let bsFile = FileClass()
-                            bsFile.OpenFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
-                            let string = bsFile.Read()
-                            let strList = string.componentsSeparatedByString("\t")
-                            bestScore = Int(strList[1])!
-                            bestScoreLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.runBlock({self.bestScoreLabel.text = NSString(format: "BEST: %08i", bestScore) as String}), SKAction.fadeInWithDuration(0.25)]))
+                            bsFile.openFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
+                            let string = bsFile.read()
+                            let strList = string?.components(separatedBy: "\t")
+                            bestScore = Int((strList?[1])!)!
+                            bestScoreLabel.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.25), SKAction.run({self.bestScoreLabel.text = NSString(format: "BEST: %08i", bestScore) as String}), SKAction.fadeIn(withDuration: 0.25)]))
                             rankLabel.removeAllActions()
-                            rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: strList[0])), SKAction.fadeInWithDuration(0.25)]))
+                            rankLabel.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.25), SKAction.setTexture(SKTexture(imageNamed: (strList?[0])!)), SKAction.fadeIn(withDuration: 0.25)]))
                         } else {
                             hasBestScore = false
-                            bestScoreLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.runBlock({self.bestScoreLabel.text = "BEST: ????????"}), SKAction.fadeInWithDuration(0.25)]))
+                            bestScoreLabel.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.25), SKAction.run({self.bestScoreLabel.text = "BEST: ????????"}), SKAction.fadeIn(withDuration: 0.25)]))
                             rankLabel.removeAllActions()
-                            rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: "Q")), SKAction.fadeInWithDuration(0.25)]))
+                            rankLabel.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.25), SKAction.setTexture(SKTexture(imageNamed: "Q")), SKAction.fadeIn(withDuration: 0.25)]))
                         }
                         settings["Difficulty"] = "hard"
                     }
                 case "insaneLabel":
                     if difficultyType != difficulty.insane {
                         for indicator in difficultyIndicator {
-                            indicator.runAction(SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.2), SKAction.removeFromParent()]))
+                            indicator.run(SKAction.sequence([SKAction.fadeAlpha(to: 0, duration: 0.2), SKAction.removeFromParent()]))
                         }
                         difficultyIndicator[3].removeAllActions()
-                        difficultyIndicator[3].runAction(SKAction.fadeAlphaTo(0.2, duration: 0.2))
+                        difficultyIndicator[3].run(SKAction.fadeAlpha(to: 0.2, duration: 0.2))
                         addChild(difficultyIndicator[3])
                         difficultyType = difficulty.insane
                         if FileClass.isExist(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs") {
                             hasBestScore = true
                             let bsFile = FileClass()
-                            bsFile.OpenFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
-                            let string = bsFile.Read()
-                            let strList = string.componentsSeparatedByString("\t")
-                            bestScore = Int(strList[1])!
-                            bestScoreLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.runBlock({self.bestScoreLabel.text = NSString(format: "BEST: %08i", bestScore) as String}), SKAction.fadeInWithDuration(0.25)]))
+                            bsFile.openFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
+                            let string = bsFile.read()
+                            let strList = string?.components(separatedBy: "\t")
+                            bestScore = Int((strList?[1])!)!
+                            bestScoreLabel.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.25), SKAction.run({self.bestScoreLabel.text = NSString(format: "BEST: %08i", bestScore) as String}), SKAction.fadeIn(withDuration: 0.25)]))
                             rankLabel.removeAllActions()
-                            rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: strList[0])), SKAction.fadeInWithDuration(0.25)]))
+                            rankLabel.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.25), SKAction.setTexture(SKTexture(imageNamed: (strList?[0])!)), SKAction.fadeIn(withDuration: 0.25)]))
                         } else {
                             hasBestScore = false
-                            bestScoreLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.runBlock({self.bestScoreLabel.text = "BEST: ????????"}), SKAction.fadeInWithDuration(0.25)]))
+                            bestScoreLabel.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.25), SKAction.run({self.bestScoreLabel.text = "BEST: ????????"}), SKAction.fadeIn(withDuration: 0.25)]))
                             rankLabel.removeAllActions()
-                            rankLabel.runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.25), SKAction.setTexture(SKTexture(imageNamed: "Q")), SKAction.fadeInWithDuration(0.25)]))
+                            rankLabel.run(SKAction.sequence([SKAction.fadeOut(withDuration: 0.25), SKAction.setTexture(SKTexture(imageNamed: "Q")), SKAction.fadeIn(withDuration: 0.25)]))
                         }
                         settings["Difficulty"] = "insane"
                     }
                 case "bestScoreLabel" :
                     difficultyType = difficulty.custom
-                    Scene = AnalyzeScene(size : CGSizeMake(width, height))
-                    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                    Scene = AnalyzeScene(size : CGSize(width: width, height: height))
+                    View.presentScene(Scene, transition: SKTransition.crossFade(withDuration: 0.5))
                 case "startGameButton" :
                     SaveSetting()
-                    Scene = AnalyzeScene(size : CGSizeMake(width, height))
-                    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                    Scene = AnalyzeScene(size : CGSize(width: width, height: height))
+                    View.presentScene(Scene, transition: SKTransition.crossFade(withDuration: 0.5))
                 case "backButton" :
-                    Scene = ChooseScene(size : CGSizeMake(width, height))
-                    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                    Scene = ChooseScene(size : CGSize(width: width, height: height))
+                    View.presentScene(Scene, transition: SKTransition.crossFade(withDuration: 0.5))
                 case "titleButton" :
-                    Scene = StartUpScene(size : CGSizeMake(width, height))
-                    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                    Scene = StartUpScene(size : CGSize(width: width, height: height))
+                    View.presentScene(Scene, transition: SKTransition.crossFade(withDuration: 0.5))
                 case "rankLabel" :
-                    Scene = CustomScene(size : CGSizeMake(width, height))
-                    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                    Scene = CustomScene(size : CGSize(width: width, height: height))
+                    View.presentScene(Scene, transition: SKTransition.crossFade(withDuration: 0.5))
 
                 default:
                     break
@@ -410,7 +410,7 @@ class ConfirmScene: SKScene {
         }
     }
     
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         /* Called before each frame is rendered */
     }
 }

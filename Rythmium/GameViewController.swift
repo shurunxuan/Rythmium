@@ -11,25 +11,25 @@ import SpriteKit
 
 // Enumerate type that indicates the stage of the game.
 enum GameStage {
-    case StartUp, Setting, Choose, Confirm, Analyze, Game, Result, About
+    case startUp, setting, choose, confirm, analyze, game, result, about
 }
 // Enumerate type that indicates the type of visualization, some more will be added.
 enum visualization {
-    case SpectrumNormal, SpectrumCircle, None
+    case spectrumNormal, spectrumCircle, none
 }
 // Enumerate type that indicates difficulty.
 enum difficulty {
     case easy, normal, hard, insane, custom
 }
 
-var Stage = GameStage.StartUp                       // stage of the game
+var Stage = GameStage.startUp                       // stage of the game
 var Scene: SKScene = SKScene()                      // presented scene
 var exporter: MediaLibExport = MediaLibExport()     // export & play the music
 var width: CGFloat = 0                              // width
 var height: CGFloat = 0                             // height
 var ratio: CGFloat = 1
-let staticNodesAppearAction = SKAction.fadeAlphaTo(1, duration: 0.5)
-let staticNodesDisappearAction = SKAction.sequence([SKAction.fadeAlphaTo(0, duration: 0.5), SKAction.removeFromParent()])
+let staticNodesAppearAction = SKAction.fadeAlpha(to: 1, duration: 0.5)
+let staticNodesDisappearAction = SKAction.sequence([SKAction.fadeAlpha(to: 0, duration: 0.5), SKAction.removeFromParent()])
 var backgroundDark = SKSpriteNode()
 
 var backgrounds = [SKSpriteNode(texture: SKTexture(imageNamed: "Background1")), SKSpriteNode(texture: SKTexture(imageNamed: "Background2")), SKSpriteNode(texture: SKTexture(imageNamed: "Background3")), SKSpriteNode(texture: SKTexture(imageNamed: "Background4")), SKSpriteNode(texture: SKTexture(imageNamed: "Background5"))]
@@ -43,7 +43,7 @@ var maxCombo: Int = 0
 var fullCombo = true
 var differentJudges = [0, 0, 0, 0, 0]
 
-var visualizationType = visualization.SpectrumNormal
+var visualizationType = visualization.spectrumNormal
 var difficultyType = difficulty.easy
 
 var View = SKView()
@@ -90,22 +90,22 @@ class GameViewController: UIViewController {
         ratio = width / 736.0
         
         for child in backgrounds {
-            child.size = CGSizeMake(width, height)
-            child.position = CGPointMake(width / 2, height / 2)
+            child.size = CGSize(width: width, height: height)
+            child.position = CGPoint(x: width / 2, y: height / 2)
             child.zPosition = -1000
         }
         
         // read settings
         if !FileClass.isExist("setting.cfg") {
-            settingFile.CreateFile("setting.cfg")
-            settingFile.Write("Visualization\tSpectrumNormal\nDifficulty\teasy\nLRC\tYes\ncolorfulTheme\tOff\n")
+            settingFile.createFile("setting.cfg")
+            settingFile.write("Visualization\tSpectrumNormal\nDifficulty\teasy\nLRC\tYes\ncolorfulTheme\tOff\n")
         }
-        settingFile.OpenFile("setting.cfg")
-        let settingStr = settingFile.Read()
-        let settingStrs = settingStr.componentsSeparatedByString("\n")
-        for set in settingStrs {
+        settingFile.openFile("setting.cfg")
+        let settingStr = settingFile.read()
+        let settingStrs = settingStr?.components(separatedBy: "\n")
+        for set in settingStrs! {
             if set != "" {
-                let detail = set.componentsSeparatedByString("\t")
+                let detail = set.components(separatedBy: "\t")
                 let content = detail[0]
                 let value = detail[1]
                 settings[content] = value
@@ -113,11 +113,11 @@ class GameViewController: UIViewController {
                 case "Visualization" :
                     switch value {
                     case "SpectrumNormal" :
-                        visualizationType = visualization.SpectrumNormal
+                        visualizationType = visualization.spectrumNormal
                     case "SpectrumCircle" :
-                        visualizationType = visualization.SpectrumCircle
+                        visualizationType = visualization.spectrumCircle
                     case "None" :
-                        visualizationType = visualization.None
+                        visualizationType = visualization.none
                     default :
                         NSLog("ERROR, type Visualization setting")
                         break
@@ -162,22 +162,22 @@ class GameViewController: UIViewController {
         Particle.particleZPosition = 10000
         
         /* Set the scale mode to scale to fit the window */
-        Scene.scaleMode = .AspectFill
+        Scene.scaleMode = .aspectFill
         
         skView.presentScene(Scene)
 
     }
     
     
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         return true
     }
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return .Landscape
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return .landscape
         } else {
-            return .All
+            return .all
         }
     }
     
@@ -186,7 +186,7 @@ class GameViewController: UIViewController {
         // Release any cached data, images, etc that aren't in use.
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
 }

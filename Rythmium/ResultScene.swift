@@ -18,10 +18,10 @@ class ResultScene: SKScene {
     var bestScoreParticle = SKEmitterNode(fileNamed: "BestScoreParticle.sks")!
     
 
-    override func didMoveToView(view: SKView) {
-        Stage = GameStage.Result
+    override func didMove(to view: SKView) {
+        Stage = GameStage.result
         
-        bestScoreParticle.position = CGPointMake(width / 2, height)
+        bestScoreParticle.position = CGPoint(x: width / 2, y: height)
         bestScoreParticle.targetNode = self
         
         Background = backgroundDark.copy() as! SKSpriteNode
@@ -36,7 +36,7 @@ class ResultScene: SKScene {
         if isGameOver { rank = "F" }
         rankLabel = SKSpriteNode(imageNamed: rank)
         rankLabel.setScale(ratio * 5)
-        rankLabel.position = CGPointMake(width / 2, height / 2)
+        rankLabel.position = CGPoint(x: width / 2, y: height / 2)
         rankLabel.alpha = 0
         rankLabel.name = "rankLabel"
         
@@ -47,37 +47,37 @@ class ResultScene: SKScene {
         resultNode.addChild(rankLabel)
         resultNode.addChild(rankLabelCopy)
         
-        let actionFadeIn = SKAction.fadeInWithDuration(0.5)
-        let actionScaleTo2x = SKAction.scaleTo(ratio * 2, duration: 0.5)
+        let actionFadeIn = SKAction.fadeIn(withDuration: 0.5)
+        let actionScaleTo2x = SKAction.scale(to: ratio * 2, duration: 0.5)
         let actionAppear = SKAction.group([actionFadeIn, actionScaleTo2x])
-        actionScaleTo2x.timingMode = SKActionTimingMode.EaseIn
-        let actionWaitCopyDisappear = SKAction.waitForDuration(0.5)
-        let actionMoveToPosition = SKAction.moveTo(CGPointMake(width / 24 * 7, height / 3 * 2), duration: 0.5)
-        actionMoveToPosition.timingMode = SKActionTimingMode.EaseOut
-        let actionScaleTo1_5x = SKAction.scaleTo(ratio * 1.5, duration: 0.5)
-        actionScaleTo1_5x.timingMode = SKActionTimingMode.EaseOut
+        actionScaleTo2x.timingMode = SKActionTimingMode.easeIn
+        let actionWaitCopyDisappear = SKAction.wait(forDuration: 0.5)
+        let actionMoveToPosition = SKAction.move(to: CGPoint(x: width / 24 * 7, y: height / 3 * 2), duration: 0.5)
+        actionMoveToPosition.timingMode = SKActionTimingMode.easeOut
+        let actionScaleTo1_5x = SKAction.scale(to: ratio * 1.5, duration: 0.5)
+        actionScaleTo1_5x.timingMode = SKActionTimingMode.easeOut
         let actionMoveAndScale = SKAction.group([actionMoveToPosition, actionScaleTo1_5x])
         let actionRankLabel = SKAction.sequence([actionAppear, actionWaitCopyDisappear, actionMoveAndScale])
-        rankLabel.runAction(actionRankLabel)
+        rankLabel.run(actionRankLabel)
         
-        let actionScaleTo10x = SKAction.scaleTo(ratio * 10, duration: 0.5)
-        actionScaleTo10x.timingMode = SKActionTimingMode.EaseOut
-        let actionDisappear = SKAction.fadeOutWithDuration(0.5)
+        let actionScaleTo10x = SKAction.scale(to: ratio * 10, duration: 0.5)
+        actionScaleTo10x.timingMode = SKActionTimingMode.easeOut
+        let actionDisappear = SKAction.fadeOut(withDuration: 0.5)
         let actionCopyDisappear = SKAction.group([actionScaleTo10x, actionDisappear])
         let actionRankLabelCopy = SKAction.sequence([actionAppear, actionCopyDisappear, SKAction.removeFromParent()])
-        rankLabelCopy.runAction(actionRankLabelCopy)
+        rankLabelCopy.run(actionRankLabelCopy)
         
         if hasBestScore {
             if score > bestScore {
                 let bsFile = FileClass()
-                bsFile.OpenFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
-                bsFile.Write(rank + "\t" + String(score))
+                bsFile.openFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
+                bsFile.write(rank + "\t" + String(score))
                 BestScoreSpark()
             }
         } else {
             let bsFile = FileClass()
-            bsFile.CreateFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
-            bsFile.Write(rank + "\t" + String(score))
+            bsFile.createFile(String(exporter.songID())+"_"+String(difficultyType.hashValue)+".bs")
+            bsFile.write(rank + "\t" + String(score))
             BestScoreSpark()
         }
         
@@ -85,20 +85,20 @@ class ResultScene: SKScene {
         scoreLabel.text = NSString(format: "SCORE: %08i", score) as String
         scoreLabel.fontName = "SFUIDisplay-Ultralight"
         scoreLabel.fontSize = ratio * 30
-        scoreLabel.position = CGPointMake(width / 24 * 7, height / 3)
+        scoreLabel.position = CGPoint(x: width / 24 * 7, y: height / 3)
         scoreLabel.alpha = 0
         resultNode.addChild(scoreLabel)
-        scoreLabel.runAction(SKAction.sequence([SKAction.waitForDuration(1.5), SKAction.fadeInWithDuration(0.5)]))
+        scoreLabel.run(SKAction.sequence([SKAction.wait(forDuration: 1.5), SKAction.fadeIn(withDuration: 0.5)]))
         
         let maxComboLabel = SKLabelNode()
         maxComboLabel.text = NSString(format: "Max Combo: %i", maxCombo) as String
         maxComboLabel.fontName = "SFUIDisplay-Ultralight"
         if fullCombo { maxComboLabel.text = "FULL COMBO"; maxComboLabel.fontName = "SFUIDisplay-Thin" }
         maxComboLabel.fontSize = ratio * 30
-        maxComboLabel.position = CGPointMake(width / 24 * 7, height / 4)
+        maxComboLabel.position = CGPoint(x: width / 24 * 7, y: height / 4)
         maxComboLabel.alpha = 0
         resultNode.addChild(maxComboLabel)
-        maxComboLabel.runAction(SKAction.sequence([SKAction.waitForDuration(2), SKAction.fadeInWithDuration(0.5)]))
+        maxComboLabel.run(SKAction.sequence([SKAction.wait(forDuration: 2), SKAction.fadeIn(withDuration: 0.5)]))
         
         
         
@@ -106,123 +106,123 @@ class ResultScene: SKScene {
         let scale = 40 * ratio / perfectLabel.frame.height
         perfectLabel.setScale(scale)
         let labelsDifference = (height / 12 * 5 + 289.5 / 3.5 - perfectLabel.frame.height) / 4
-        perfectLabel.position = CGPointMake(width / 4 * 3 - perfectLabel.frame.width / 2, height / 4 + labelsDifference * 4 + perfectLabel.frame.height / 2)
+        perfectLabel.position = CGPoint(x: width / 4 * 3 - perfectLabel.frame.width / 2, y: height / 4 + labelsDifference * 4 + perfectLabel.frame.height / 2)
         perfectLabel.alpha = 0
         resultNode.addChild(perfectLabel)
-        perfectLabel.runAction(SKAction.sequence([SKAction.waitForDuration(2.5), SKAction.fadeInWithDuration(0.5)]))
+        perfectLabel.run(SKAction.sequence([SKAction.wait(forDuration: 2.5), SKAction.fadeIn(withDuration: 0.5)]))
         
         let coolLabel = SKSpriteNode(imageNamed: "rc")
         coolLabel.setScale(scale)
-        coolLabel.position = CGPointMake(width / 4 * 3 - coolLabel.frame.width / 2, height / 4 + labelsDifference * 3 + coolLabel.frame.height / 2)
+        coolLabel.position = CGPoint(x: width / 4 * 3 - coolLabel.frame.width / 2, y: height / 4 + labelsDifference * 3 + coolLabel.frame.height / 2)
         coolLabel.alpha = 0
         resultNode.addChild(coolLabel)
-        coolLabel.runAction(SKAction.sequence([SKAction.waitForDuration(2.7), SKAction.fadeInWithDuration(0.5)]))
+        coolLabel.run(SKAction.sequence([SKAction.wait(forDuration: 2.7), SKAction.fadeIn(withDuration: 0.5)]))
         
         let fineLabel = SKSpriteNode(imageNamed: "rf")
         fineLabel.setScale(scale)
-        fineLabel.position = CGPointMake(width / 4 * 3 - fineLabel.frame.width / 2, height / 4 + labelsDifference * 2 + fineLabel.frame.height / 2)
+        fineLabel.position = CGPoint(x: width / 4 * 3 - fineLabel.frame.width / 2, y: height / 4 + labelsDifference * 2 + fineLabel.frame.height / 2)
         fineLabel.alpha = 0
         resultNode.addChild(fineLabel)
-        fineLabel.runAction(SKAction.sequence([SKAction.waitForDuration(2.9), SKAction.fadeInWithDuration(0.5)]))
+        fineLabel.run(SKAction.sequence([SKAction.wait(forDuration: 2.9), SKAction.fadeIn(withDuration: 0.5)]))
         
         let badLabel = SKSpriteNode(imageNamed: "rb")
         badLabel.setScale(scale)
-        badLabel.position = CGPointMake(width / 4 * 3 - badLabel.frame.width / 2, height / 4 + labelsDifference * 1 + badLabel.frame.height / 2)
+        badLabel.position = CGPoint(x: width / 4 * 3 - badLabel.frame.width / 2, y: height / 4 + labelsDifference * 1 + badLabel.frame.height / 2)
         badLabel.alpha = 0
         resultNode.addChild(badLabel)
-        badLabel.runAction(SKAction.sequence([SKAction.waitForDuration(3.1), SKAction.fadeInWithDuration(0.5)]))
+        badLabel.run(SKAction.sequence([SKAction.wait(forDuration: 3.1), SKAction.fadeIn(withDuration: 0.5)]))
         
         let missLabel = SKSpriteNode(imageNamed: "rm")
         missLabel.setScale(scale)
-        missLabel.position = CGPointMake(width / 4 * 3 - missLabel.frame.width / 2, height / 4 + labelsDifference * 0 + missLabel.frame.height / 2)
+        missLabel.position = CGPoint(x: width / 4 * 3 - missLabel.frame.width / 2, y: height / 4 + labelsDifference * 0 + missLabel.frame.height / 2)
         missLabel.alpha = 0
         resultNode.addChild(missLabel)
-        missLabel.runAction(SKAction.sequence([SKAction.waitForDuration(3.3), SKAction.fadeInWithDuration(0.5)]))
+        missLabel.run(SKAction.sequence([SKAction.wait(forDuration: 3.3), SKAction.fadeIn(withDuration: 0.5)]))
         
         let restartButton = SKLabelNode()
         restartButton.text = "RESTART"
         restartButton.fontName = "SFUIDisplay-Ultralight"
         restartButton.fontSize = ratio * 45
-        restartButton.position = CGPointMake(width / 16 + restartButton.frame.width / 2, height / 16)
+        restartButton.position = CGPoint(x: width / 16 + restartButton.frame.width / 2, y: height / 16)
         restartButton.name = "restartButton"
         restartButton.alpha = 0
         resultNode.addChild(restartButton)
-        restartButton.runAction(SKAction.sequence([SKAction.waitForDuration(3.8), SKAction.fadeInWithDuration(0.5)]))
+        restartButton.run(SKAction.sequence([SKAction.wait(forDuration: 3.8), SKAction.fadeIn(withDuration: 0.5)]))
         
         let newGameButton = SKLabelNode()
         newGameButton.text = "NEW GAME"
         newGameButton.fontName = "SFUIDisplay-Ultralight"
         newGameButton.fontSize = ratio * 45
-        newGameButton.position = CGPointMake(width / 16 * 15 - newGameButton.frame.width / 2, height / 16)
+        newGameButton.position = CGPoint(x: width / 16 * 15 - newGameButton.frame.width / 2, y: height / 16)
         newGameButton.name = "newGameButton"
         newGameButton.alpha = 0
         resultNode.addChild(newGameButton)
-        newGameButton.runAction(SKAction.sequence([SKAction.waitForDuration(3.8), SKAction.fadeInWithDuration(0.5)]))
+        newGameButton.run(SKAction.sequence([SKAction.wait(forDuration: 3.8), SKAction.fadeIn(withDuration: 0.5)]))
         
         Background.removeFromParent()
         self.addChild(Background)
         
         let judges = ["p", "c", "f", "b", "m"]
         let judgesLabel = [perfectLabel, coolLabel, fineLabel, badLabel, missLabel]
-        for var differentJudge: Int = 0; differentJudge < 5; differentJudge++ {
+        for differentJudge: Int in 0 ..< 5 {
             let JudgeLabel = SKNode()
             let str = String(differentJudges[differentJudge])
             var maxWidth : CGFloat = 0
             var numbers = [SKSpriteNode]()
-            for var i = 0; i < str.characters.count; ++i {
+            for i in 0 ..< str.characters.count {
                 let number = SKSpriteNode(imageNamed: judges[4 - differentJudge] + String(str[i]))
                 number.setScale(scale)
                 if number.frame.width > maxWidth { maxWidth = number.frame.width }
                 numbers.append(number)
             }
-            for var i = 0; i < numbers.count; ++i {
-                numbers[i].position = CGPointMake(CGFloat(i) * maxWidth, 0)
+            for i in 0 ..< numbers.count {
+                numbers[i].position = CGPoint(x: CGFloat(i) * maxWidth, y: 0)
                 JudgeLabel.addChild(numbers[i])
             }
-            JudgeLabel.position = CGPointMake(width / 4 * 3 + JudgeLabel.frame.width / 2 + width / 20, judgesLabel[4 - differentJudge].position.y)
+            JudgeLabel.position = CGPoint(x: width / 4 * 3 + JudgeLabel.frame.width / 2 + width / 20, y: judgesLabel[4 - differentJudge].position.y)
             JudgeLabel.alpha = 0
             resultNode.addChild(JudgeLabel)
-            JudgeLabel.runAction(SKAction.sequence([SKAction.waitForDuration(2.5 + 0.2 * Double(4 - differentJudge)), SKAction.fadeInWithDuration(0.5)]))
+            JudgeLabel.run(SKAction.sequence([SKAction.wait(forDuration: 2.5 + 0.2 * Double(4 - differentJudge)), SKAction.fadeIn(withDuration: 0.5)]))
         }
         self.addChild(resultNode)
     }
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
-            let location = touch.locationInNode(self)
+            let location = touch.location(in: self)
             let particle = touch_particle[touch.hash]
             if (particle != nil) {
-                particle!.runAction(SKAction.moveTo(location, duration: 0))
+                particle!.run(SKAction.move(to: location, duration: 0))
                 particle!.particleBirthRate = 250 + 300 * touch.force
             }
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let particle = touch_particle[touch.hash]
             if (particle != nil)
             {
                 particle!.particleBirthRate = 0
                 for child in particle!.children {
-                    child.runAction(SKAction.sequence([SKAction.waitForDuration(1), SKAction.removeFromParent()]))
+                    child.run(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.removeFromParent()]))
                 }
-                particle!.runAction(SKAction.sequence([SKAction.waitForDuration(1), SKAction.removeFromParent()]))
+                particle!.run(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.removeFromParent()]))
             }
             touch_particle[touch.hash] = nil
         }
     }
     
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         if (touches != nil) {
-            touchesEnded(touches!, withEvent: nil)
+            touchesEnded(touches, with: nil)
         }
     }
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         /* Called when a touch begins */
         
         for touch in touches {
-            let location = touch.locationInNode(self)
-            let node = self.nodeAtPoint(location)
+            let location = touch.location(in: self)
+            let node = self.atPoint(location)
             
             let particle = Particle.copy() as! SKEmitterNode
             particle.name = "particle" + String(touch.hash)
@@ -234,7 +234,7 @@ class ResultScene: SKScene {
             for node in resultNode.children {
                 node.removeAllActions()
                 if node.name == "rankLabel" {
-                    node.position = CGPointMake(width / 24 * 7, height / 3 * 2)
+                    node.position = CGPoint(x: width / 24 * 7, y: height / 3 * 2)
                     node.setScale(1.5 * ratio)
                 } else if node.name == "rankLabelCopy" {
                     node.removeFromParent()
@@ -246,15 +246,15 @@ class ResultScene: SKScene {
                 switch node.name! {
 
                 case "restartButton" :
-                    exporter.player().seekToTime(CMTimeMakeWithSeconds(0, 1))
+                    exporter.player().seek(to: CMTimeMakeWithSeconds(0, 1))
                     exporter.player().pause()
                     restarted = true
-                    Scene = ConfirmScene(size : CGSizeMake(width, height))
-                    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                    Scene = ConfirmScene(size : CGSize(width: width, height: height))
+                    View.presentScene(Scene, transition: SKTransition.crossFade(withDuration: 0.5))
                 case "newGameButton" :
                     restarted = false
-                    Scene = ChooseScene(size : CGSizeMake(width, height))
-                    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                    Scene = ChooseScene(size : CGSize(width: width, height: height))
+                    View.presentScene(Scene, transition: SKTransition.crossFade(withDuration: 0.5))
                 default:
                     break
                 }
@@ -265,18 +265,18 @@ class ResultScene: SKScene {
         }
     }
     
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         /* Called before each frame is rendered */
     }
     
     func BestScoreSpark() {
         srand48(Int(time(nil)))
-        for var i: Int = 0; i < 6; ++i {
+        for i: Int in 0 ..< 6 {
             let particle = bestScoreParticle.copy() as! SKEmitterNode
-            particle.position = CGPointMake(CGFloat(drand48()) * width, CGFloat(drand48()) * height / 2 + height / 2)
+            particle.position = CGPoint(x: CGFloat(drand48()) * width, y: CGFloat(drand48()) * height / 2 + height / 2)
             self.addChild(particle)
             particle.particleBirthRate = 0
-            particle.runAction(SKAction.sequence([SKAction.waitForDuration(0.5 * Double(i + 1)), SKAction.runBlock({particle.particleBirthRate = 2000}), SKAction.waitForDuration(0.2), SKAction.runBlock({particle.particleBirthRate = 0}), SKAction.waitForDuration(1), SKAction.removeFromParent()]))
+            particle.run(SKAction.sequence([SKAction.wait(forDuration: 0.5 * Double(i + 1)), SKAction.run({particle.particleBirthRate = 2000}), SKAction.wait(forDuration: 0.2), SKAction.run({particle.particleBirthRate = 0}), SKAction.wait(forDuration: 1), SKAction.removeFromParent()]))
         }
     }
 }

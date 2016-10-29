@@ -14,52 +14,52 @@ class ChooseScene: SKScene {
     var touch_particle: [Int : SKEmitterNode] = [:]
     
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         
-        Stage = GameStage.Choose
+        Stage = GameStage.choose
         Background = backgroundDark.copy() as! SKSpriteNode
         addChild(Background)
-        exporter.ChooseSong()
+        exporter.chooseSong()
         
         restarted = false
     }
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
-            let location = touch.locationInNode(self)
+            let location = touch.location(in: self)
             let particle = touch_particle[touch.hash]
             if (particle != nil) {
-                particle!.runAction(SKAction.moveTo(location, duration: 0))
+                particle!.run(SKAction.move(to: location, duration: 0))
                 particle!.particleBirthRate = 250 + 300 * touch.force
             }
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let particle = touch_particle[touch.hash]
             if (particle != nil)
             {
                 particle!.particleBirthRate = 0
                 for child in particle!.children {
-                    child.runAction(SKAction.sequence([SKAction.waitForDuration(1), SKAction.removeFromParent()]))
+                    child.run(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.removeFromParent()]))
                 }
-                particle!.runAction(SKAction.sequence([SKAction.waitForDuration(1), SKAction.removeFromParent()]))
+                particle!.run(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.removeFromParent()]))
             }
             touch_particle[touch.hash] = nil
         }
     }
     
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         if (touches != nil) {
-            touchesEnded(touches!, withEvent: nil)
+            touchesEnded(touches, with: nil)
         }
     }
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         /* Called when a touch begins */
         
         for touch in touches {
-            let location = touch.locationInNode(self)
-            let node = self.nodeAtPoint(location)
+            let location = touch.location(in: self)
+            let node = self.atPoint(location)
             
             let particle = Particle.copy() as! SKEmitterNode
             particle.name = "particle" + String(touch.hash)
@@ -71,11 +71,11 @@ class ChooseScene: SKScene {
             if node.name != nil {
                 switch node.name!{
                 case "startGameButton":
-                    Scene = AnalyzeScene(size : CGSizeMake(width, height))
-                    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                    Scene = AnalyzeScene(size : CGSize(width: width, height: height))
+                    View.presentScene(Scene, transition: SKTransition.crossFade(withDuration: 0.5))
                 case "settingButton":
-                    Scene = SettingScene(size : CGSizeMake(width, height))
-                    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                    Scene = SettingScene(size : CGSize(width: width, height: height))
+                    View.presentScene(Scene, transition: SKTransition.crossFade(withDuration: 0.5))
                 default:
                     break
                 }
@@ -85,42 +85,42 @@ class ChooseScene: SKScene {
         }
     }
     
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         if exporter.isDone() {
             if exporter.isDismissed() {
-                Scene = StartUpScene(size : CGSizeMake(width, height))
-                View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                Scene = StartUpScene(size : CGSize(width: width, height: height))
+                View.presentScene(Scene, transition: SKTransition.crossFade(withDuration: 0.5))
                 return
             }
             exporter.setEnd()
-            artViewBackground = exporter.Song().artwork
+            artViewBackground = exporter.song().artwork
             //.imageWithSize(CGSize(width: 100, height: 100))
             if (artViewBackground != nil) {
-                let backgroundWidth = artViewBackground?.imageWithSize(CGSizeMake(100, 100))!.size.width
-                let backgroundHeight = artViewBackground?.imageWithSize(CGSizeMake(100, 100))!.size.height
+                let backgroundWidth = artViewBackground?.image(at: CGSize(width: 100, height: 100))!.size.width
+                let backgroundHeight = artViewBackground?.image(at: CGSize(width: 100, height: 100))!.size.height
                 var size = CGSize()
                 if (backgroundWidth! / backgroundHeight!) < (16.0 / 9.0) {
-                    size = CGSizeMake(width, width / backgroundWidth! * backgroundHeight!)
+                    size = CGSize(width: width, height: width / backgroundWidth! * backgroundHeight!)
                 } else {
-                    size = CGSizeMake(height / backgroundHeight! * backgroundWidth!, height)
+                    size = CGSize(width: height / backgroundHeight! * backgroundWidth!, height: height)
                 }
-                backgroundDark = SKSpriteNode(texture: SKTexture(image: exporter.Song().artwork!.imageWithSize(size)!.resizedImage(size, interpolationQuality: CGInterpolationQuality.Low).applyDarkEffect()))
-                backgroundDark.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame))
+                backgroundDark = SKSpriteNode(texture: SKTexture(image: exporter.song().artwork!.image(at: size)!.resizedImage(size, interpolationQuality: CGInterpolationQuality.low).applyDarkEffect()))
+                backgroundDark.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
                 backgroundDark.zPosition = -1000
                 isNormalBackground = false
             } else if !isNormalBackground {
                 isNormalBackground = true
                 let num = Int(arc4random() % 5)
-                backgroundDark = SKSpriteNode(texture: SKTexture(image: UIImage(CGImage: backgrounds[num].texture!.CGImage()).applyDarkEffect()))
-                backgroundDark.size = CGSizeMake(width, height)
-                backgroundDark.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame))
+                backgroundDark = SKSpriteNode(texture: SKTexture(image: UIImage(cgImage: backgrounds[num].texture!.cgImage()).applyDarkEffect()))
+                backgroundDark.size = CGSize(width: width, height: height)
+                backgroundDark.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
                 backgroundDark.zPosition = -1000
             }
             Background.removeFromParent()
             Background = backgroundDark.copy() as! SKSpriteNode
             self.addChild(Background)
-            Scene = ConfirmScene(size : CGSizeMake(width, height))
-            View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+            Scene = ConfirmScene(size : CGSize(width: width, height: height))
+            View.presentScene(Scene, transition: SKTransition.crossFade(withDuration: 0.5))
         }
     }
 }

@@ -14,15 +14,15 @@ import SpriteKit
 class JudgementLabel : SKNode {
     var judge: Int = 0
     let act = SKAction.sequence([
-        SKAction.group([SKAction.scaleTo(1.0, duration: 0.1), SKAction.fadeAlphaTo(1.0, duration: 0.1)]),
-        SKAction.waitForDuration(0.3),
-        SKAction.group([SKAction.scaleTo(0.5, duration: 0.1), SKAction.fadeAlphaTo(0.0, duration: 0.1)]),
+        SKAction.group([SKAction.scale(to: 1.0, duration: 0.1), SKAction.fadeAlpha(to: 1.0, duration: 0.1)]),
+        SKAction.wait(forDuration: 0.3),
+        SKAction.group([SKAction.scale(to: 0.5, duration: 0.1), SKAction.fadeAlpha(to: 0.0, duration: 0.1)]),
         SKAction.removeFromParent()
         ])
 
     var score: Int = 0
     
-    convenience init(inout combo: Int, HitTime: Double, NoteTime: Double) {
+    convenience init(combo: inout Int, HitTime: Double, NoteTime: Double) {
         self.init()
         self.name = "JudgementLabel"
         self.setScale(0.5)
@@ -52,7 +52,7 @@ class JudgementLabel : SKNode {
             combo = 0
             fullCombo = false
         }
-        if combo <= 5 { label.position = CGPointMake(0, 0) }
+        if combo <= 5 { label.position = CGPoint(x: 0, y: 0) }
         else {
             let str = String(combo)
             var strPrefix: String = ""
@@ -60,25 +60,25 @@ class JudgementLabel : SKNode {
             else if judge == 4 { strPrefix = "p" }
             var maxWidth : CGFloat = 0
             var numbers = [SKSpriteNode]()
-            for var i: Int = 0; i < str.characters.count; ++i {
+            for i: Int in 0 ..< str.characters.count {
                 let number = SKSpriteNode(imageNamed: strPrefix + String(str[i]))
                 number.setScale(label.frame.height / number.frame.height * 1.5)
                 if number.frame.width > maxWidth { maxWidth = number.frame.width }
                 numbers.append(number)
             }
-            for var i: Int = 0; i < numbers.count; ++i {
-                numbers[i].position = CGPointMake((CGFloat(i) - CGFloat(str.characters.count - 1) / 2.0) * maxWidth, -numbers[i].frame.height / 2 - 4 * ratio)
+            for i: Int in 0 ..< numbers.count {
+                numbers[i].position = CGPoint(x: (CGFloat(i) - CGFloat(str.characters.count - 1) / 2.0) * maxWidth, y: -numbers[i].frame.height / 2 - 4 * ratio)
                 self.addChild(numbers[i])
             }
-            label.position = CGPointMake(0, label.frame.height / 2 + 4 * ratio)
+            label.position = CGPoint(x: 0, y: label.frame.height / 2 + 4 * ratio)
         }
 
-        self.position = CGPointMake(width / 2, height / 2)
+        self.position = CGPoint(x: width / 2, y: height / 2)
         self.addChild(label)
     }
     
     func runAction() {
-        self.runAction(act)
+        self.run(act)
     }
     
     

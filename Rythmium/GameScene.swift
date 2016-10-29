@@ -8,29 +8,64 @@
 
 import SpriteKit
 import Accelerate
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class GameNode : SKNode {
     var stayPaused: Bool = false
     
-    override var paused: Bool {
+    override var isPaused: Bool {
         get {
-            return super.paused
+            return super.isPaused
         }
         set {
             if (!stayPaused) {
-                super.paused = newValue
+                super.isPaused = newValue
             }
         }
     }
     
     func setStayPaused() {
-        if (super.paused) {
+        if (super.isPaused) {
             self.stayPaused = true
         }
     }
     
     func unsetStayPaused() {
-        if (super.paused) {
+        if (super.isPaused) {
             self.stayPaused = false
         }
     }
@@ -76,8 +111,8 @@ class GameScene: SKScene {
     
     var appearAction = [SKAction]()
     
-    let disappearSequenceNotHit = SKAction.sequence([SKAction.group([SKAction.fadeOutWithDuration(0.1), SKAction.scaleTo(0.5, duration: 0.1)]), SKAction.removeFromParent()])
-    let disappearSequenceHit = SKAction.sequence([SKAction.group([SKAction.fadeOutWithDuration(0.1), SKAction.scaleTo(1.5, duration: 0.1)]), SKAction.removeFromParent()])
+    let disappearSequenceNotHit = SKAction.sequence([SKAction.group([SKAction.fadeOut(withDuration: 0.1), SKAction.scale(to: 0.5, duration: 0.1)]), SKAction.removeFromParent()])
+    let disappearSequenceHit = SKAction.sequence([SKAction.group([SKAction.fadeOut(withDuration: 0.1), SKAction.scale(to: 1.5, duration: 0.1)]), SKAction.removeFromParent()])
     
     var lifeBackground = SKShapeNode()
     
@@ -117,26 +152,30 @@ class GameScene: SKScene {
     
     var Fft = 0
     
-    override func didMoveToView(view: SKView) {
-        Stage = GameStage.Game
+    override func didMove(to view: SKView) {
+        Stage = GameStage.game
         
-        self.view?.multipleTouchEnabled = true
+        self.view?.isMultipleTouchEnabled = true
         
         Background = backgroundDark.copy() as! SKSpriteNode
         Background.alpha = 1
         self.addChild(Background)
-        if visualizationType == visualization.SpectrumCircle { barCount = 24 }
-        if visualizationType == visualization.SpectrumNormal || visualizationType == visualization.SpectrumCircle {
+        if visualizationType == visualization.spectrumCircle { barCount = 24 }
+        if visualizationType == visualization.spectrumNormal || visualizationType == visualization.spectrumCircle {
             spectrumBars.reserveCapacity(barCount)
-            for var bar: Int = 0; bar < barCount; ++bar {
-                if visualizationType == visualization.SpectrumNormal {
+            for bar: Int in 0 ..< barCount {
+                if visualizationType == visualization.spectrumNormal {
                     spectrumBars.append(SKShapeNode(rect: CGRect(x: width / CGFloat(barCount) * CGFloat(bar), y: 0, width: width * 0.95 / CGFloat(barCount), height: 1)))
                 } else {
                     let Bar = SKShapeNode()
-                    let path = CGPathCreateMutable()
-                    CGPathAddArc(path, nil, 0, 0, 1, -3.1415926535 / 1.05 / CGFloat(barCount), 3.1415926535 / 1.05 / CGFloat(barCount), false)
-                    CGPathAddLineToPoint(path, nil, 0, 0)
-                    CGPathCloseSubpath(path)
+                    let path = CGMutablePath()
+                    var transform = CGAffineTransform.identity
+                    let zeroPoint = CGPoint.init(x: 0, y: 0)
+                    path.addArc(center: zeroPoint, radius: 1, startAngle: -3.1415926535 / 1.05 / CGFloat(barCount), endAngle: 3.1415926535 / 1.05 / CGFloat(barCount), clockwise: false, transform: transform)
+                    path.addLine(to: zeroPoint)
+                    //CGPathAddArc(path, &transform, 0, 0, 1, -3.1415926535 / 1.05 / CGFloat(barCount), 3.1415926535 / 1.05 / CGFloat(barCount), false)
+                    //CGPathAddLineToPoint(path, &transform, 0, 0)
+                    path.closeSubpath()
                     Bar.path = path
                     
                     //spectrumBars.append(SKShapeNode(rect: CGRect(x: -width * 0.3 / CGFloat(barCount), y: 0, width: width * 0.6 / CGFloat(barCount), height: 1)))
@@ -149,7 +188,7 @@ class GameScene: SKScene {
                 
                 spectrumBars[bar].alpha = 0.1
                 spectrumBars[bar].zPosition = -500
-                spectrumBars[bar].strokeColor = SKColor.clearColor()
+                spectrumBars[bar].strokeColor = SKColor.clear
                 spectrumBars[bar].fillColor = brightColorWithHue(CGFloat(bar) / CGFloat(barCount))
                 spectrumBars[bar].yScale = 0
                 self.addChild(spectrumBars[bar])
@@ -157,12 +196,12 @@ class GameScene: SKScene {
         }
         //if visualizationType == visualization.SpectrumCircle { centerMaskCircle.setScale(80.0 / 60.0) }
         
-        lifeBackground = SKShapeNode(rectOfSize: self.size)
-        lifeBackground.fillColor = SKColor.redColor()
+        lifeBackground = SKShapeNode(rectOf: self.size)
+        lifeBackground.fillColor = SKColor.red
         lifeBackground.zPosition = -999
         lifeBackground.alpha = 0
-        lifeBackground.position = CGPointMake(width / 2, height / 2)
-        lifeBackground.strokeColor = SKColor.clearColor()
+        lifeBackground.position = CGPoint(x: width / 2, y: height / 2)
+        lifeBackground.strokeColor = SKColor.clear
         self.addChild(lifeBackground)
         timeList = [[Double](), [Double](), [Double](), [Double]()]
         NotePointer = [[1, 1], [1, 1], [1, 1], [1, 1]] // Appear, Hit
@@ -186,10 +225,10 @@ class GameScene: SKScene {
         
         scoreLabel.text = "SCORE: 00000000"
         
-        appearAction = [SKAction.group([SKAction.moveTo(CGPointMake(width * 3 / 4, height * 3 / 4), duration: AppearDelay), SKAction.scaleTo(1.0, duration: AppearDelay), SKAction.fadeAlphaTo(0.8, duration: 0.5)]),
-            SKAction.group([SKAction.moveTo(CGPointMake(width / 4, height * 3 / 4), duration: AppearDelay), SKAction.scaleTo(1.0, duration: AppearDelay), SKAction.fadeAlphaTo(0.8, duration: 0.5)]),
-            SKAction.group([SKAction.moveTo(CGPointMake(width / 4, height / 4), duration: AppearDelay), SKAction.scaleTo(1.0, duration: AppearDelay), SKAction.fadeAlphaTo(0.8, duration: 0.5)]),
-            SKAction.group([SKAction.moveTo(CGPointMake(width * 3 / 4, height / 4), duration: AppearDelay), SKAction.scaleTo(1.0, duration: AppearDelay), SKAction.fadeAlphaTo(0.8, duration: 0.5)])]
+        appearAction = [SKAction.group([SKAction.move(to: CGPoint(x: width * 3 / 4, y: height * 3 / 4), duration: AppearDelay), SKAction.scale(to: 1.0, duration: AppearDelay), SKAction.fadeAlpha(to: 0.8, duration: 0.5)]),
+            SKAction.group([SKAction.move(to: CGPoint(x: width / 4, y: height * 3 / 4), duration: AppearDelay), SKAction.scale(to: 1.0, duration: AppearDelay), SKAction.fadeAlpha(to: 0.8, duration: 0.5)]),
+            SKAction.group([SKAction.move(to: CGPoint(x: width / 4, y: height / 4), duration: AppearDelay), SKAction.scale(to: 1.0, duration: AppearDelay), SKAction.fadeAlpha(to: 0.8, duration: 0.5)]),
+            SKAction.group([SKAction.move(to: CGPoint(x: width * 3 / 4, y: height / 4), duration: AppearDelay), SKAction.scale(to: 1.0, duration: AppearDelay), SKAction.fadeAlpha(to: 0.8, duration: 0.5)])]
         
         staticNodes = [SKSpriteNode(imageNamed: "alpha"), SKSpriteNode(imageNamed: "alpha"), SKSpriteNode(imageNamed: "alpha"), SKSpriteNode(imageNamed: "alpha")]
         //let ruRect = CGRectMake(width / 2, height / 2, width / 2, height / 2)
@@ -199,23 +238,23 @@ class GameScene: SKScene {
         
         //staticNodes = [MYStaticNode(rect: ruRect), MYStaticNode(rect: luRect), MYStaticNode(rect: ldRect), MYStaticNode(rect: rdRect)]
         
-        centerMaskCircle.position = CGPointMake(width / 2, height / 2)
-        ruMaskCircle.position = CGPointMake(width / 4 * 3, height / 4 * 3)
-        luMaskCircle.position = CGPointMake(width / 4, height / 4 * 3)
-        ldMaskCircle.position = CGPointMake(width / 4, height / 4)
-        rdMaskCircle.position = CGPointMake(width / 4 * 3, height / 4)
+        centerMaskCircle.position = CGPoint(x: width / 2, y: height / 2)
+        ruMaskCircle.position = CGPoint(x: width / 4 * 3, y: height / 4 * 3)
+        luMaskCircle.position = CGPoint(x: width / 4, y: height / 4 * 3)
+        ldMaskCircle.position = CGPoint(x: width / 4, y: height / 4)
+        rdMaskCircle.position = CGPoint(x: width / 4 * 3, y: height / 4)
         
-        centerMaskCircle.strokeColor = SKColor.clearColor()
-        ruMaskCircle.strokeColor = SKColor.clearColor()
-        luMaskCircle.strokeColor = SKColor.clearColor()
-        ldMaskCircle.strokeColor = SKColor.clearColor()
-        rdMaskCircle.strokeColor = SKColor.clearColor()
+        centerMaskCircle.strokeColor = SKColor.clear
+        ruMaskCircle.strokeColor = SKColor.clear
+        luMaskCircle.strokeColor = SKColor.clear
+        ldMaskCircle.strokeColor = SKColor.clear
+        rdMaskCircle.strokeColor = SKColor.clear
         
-        centerMaskCircle.fillColor = SKColor.whiteColor()
-        ruMaskCircle.fillColor = SKColor.whiteColor()
-        luMaskCircle.fillColor = SKColor.whiteColor()
-        ldMaskCircle.fillColor = SKColor.whiteColor()
-        rdMaskCircle.fillColor = SKColor.whiteColor()
+        centerMaskCircle.fillColor = SKColor.white
+        ruMaskCircle.fillColor = SKColor.white
+        luMaskCircle.fillColor = SKColor.white
+        ldMaskCircle.fillColor = SKColor.white
+        rdMaskCircle.fillColor = SKColor.white
         
         centerMask.maskNode = SKNode()
         centerMask.maskNode!.addChild(centerMaskCircle)
@@ -232,18 +271,18 @@ class GameScene: SKScene {
         
         
         for node in staticNodes {
-            node.size = CGSizeMake(width / 2, height / 2)
+            node.size = CGSize(width: width / 2, height: height / 2)
             node.zPosition = -501
         }
         
-        staticNodes[0].position = CGPointMake(width - staticNodes[0].frame.width / 2, height - staticNodes[0].frame.height / 2)
-        staticNodes[1].position = CGPointMake(staticNodes[1].frame.width / 2, height - staticNodes[1].frame.height / 2)
-        staticNodes[2].position = CGPointMake(staticNodes[2].frame.width / 2, staticNodes[2].frame.height / 2)
-        staticNodes[3].position = CGPointMake(width - staticNodes[3].frame.width / 2, staticNodes[3].frame.height / 2)
+        staticNodes[0].position = CGPoint(x: width - staticNodes[0].frame.width / 2, y: height - staticNodes[0].frame.height / 2)
+        staticNodes[1].position = CGPoint(x: staticNodes[1].frame.width / 2, y: height - staticNodes[1].frame.height / 2)
+        staticNodes[2].position = CGPoint(x: staticNodes[2].frame.width / 2, y: staticNodes[2].frame.height / 2)
+        staticNodes[3].position = CGPoint(x: width - staticNodes[3].frame.width / 2, y: staticNodes[3].frame.height / 2)
         
         scoreLabel.fontName = "SFUIDisplay-Ultralight"
         scoreLabel.fontSize = ratio * 20
-        scoreLabel.position = CGPointMake(width - scoreLabel.frame.width * 0.6, height - scoreLabel.frame.height * 1.2)
+        scoreLabel.position = CGPoint(x: width - scoreLabel.frame.width * 0.6, y: height - scoreLabel.frame.height * 1.2)
         scoreLabel.alpha = 0
         scoreLabel.text = "SCORE: 00000000"
         
@@ -251,7 +290,7 @@ class GameScene: SKScene {
         countDownLabel.text = "3"
         countDownLabel.fontName = "SFUIDisplay-Ultralight"
         countDownLabel.fontSize = ratio * 60
-        countDownLabel.position = CGPointMake(width / 2, height / 2 - countDownLabel.frame.height / 2)
+        countDownLabel.position = CGPoint(x: width / 2, y: height / 2 - countDownLabel.frame.height / 2)
         
         gameNode.alpha = 1
         gameNode.addChild(countDownLabel)
@@ -263,7 +302,7 @@ class GameScene: SKScene {
         
         pauseButton = SKSpriteNode(imageNamed: "pauseButton")
         pauseButton.setScale(ratio)
-        pauseButton.position = CGPointMake(pauseButton.frame.width * 0.55, height - pauseButton.frame.height * 0.55)
+        pauseButton.position = CGPoint(x: pauseButton.frame.width * 0.55, y: height - pauseButton.frame.height * 0.55)
         pauseButton.name = "pauseButton"
         pauseButton.alpha = 0
         pauseButton.zPosition = 1000
@@ -279,88 +318,88 @@ class GameScene: SKScene {
         //    titleLabel.fontSize--
         //    artistLabel.fontSize--
         //}
-        titleLabel.position = CGPointMake(width + titleLabel.frame.width / 2, height / 2 + countDownLabel.frame.height + titleLabel.frame.height * 0.05)
-        artistLabel.position = CGPointMake(-artistLabel.frame.width / 2, height / 2 - countDownLabel.frame.height - artistLabel.frame.height * 1.05)
+        titleLabel.position = CGPoint(x: width + titleLabel.frame.width / 2, y: height / 2 + countDownLabel.frame.height + titleLabel.frame.height * 0.05)
+        artistLabel.position = CGPoint(x: -artistLabel.frame.width / 2, y: height / 2 - countDownLabel.frame.height - artistLabel.frame.height * 1.05)
         
         titleLabel.name = "titleLabel"
         artistLabel.name = "artistLabel"
         
         
         if difficultyType == difficulty.custom {
-            MSSFile.OpenFile(String(exporter.songID())+"_custom.mss")
-            let MSSString = MSSFile.Read()
-            var MSSList = MSSString.componentsSeparatedByString("\n")
-            for var i = 1; i < MSSList.count; ++i {
-                if !MSSList[i].isEmpty {
-                    let str = MSSList[i]
-                    let list = str.componentsSeparatedByString("\t")
-                    timeList[Int(list[1])!].append(Double(list[0])!)
+            MSSFile.openFile(String(exporter.songID())+"_custom.mss")
+            let MSSString = MSSFile.read()
+            var MSSList = MSSString?.components(separatedBy: "\n")
+            for var i in 1 ..< (MSSList?.count)! {
+                if !(MSSList?[i].isEmpty)! {
+                    let str = MSSList?[i]
+                    let list = str?.components(separatedBy: "\t")
+                    timeList[Int((list?[1])!)!].append(Double((list?[0])!)!)
                 }
             }
         } else {
-            MSSFile.OpenFile(String(exporter.songID())+".mss")
-            let MSSString = MSSFile.Read()
-            var MSSList = MSSString.componentsSeparatedByString("\n")
+            MSSFile.openFile(String(exporter.songID())+".mss")
+            let MSSString = MSSFile.read()
+            var MSSList = MSSString?.components(separatedBy: "\n")
             var strengthList = [Double]()
-            strengthList.reserveCapacity(MSSList.count)
-            for var i = 1; i < MSSList.count - 1; ++i {
-                strengthList.append(Double(MSSList[i].componentsSeparatedByString("\t")[0])!)
+            strengthList.reserveCapacity((MSSList?.count)!)
+            for i in 1 ..< (MSSList?.count)! - 1 {
+                strengthList.append(Double((MSSList?[i].components(separatedBy: "\t")[0])!)!)
             }
-            strengthList.sortInPlace()
+            strengthList.sort()
             var noteCount: Int
             switch difficultyType {
             case difficulty.easy :
-                noteCount = MSSList.count / 3
+                noteCount = (MSSList?.count)! / 3
             case difficulty.normal :
-                noteCount = MSSList.count / 3 * 2
+                noteCount = (MSSList?.count)! / 3 * 2
             case difficulty.hard :
-                noteCount = MSSList.count - 1
+                noteCount = (MSSList?.count)! - 1
             case difficulty.insane :
-                noteCount = MSSList.count / 3 * 2
+                noteCount = (MSSList?.count)! / 3 * 2
             default :
-                noteCount = MSSList.count - 1
+                noteCount = (MSSList?.count)! - 1
             }
             let leastStrength = strengthList[strengthList.count - noteCount + 1]
-            for var i: Int = 1; i < MSSList.count - 1; i++ {
-                var List = MSSList[i].componentsSeparatedByString("\t")
-                if Double(List[0]) >= leastStrength && Double(List[1]) > 0.5 {
+            for i: Int in 1 ..< (MSSList?.count)! - 1 {
+                var List = MSSList?[i].components(separatedBy: "\t")
+                if Double((List?[0])!) >= leastStrength && Double((List?[1])!) > 0.5 {
                     var maxStrength: Double = 0
                     var maxNote = 0
                     if difficultyType != difficulty.insane {
-                        for var j = 2; j < 6; ++j {
-                            if Double(List[j])! > maxStrength {
-                                maxStrength = Double(List[j])!
+                        for j in 2 ..< 6 {
+                            if Double((List?[j])!)! > maxStrength {
+                                maxStrength = Double((List?[j])!)!
                                 maxNote = j - 2
                             }
                         }
-                        timeList[maxNote].append(Double(List[1])!)
+                        timeList[maxNote].append(Double((List?[1])!)!)
                     } else {
-                        if Double(List[2])! != 0.0 || Double(List[5])! != 0.0 {
-                            if Double(List[2])! > Double(List[5])! { timeList[0].append(Double(List[1])!) }
-                            else { timeList[3].append(Double(List[1])!) }
+                        if Double((List?[2])!)! != 0.0 || Double((List?[5])!)! != 0.0 {
+                            if Double((List?[2])!)! > Double((List?[5])!)! { timeList[0].append(Double((List?[1])!)!) }
+                            else { timeList[3].append(Double((List?[1])!)!) }
                         }
-                        if Double(List[3])! != 0.0 || Double(List[4])! != 0.0 {
-                            if Double(List[3])! > Double(List[4])! { timeList[1].append(Double(List[1])!) }
-                            else { timeList[2].append(Double(List[1])!) }
+                        if Double((List?[3])!)! != 0.0 || Double((List?[4])!)! != 0.0 {
+                            if Double((List?[3])!)! > Double((List?[4])!)! { timeList[1].append(Double((List?[1])!)!) }
+                            else { timeList[2].append(Double((List?[1])!)!) }
                         }
                     }
                 }
             }
         }
         
-        for var note: Int = 0; note < 4; ++note {
+        for note: Int in 0 ..< 4 {
             staticNodes[note].alpha = 0
             gameNode.addChild(staticNodes[note])
-            staticNodes[note].runAction(SKAction.sequence([SKAction.waitForDuration(3), SKAction.fadeAlphaTo(0.05, duration: 0.5)]))
+            staticNodes[note].run(SKAction.sequence([SKAction.wait(forDuration: 3), SKAction.fadeAlpha(to: 0.05, duration: 0.5)]))
             
         }
-        scoreLabel.runAction(SKAction.sequence([SKAction.waitForDuration(3), staticNodesAppearAction]))
+        scoreLabel.run(SKAction.sequence([SKAction.wait(forDuration: 3), staticNodesAppearAction]))
         
         hasLRC = buildLrcList(exporter.lyrics())
         if hasLRC && showLrc {
             LRCLabel.fontName = "SFUIDisplay-Ultralight"
             LRCLabel.fontSize = 32 * ratio
-            LRCLabel.position = CGPointMake(LRCLabel.frame.width / 2 + 10 * ratio, 10 * ratio)
+            LRCLabel.position = CGPoint(x: LRCLabel.frame.width / 2 + 10 * ratio, y: 10 * ratio)
             gameNode.addChild(LRCLabel)
         }
         
@@ -369,43 +408,43 @@ class GameScene: SKScene {
         
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
-            let location = touch.locationInNode(self)
+            let location = touch.location(in: self)
             let particle = touch_particle[touch.hash]
             if (particle != nil) {
-                particle!.runAction(SKAction.moveTo(location, duration: 0))
+                particle!.run(SKAction.move(to: location, duration: 0))
                 particle!.particleBirthRate = 250 + 300 * touch.force
             }
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let particle = touch_particle[touch.hash]
             if (particle != nil)
             {
                 particle!.particleBirthRate = 0
                 for child in particle!.children {
-                    child.runAction(SKAction.sequence([SKAction.waitForDuration(1), SKAction.removeFromParent()]))
+                    child.run(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.removeFromParent()]))
                 }
-                particle!.runAction(SKAction.sequence([SKAction.waitForDuration(1), SKAction.removeFromParent()]))
+                particle!.run(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.removeFromParent()]))
             }
             touch_particle[touch.hash] = nil
         }
     }
     
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         if (touches != nil) {
-            touchesEnded(touches!, withEvent: nil)
+            touchesEnded(touches, with: nil)
         }
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         /* Called when a touch begins */
         for touch in touches {
-            let location = touch.locationInNode(self)
-            let node = self.nodeAtPoint(location)
+            let location = touch.location(in: self)
+            let node = self.atPoint(location)
             
             let particle = Particle.copy() as! SKEmitterNode
             particle.name = "particle" + String(touch.hash)
@@ -424,7 +463,7 @@ class GameScene: SKScene {
                     GameScene.pauseInit = true
                     pauseBackground.removeAllChildren()
                     pauseBackground.removeFromParent()
-                    for var i = 0; i < 4; ++i {
+                    for i in 0 ..< 4 {
                         for note in DisplayingNoteList[i] {
                             note.removeFromParent()
                         }
@@ -433,33 +472,33 @@ class GameScene: SKScene {
                     }
                     exporter.play()
                     self.gameNode.unsetStayPaused()
-                    self.gameNode.paused = false
+                    self.gameNode.isPaused = false
                     self.addChild(countDownLabel)
                 case "Restart" :
-                    exporter.player().seekToTime(CMTimeMakeWithSeconds(0, 1))
+                    exporter.player().seek(to: CMTimeMakeWithSeconds(0, 1))
                     GameScene.pause = false
                     GameScene.pauseInit = false
-                    self.gameNode.paused = false
+                    self.gameNode.isPaused = false
                     self.removeAllChildren()
                     gameNode.removeAllChildren()
                     Background.removeFromParent()
-                    Scene = GameScene(size : CGSizeMake(width, height))
-                    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                    Scene = GameScene(size : CGSize(width: width, height: height))
+                    View.presentScene(Scene, transition: SKTransition.crossFade(withDuration: 0.5))
                 case "Exit" :
-                    self.gameNode.paused = false
+                    self.gameNode.isPaused = false
                     for nodes in gameNode.children {
                         let node = nodes as SKNode
-                        node.runAction(staticNodesDisappearAction)
+                        node.run(staticNodesDisappearAction)
                     }
-                    gameNode.runAction(staticNodesDisappearAction)
+                    gameNode.run(staticNodesDisappearAction)
                     for nodes in self.children {
                         let node = nodes as SKNode
-                        node.runAction(staticNodesDisappearAction)
+                        node.run(staticNodesDisappearAction)
                     }
                     GameScene.pause = false
                     GameScene.pauseInit = false
-                    Scene = StartUpScene(size : CGSizeMake(width, height))
-                    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                    Scene = StartUpScene(size : CGSize(width: width, height: height))
+                    View.presentScene(Scene, transition: SKTransition.crossFade(withDuration: 0.5))
                 case "showLrcLabel" :
                     if (!showLrc) {
                         showLrcLabel.text = "Lyrics: On"
@@ -470,7 +509,7 @@ class GameScene: SKScene {
                         LRCLabel.removeFromParent()
                     }
                     showLrc = !showLrc
-                    showLrcLabel.position = CGPointMake(width / 8 * 7, height / 8 - showLrcLabel.frame.height / 2)
+                    showLrcLabel.position = CGPoint(x: width / 8 * 7, y: height / 8 - showLrcLabel.frame.height / 2)
                 default:
                     break
                 }
@@ -485,31 +524,31 @@ class GameScene: SKScene {
                 if NotePointer[pos][1] < timeList[pos].count {
                     if timeList[pos][NotePointer[pos][1]] - CurrentTime < 0.3 {
                         let judge = Judgement(CurrentTime, NoteTime: DisplayingNoteList[pos][0].Time)
-                        let displayingNote = DisplayingNoteList[pos].removeAtIndex(0)
+                        let displayingNote = DisplayingNoteList[pos].remove(at: 0)
                         staticNodes[pos].removeAllActions()
                         staticNodes[pos].alpha = 0.4
                         switch judge {
                         case 4 :
-                            staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 250.0 / 255.0, green: 191.0 / 255.0, blue: 87.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                            staticNodes[pos].run(SKAction.colorize(with: UIColor.init(red: 250.0 / 255.0, green: 191.0 / 255.0, blue: 87.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
                         case 3 :
-                            staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 202.0 / 255.0, green: 202.0 / 255.0, blue: 202.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                            staticNodes[pos].run(SKAction.colorize(with: UIColor.init(red: 202.0 / 255.0, green: 202.0 / 255.0, blue: 202.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
                         case 2 :
-                            staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 166.0 / 255.0, green: 221.0 / 255.0, blue: 116.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                            staticNodes[pos].run(SKAction.colorize(with: UIColor.init(red: 166.0 / 255.0, green: 221.0 / 255.0, blue: 116.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
                         case 1 :
-                            staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 144.0 / 255.0, green: 173.0 / 255.0, blue: 223.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                            staticNodes[pos].run(SKAction.colorize(with: UIColor.init(red: 144.0 / 255.0, green: 173.0 / 255.0, blue: 223.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
                         case 0 :
-                            staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 255.0 / 255.0, green: 128.0 / 255.0, blue: 130.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                            staticNodes[pos].run(SKAction.colorize(with: UIColor.init(red: 255.0 / 255.0, green: 128.0 / 255.0, blue: 130.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
                         default :
                             break
                         }
                         
-                        let colorizeAction1 = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
-                        colorizeAction1.timingMode = SKActionTimingMode.EaseIn
-                        let colorizeAction2 = SKAction.fadeAlphaTo(0.05, duration: 0.5)
-                        colorizeAction2.timingMode = SKActionTimingMode.EaseIn
-                        staticNodes[pos].runAction(SKAction.group([colorizeAction1, colorizeAction2]))
-                        displayingNote.runAction(disappearSequenceHit)
-                        NotePointer[pos][1]++
+                        let colorizeAction1 = SKAction.colorize(with: UIColor.white, colorBlendFactor: 1, duration: 0.5)
+                        colorizeAction1.timingMode = SKActionTimingMode.easeIn
+                        let colorizeAction2 = SKAction.fadeAlpha(to: 0.05, duration: 0.5)
+                        colorizeAction2.timingMode = SKActionTimingMode.easeIn
+                        staticNodes[pos].run(SKAction.group([colorizeAction1, colorizeAction2]))
+                        displayingNote.run(disappearSequenceHit)
+                        NotePointer[pos][1] += 1
                     }
                 }
                 
@@ -518,7 +557,7 @@ class GameScene: SKScene {
         }
     }
     
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         /* Called before each frame is rendered */
         if Init { startTime = Double(currentTime) + 3.9; Init = false }
         if !playing {
@@ -570,7 +609,7 @@ class GameScene: SKScene {
                 exporter.play()
                 playing = true
                 gameNode.addChild(pauseButton)
-                pauseButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.5))
+                pauseButton.run(SKAction.fadeAlpha(to: 1, duration: 0.5))
                 countDownLabel.removeFromParent()
                 
             }
@@ -579,20 +618,20 @@ class GameScene: SKScene {
             if GameScene.pause {
                 if GameScene.pauseInit {
                     startTime = exporter.player().currentTime().seconds
-                    exporter.player().seekToTime(CMTime(seconds: exporter.player().currentTime().seconds - 3.0, preferredTimescale: 1))
+                    exporter.player().seek(to: CMTime(seconds: exporter.player().currentTime().seconds - 3.0, preferredTimescale: 1))
                     exporter.player().pause()
                     
-                    self.gameNode.paused = true
+                    self.gameNode.isPaused = true
                     gameNode.setStayPaused()
                     
-                    self.childNodeWithName("titleLabel")?.removeFromParent()
-                    self.childNodeWithName("aritstLabel")?.removeFromParent()
+                    self.childNode(withName: "titleLabel")?.removeFromParent()
+                    self.childNode(withName: "aritstLabel")?.removeFromParent()
                     for node in staticNodes { node.alpha = 0.05 }
                     
                     let pauseLabel = SKLabelNode(text: "PAUSED")
                     pauseLabel.fontSize = ratio * 70
                     pauseLabel.fontName = "SFUIDisplay-Ultralight"
-                    pauseLabel.position = CGPointMake(width / 2, height * 0.65 - pauseLabel.frame.height / 2)
+                    pauseLabel.position = CGPoint(x: width / 2, y: height * 0.65 - pauseLabel.frame.height / 2)
                     pauseLabel.zPosition = 300
                     pauseBackground.addChild(pauseLabel)
                     
@@ -605,7 +644,7 @@ class GameScene: SKScene {
                     let resumeLabel = SKLabelNode(text: "Resume")
                     resumeLabel.fontSize = ratio * 45
                     resumeLabel.fontName = "SFUIDisplay-Ultralight"
-                    resumeLabel.position = CGPointMake(width / 3 - resumeLabel.frame.width / 2, height / 2 - pauseLabel.frame.height * 0.65 - resumeLabel.frame.height)
+                    resumeLabel.position = CGPoint(x: width / 3 - resumeLabel.frame.width / 2, y: height / 2 - pauseLabel.frame.height * 0.65 - resumeLabel.frame.height)
                     resumeLabel.zPosition = 300
                     resumeLabel.name = "Resume"
                     pauseBackground.addChild(resumeLabel)
@@ -614,7 +653,7 @@ class GameScene: SKScene {
                     let restartLabel = SKLabelNode(text: "Restart")
                     restartLabel.fontSize = ratio * 45
                     restartLabel.fontName = "SFUIDisplay-Ultralight"
-                    restartLabel.position = CGPointMake(width / 2, height / 2 - pauseLabel.frame.height * 0.65 - restartLabel.frame.height)
+                    restartLabel.position = CGPoint(x: width / 2, y: height / 2 - pauseLabel.frame.height * 0.65 - restartLabel.frame.height)
                     restartLabel.zPosition = 300
                     restartLabel.name = "Restart"
                     pauseBackground.addChild(restartLabel)
@@ -623,14 +662,14 @@ class GameScene: SKScene {
                     let exitLabel = SKLabelNode(text: "Exit")
                     exitLabel.fontSize = ratio * 45
                     exitLabel.fontName = "SFUIDisplay-Ultralight"
-                    exitLabel.position = CGPointMake(width / 3 * 2 + restartLabel.frame.width / 2, height / 2 - pauseLabel.frame.height * 0.65 - exitLabel.frame.height)
+                    exitLabel.position = CGPoint(x: width / 3 * 2 + restartLabel.frame.width / 2, y: height / 2 - pauseLabel.frame.height * 0.65 - exitLabel.frame.height)
                     exitLabel.zPosition = 300
                     exitLabel.name = "Exit"
                     pauseBackground.addChild(exitLabel)
                     
                     let settingButton = SKSpriteNode(imageNamed: "setting")
                     settingButton.setScale(ratio)
-                    settingButton.position = CGPointMake(width - settingButton.frame.width * 0.55, height - settingButton.frame.height * 0.55)
+                    settingButton.position = CGPoint(x: width - settingButton.frame.width * 0.55, y: height - settingButton.frame.height * 0.55)
                     settingButton.zPosition = 300
                     settingButton.name = "settingButton"
                     //pauseBackground.addChild(settingButton)
@@ -639,7 +678,7 @@ class GameScene: SKScene {
                         if (!showLrc) { showLrcLabel.text = "Lyrics: Off" }
                         showLrcLabel.fontName = "SFUIDisplay-Ultralight"
                         showLrcLabel.fontSize = 32 * ratio
-                        showLrcLabel.position = CGPointMake(width / 8 * 7, height / 8 - showLrcLabel.frame.height / 2)
+                        showLrcLabel.position = CGPoint(x: width / 8 * 7, y: height / 8 - showLrcLabel.frame.height / 2)
                         showLrcLabel.name = "showLrcLabel"
                         showLrcLabel.zPosition = 300
                         pauseBackground.addChild(showLrcLabel)
@@ -667,7 +706,7 @@ class GameScene: SKScene {
                     if CurrentTime > startTime {
                         
                         countDownLabel.removeFromParent()
-                        pauseButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.5))
+                        pauseButton.run(SKAction.fadeAlpha(to: 1, duration: 0.5))
                         GameScene.pauseInit = false
                     }
                     
@@ -679,26 +718,26 @@ class GameScene: SKScene {
                 if colorfulTheme { spectrumColorOffset += 0.01 }
                 
                 // visualization
-                if visualizationType == visualization.SpectrumNormal || visualizationType == visualization.SpectrumCircle && Fft == 0 {
+                if visualizationType == visualization.spectrumNormal || visualizationType == visualization.spectrumCircle && Fft == 0 {
                     let q: CGFloat = pow(2.0, 1.0 / (CGFloat(barCount) / 8.0))
                     var a1: CGFloat = 1
                     let s = Int(a1 / (q - 1) * (pow(q, CGFloat(barCount)) - 1)) * 2
                     let block = fft(Array(Left[i ..< i + s]))
                     
-                    for var bar: Int = 0; bar < barCount; ++bar {
+                    for bar: Int in 0 ..< barCount {
                         var x = sum(Array(block[Int(a1) - 1 ..< Int(a1 * q)]))
                         x -= block[Int(a1) - 1] * Double(a1 - floor(a1))
                         x += block[Int(a1 * q)] * Double(a1 * q - floor(a1 * q))
                         x *= (1.0 + Double(barCount - bar) / Double(barCount) * 3.0)
-                        if visualizationType == visualization.SpectrumNormal {
-                            spectrumBars[bar].runAction(SKAction.scaleYTo(CGFloat(x) / log(CGFloat(barCount)) * 2 / 30000.0 * height, duration: 0.05))
+                        if visualizationType == visualization.spectrumNormal {
+                            spectrumBars[bar].run(SKAction.scaleY(to: CGFloat(x) / log(CGFloat(barCount)) * 2 / 30000.0 * height, duration: 0.05))
                         } else {
-                            spectrumBars[bar].runAction(SKAction.scaleTo((CGFloat(x) / log(CGFloat(barCount)) * 2 / 35000.0 * height + 60 * ratio), duration: 0.05))
+                            spectrumBars[bar].run(SKAction.scale(to: (CGFloat(x) / log(CGFloat(barCount)) * 2 / 35000.0 * height + 60 * ratio), duration: 0.05))
                         }
                         a1 *= q
                         spectrumBars[bar].fillColor = brightColorWithHue((CGFloat(bar) / CGFloat(barCount) + spectrumColorOffset) - CGFloat(Int(CGFloat(bar) / CGFloat(barCount) + spectrumColorOffset)))
                     }
-                    if visualizationType == visualization.SpectrumNormal {
+                    if visualizationType == visualization.spectrumNormal {
                         centerMaskCircle.setScale((CGFloat(sum(block)) / 10000.0 + 60.0 * ratio) / (60.0 * ratio))
                     }
                 }
@@ -712,19 +751,19 @@ class GameScene: SKScene {
                         LRCLabel.text = LrcList[Double(LrcTimeList[LRCPointer])]!
                         //LRCLabel.position = CGPointMake(LRCLabel.frame.width / 2 + 10 * ratio, 10 * ratio)
                         if LRCLabel.frame.width < width - 20 * ratio {
-                            LRCLabel.position = CGPointMake(width / 2, 10 * ratio)
+                            LRCLabel.position = CGPoint(x: width / 2, y: 10 * ratio)
                         } else {
                             var timeToNextLrc: Double = 0
                             if LRCPointer + 1 == LrcTimeList.count { timeToNextLrc = 3 }
                             else { timeToNextLrc = LrcTimeList[LRCPointer + 1] - LrcTimeList[LRCPointer] }
                             let stillDuration = timeToNextLrc * 0.5
                             let moveDuration = timeToNextLrc * 0.3
-                            LRCLabel.position = CGPointMake(10 * ratio + LRCLabel.frame.width / 2, 10 * ratio)
-                            let moveAction = SKAction.moveToX(width - 10 * ratio - LRCLabel.frame.width / 2, duration: moveDuration)
-                            moveAction.timingMode = SKActionTimingMode.EaseInEaseOut
-                            LRCLabel.runAction(SKAction.sequence([SKAction.waitForDuration(stillDuration), moveAction]))
+                            LRCLabel.position = CGPoint(x: 10 * ratio + LRCLabel.frame.width / 2, y: 10 * ratio)
+                            let moveAction = SKAction.moveTo(x: width - 10 * ratio - LRCLabel.frame.width / 2, duration: moveDuration)
+                            moveAction.timingMode = SKActionTimingMode.easeInEaseOut
+                            LRCLabel.run(SKAction.sequence([SKAction.wait(forDuration: stillDuration), moveAction]))
                         }
-                        ++LRCPointer
+                        LRCPointer += 1
                         if LRCPointer == LrcTimeList.count {
                             LRCLabel.text = ""
                             hasLRC = false
@@ -733,54 +772,54 @@ class GameScene: SKScene {
                 }
                 
                 // note appear
-                for var pos: Int = 0; pos < 4; pos++ {
+                for pos: Int in 0 ..< 4 {
                     if !AppearStop[pos] && CurrentTime + AppearDelay > timeList[pos][NotePointer[pos][0]] {
                         DisplayingNoteList[pos].append(Note(
                             time: timeList[pos][NotePointer[pos][0]],
-                            center: CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)),
+                            center: CGPoint(x: self.frame.midX, y: self.frame.midY),
                             radius: 60 * ratio))
                         
                         gameNode.addChild(DisplayingNoteList[pos].last!)
-                        DisplayingNoteList[pos].last!.runAction(appearAction[pos])
-                        NotePointer[pos][0]++
+                        DisplayingNoteList[pos].last!.run(appearAction[pos])
+                        NotePointer[pos][0] += 1
                         if NotePointer[pos][0] >= timeList[pos].count {
-                            NotePointer[pos][0]--
+                            NotePointer[pos][0] -= 1
                             AppearStop[pos] = true
                         }
                     }
                 }
                 
                 // note not hit, disappear
-                for var pos: Int = 0; pos < 4; pos++ {
+                for pos: Int in 0 ..< 4 {
                     if NotePointer[pos][1] < timeList[pos].count {
                         if CurrentTime - 0.3 > timeList[pos][NotePointer[pos][1]] {
                             // miss judge
                             let judge = Judgement(CurrentTime, NoteTime: DisplayingNoteList[pos][0].Time)
-                            let displayingNote = DisplayingNoteList[pos].removeAtIndex(0)
+                            let displayingNote = DisplayingNoteList[pos].remove(at: 0)
                             staticNodes[pos].removeAllActions()
                             staticNodes[pos].alpha = 0.4
                             switch judge {
                             case 4 :
-                                staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 250.0 / 255.0, green: 191.0 / 255.0, blue: 87.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                                staticNodes[pos].run(SKAction.colorize(with: UIColor.init(red: 250.0 / 255.0, green: 191.0 / 255.0, blue: 87.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
                             case 3 :
-                                staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 202.0 / 255.0, green: 202.0 / 255.0, blue: 202.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                                staticNodes[pos].run(SKAction.colorize(with: UIColor.init(red: 202.0 / 255.0, green: 202.0 / 255.0, blue: 202.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
                             case 2 :
-                                staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 166.0 / 255.0, green: 221.0 / 255.0, blue: 116.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                                staticNodes[pos].run(SKAction.colorize(with: UIColor.init(red: 166.0 / 255.0, green: 221.0 / 255.0, blue: 116.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
                             case 1 :
-                                staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 144.0 / 255.0, green: 173.0 / 255.0, blue: 223.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                                staticNodes[pos].run(SKAction.colorize(with: UIColor.init(red: 144.0 / 255.0, green: 173.0 / 255.0, blue: 223.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
                             case 0 :
-                                staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 255.0 / 255.0, green: 128.0 / 255.0, blue: 130.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                                staticNodes[pos].run(SKAction.colorize(with: UIColor.init(red: 255.0 / 255.0, green: 128.0 / 255.0, blue: 130.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
                             default :
                                 break
                             }
                             
-                            let colorizeAction1 = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
-                            colorizeAction1.timingMode = SKActionTimingMode.EaseIn
-                            let colorizeAction2 = SKAction.fadeAlphaTo(0.05, duration: 0.5)
-                            colorizeAction2.timingMode = SKActionTimingMode.EaseIn
-                            staticNodes[pos].runAction(SKAction.group([colorizeAction1, colorizeAction2]))
-                            displayingNote.runAction(disappearSequenceNotHit)
-                            NotePointer[pos][1]++
+                            let colorizeAction1 = SKAction.colorize(with: UIColor.white, colorBlendFactor: 1, duration: 0.5)
+                            colorizeAction1.timingMode = SKActionTimingMode.easeIn
+                            let colorizeAction2 = SKAction.fadeAlpha(to: 0.05, duration: 0.5)
+                            colorizeAction2.timingMode = SKActionTimingMode.easeIn
+                            staticNodes[pos].run(SKAction.group([colorizeAction1, colorizeAction2]))
+                            displayingNote.run(disappearSequenceNotHit)
+                            NotePointer[pos][1] += 1
                         }
                     }
                 }
@@ -799,8 +838,8 @@ class GameScene: SKScene {
                     if endTime < 0 { endTime = CurrentTime }
                     if CurrentTime - endTime > 1 {
                         totalScore -= 4500
-                        Scene = ResultScene(size : CGSizeMake(width, height))
-                        View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                        Scene = ResultScene(size : CGSize(width: width, height: height))
+                        View.presentScene(Scene, transition: SKTransition.crossFade(withDuration: 0.5))
                     }
                 }
             }
@@ -815,7 +854,7 @@ class GameScene: SKScene {
     }
     
     
-    func Judgement(HitTime: Double, NoteTime: Double) -> Int {
+    func Judgement(_ HitTime: Double, NoteTime: Double) -> Int {
         let judge = JudgementLabel(combo: &combo, HitTime: HitTime, NoteTime: NoteTime)
         for node in self.children where node.name == "JudgementLabel"
         { node.removeFromParent() }
@@ -835,21 +874,21 @@ class GameScene: SKScene {
             life -= Int(lifeDecrease)
             if life <= 0 {
                 life = 1000
-                Scene = ResultScene(size : CGSizeMake(width, height))
+                Scene = ResultScene(size : CGSize(width: width, height: height))
                 let rScene = Scene as! ResultScene
                 rScene.isGameOver = true
                 exporter.player().pause()
-                View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                View.presentScene(Scene, transition: SKTransition.crossFade(withDuration: 0.5))
             }
         }
         let B: CGFloat = 50.0
-        lifeBackground.runAction(SKAction.fadeAlphaTo(((B+1000.0)*B/(CGFloat(life)-(B+1000.0))+(B+1000.0))/5000.0, duration: 0.2))
+        lifeBackground.run(SKAction.fadeAlpha(to: ((B+1000.0)*B/(CGFloat(life)-(B+1000.0))+(B+1000.0))/5000.0, duration: 0.2))
         score += judge.score + (combo > 10 ? 10 : combo) * 100
         if score < 0 { score = 0 }
         totalScore += 2000
         scoreLabel.text = NSString(format: "SCORE: %08i", score) as String
-        scoreLabel.position = CGPointMake(width - scoreLabel.frame.width * 0.6, height - scoreLabel.frame.height * 1.2)
-        differentJudges[judge.judge]++
+        scoreLabel.position = CGPoint(x: width - scoreLabel.frame.width * 0.6, y: height - scoreLabel.frame.height * 1.2)
+        differentJudges[judge.judge] += 1
         return judge.judge
     }
 }

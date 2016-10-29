@@ -20,7 +20,7 @@ class CustomScene: SKScene {
     var MSSFile = FileClass()
     
     var timeList = [[Double](), [Double]()]
-    let Position = [CGPointMake(width * 3 / 4, height * 3 / 4), CGPointMake(width / 4, height * 3 / 4), CGPointMake(width / 4, height / 4), CGPointMake(width * 3 / 4, height / 4)]
+    let Position = [CGPoint(x: width * 3 / 4, y: height * 3 / 4), CGPoint(x: width / 4, y: height * 3 / 4), CGPoint(x: width / 4, y: height / 4), CGPoint(x: width * 3 / 4, y: height / 4)]
     
     //var staticNodes = [Note]()
     var staticNodes = [SKSpriteNode]()
@@ -53,10 +53,10 @@ class CustomScene: SKScene {
     
     var centerMask = SKCropNode()
     
-    override func didMoveToView(view: SKView) {
-        Stage = GameStage.Game
+    override func didMove(to view: SKView) {
+        Stage = GameStage.game
         
-        self.view?.multipleTouchEnabled = true
+        self.view?.isMultipleTouchEnabled = true
         
         Background = backgroundDark.copy() as! SKSpriteNode
         Background.alpha = 1
@@ -81,7 +81,7 @@ class CustomScene: SKScene {
             //SKAction.group([SKAction.moveTo(CGPointMake(width / 4, height / 4), duration: AppearDelay), SKAction.scaleTo(1.0, duration: AppearDelay), SKAction.fadeAlphaTo(0.8, duration: 0.5)]),
             //SKAction.group([SKAction.moveTo(CGPointMake(width * 3 / 4, height / 4), duration: AppearDelay), SKAction.scaleTo(1.0, duration: AppearDelay), SKAction.fadeAlphaTo(0.8, duration: 0.5)])]
         
-        appearAction = SKAction.group([SKAction.moveTo(CGPointMake(width / 2, height / 2), duration: AppearDelay), SKAction.fadeOutWithDuration(AppearDelay), SKAction.scaleTo(0.5, duration: AppearDelay)])
+        appearAction = SKAction.group([SKAction.move(to: CGPoint(x: width / 2, y: height / 2), duration: AppearDelay), SKAction.fadeOut(withDuration: AppearDelay), SKAction.scale(to: 0.5, duration: AppearDelay)])
         
         staticNodes = [SKSpriteNode(imageNamed: "alpha"), SKSpriteNode(imageNamed: "alpha"), SKSpriteNode(imageNamed: "alpha"), SKSpriteNode(imageNamed: "alpha")]
         //let ruRect = CGRectMake(width / 2, height / 2, width / 2, height / 2)
@@ -91,23 +91,23 @@ class CustomScene: SKScene {
         
         //staticNodes = [MYStaticNode(rect: ruRect), MYStaticNode(rect: luRect), MYStaticNode(rect: ldRect), MYStaticNode(rect: rdRect)]
         
-        centerMaskCircle.position = CGPointMake(width / 2, height / 2)
-        ruMaskCircle.position = CGPointMake(width / 4 * 3, height / 4 * 3)
-        luMaskCircle.position = CGPointMake(width / 4, height / 4 * 3)
-        ldMaskCircle.position = CGPointMake(width / 4, height / 4)
-        rdMaskCircle.position = CGPointMake(width / 4 * 3, height / 4)
+        centerMaskCircle.position = CGPoint(x: width / 2, y: height / 2)
+        ruMaskCircle.position = CGPoint(x: width / 4 * 3, y: height / 4 * 3)
+        luMaskCircle.position = CGPoint(x: width / 4, y: height / 4 * 3)
+        ldMaskCircle.position = CGPoint(x: width / 4, y: height / 4)
+        rdMaskCircle.position = CGPoint(x: width / 4 * 3, y: height / 4)
         
-        centerMaskCircle.strokeColor = SKColor.clearColor()
-        ruMaskCircle.strokeColor = SKColor.clearColor()
-        luMaskCircle.strokeColor = SKColor.clearColor()
-        ldMaskCircle.strokeColor = SKColor.clearColor()
-        rdMaskCircle.strokeColor = SKColor.clearColor()
+        centerMaskCircle.strokeColor = SKColor.clear
+        ruMaskCircle.strokeColor = SKColor.clear
+        luMaskCircle.strokeColor = SKColor.clear
+        ldMaskCircle.strokeColor = SKColor.clear
+        rdMaskCircle.strokeColor = SKColor.clear
         
-        centerMaskCircle.fillColor = SKColor.whiteColor()
-        ruMaskCircle.fillColor = SKColor.whiteColor()
-        luMaskCircle.fillColor = SKColor.whiteColor()
-        ldMaskCircle.fillColor = SKColor.whiteColor()
-        rdMaskCircle.fillColor = SKColor.whiteColor()
+        centerMaskCircle.fillColor = SKColor.white
+        ruMaskCircle.fillColor = SKColor.white
+        luMaskCircle.fillColor = SKColor.white
+        ldMaskCircle.fillColor = SKColor.white
+        rdMaskCircle.fillColor = SKColor.white
         
         centerMask.maskNode = SKNode()
         centerMask.maskNode!.addChild(centerMaskCircle)
@@ -124,18 +124,18 @@ class CustomScene: SKScene {
         
         
         for node in staticNodes {
-            node.size = CGSizeMake(width / 2, height / 2)
+            node.size = CGSize(width: width / 2, height: height / 2)
             node.zPosition = -501
         }
         
-        staticNodes[0].position = CGPointMake(width - staticNodes[0].frame.width / 2, height - staticNodes[0].frame.height / 2)
-        staticNodes[1].position = CGPointMake(staticNodes[1].frame.width / 2, height - staticNodes[1].frame.height / 2)
-        staticNodes[2].position = CGPointMake(staticNodes[2].frame.width / 2, staticNodes[2].frame.height / 2)
-        staticNodes[3].position = CGPointMake(width - staticNodes[3].frame.width / 2, staticNodes[3].frame.height / 2)
+        staticNodes[0].position = CGPoint(x: width - staticNodes[0].frame.width / 2, y: height - staticNodes[0].frame.height / 2)
+        staticNodes[1].position = CGPoint(x: staticNodes[1].frame.width / 2, y: height - staticNodes[1].frame.height / 2)
+        staticNodes[2].position = CGPoint(x: staticNodes[2].frame.width / 2, y: staticNodes[2].frame.height / 2)
+        staticNodes[3].position = CGPoint(x: width - staticNodes[3].frame.width / 2, y: staticNodes[3].frame.height / 2)
         
         scoreLabel.fontName = "SFUIDisplay-Ultralight"
         scoreLabel.fontSize = ratio * 20
-        scoreLabel.position = CGPointMake(width - scoreLabel.frame.width * 0.6, height - scoreLabel.frame.height * 1.2)
+        scoreLabel.position = CGPoint(x: width - scoreLabel.frame.width * 0.6, y: height - scoreLabel.frame.height * 1.2)
         scoreLabel.alpha = 0
         scoreLabel.text = "SCORE: 00000000"
         
@@ -143,7 +143,7 @@ class CustomScene: SKScene {
         countDownLabel.text = "3"
         countDownLabel.fontName = "SFUIDisplay-Ultralight"
         countDownLabel.fontSize = ratio * 60
-        countDownLabel.position = CGPointMake(width / 2, height / 2 - countDownLabel.frame.height / 2)
+        countDownLabel.position = CGPoint(x: width / 2, y: height / 2 - countDownLabel.frame.height / 2)
         
         gameNode.alpha = 1
         gameNode.addChild(countDownLabel)
@@ -154,7 +154,7 @@ class CustomScene: SKScene {
         
         
         pauseButton = SKSpriteNode(imageNamed: "pauseButton")
-        pauseButton.position = CGPointMake(pauseButton.frame.width * 0.55, height - pauseButton.frame.height * 0.55)
+        pauseButton.position = CGPoint(x: pauseButton.frame.width * 0.55, y: height - pauseButton.frame.height * 0.55)
         pauseButton.name = "pauseButton"
         pauseButton.alpha = 0
         pauseButton.zPosition = 1000
@@ -167,64 +167,64 @@ class CustomScene: SKScene {
         titleLabel.fontName = "SFUIDisplay-Ultralight"
         artistLabel.fontName = "SFUIDisplay-Ultralight"
         while titleLabel.frame.width > width * 0.9 || artistLabel.frame.width > width * 0.9 {
-            titleLabel.fontSize--
-            artistLabel.fontSize--
+            titleLabel.fontSize -= 1
+            artistLabel.fontSize -= 1
         }
-        titleLabel.position = CGPointMake(width + titleLabel.frame.width / 2, height / 2 + countDownLabel.frame.height + titleLabel.frame.height * 0.05)
-        artistLabel.position = CGPointMake(-artistLabel.frame.width / 2, height / 2 - countDownLabel.frame.height - artistLabel.frame.height * 1.05)
+        titleLabel.position = CGPoint(x: width + titleLabel.frame.width / 2, y: height / 2 + countDownLabel.frame.height + titleLabel.frame.height * 0.05)
+        artistLabel.position = CGPoint(x: -artistLabel.frame.width / 2, y: height / 2 - countDownLabel.frame.height - artistLabel.frame.height * 1.05)
 
         
         
-        for var note: Int = 0; note < 4; ++note {
+        for note: Int in 0 ..< 4 {
             staticNodes[note].alpha = 0
             gameNode.addChild(staticNodes[note])
-            staticNodes[note].runAction(SKAction.sequence([SKAction.waitForDuration(3), SKAction.fadeAlphaTo(0.05, duration: 0.5)]))
+            staticNodes[note].run(SKAction.sequence([SKAction.wait(forDuration: 3), SKAction.fadeAlpha(to: 0.05, duration: 0.5)]))
             
         }
-        scoreLabel.runAction(SKAction.sequence([SKAction.waitForDuration(3), staticNodesAppearAction]))
+        scoreLabel.run(SKAction.sequence([SKAction.wait(forDuration: 3), staticNodesAppearAction]))
         
         self.addChild(gameNode)
         
         
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
-            let location = touch.locationInNode(self)
+            let location = touch.location(in: self)
             let particle = touch_particle[touch.hash]
             if (particle != nil) {
-                particle!.runAction(SKAction.moveTo(location, duration: 0))
+                particle!.run(SKAction.move(to: location, duration: 0))
                 particle!.particleBirthRate = 250 + 300 * touch.force
             }
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let particle = touch_particle[touch.hash]
             if (particle != nil)
             {
                 particle!.particleBirthRate = 0
                 for child in particle!.children {
-                    child.runAction(SKAction.sequence([SKAction.waitForDuration(1), SKAction.removeFromParent()]))
+                    child.run(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.removeFromParent()]))
                 }
-                particle!.runAction(SKAction.sequence([SKAction.waitForDuration(1), SKAction.removeFromParent()]))
+                particle!.run(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.removeFromParent()]))
             }
             touch_particle[touch.hash] = nil
         }
     }
     
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         if (touches != nil) {
-            touchesEnded(touches!, withEvent: nil)
+            touchesEnded(touches, with: nil)
         }
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         /* Called when a touch begins */
         for touch in touches {
-            let location = touch.locationInNode(self)
-            let node = self.nodeAtPoint(location)
+            let location = touch.location(in: self)
+            let node = self.atPoint(location)
             
             let particle = Particle.copy() as! SKEmitterNode
             particle.name = "particle" + String(touch.hash)
@@ -245,30 +245,30 @@ class CustomScene: SKScene {
                     pauseBackground.removeFromParent()
                     self.addChild(countDownLabel)
                 case "Restart" :
-                    exporter.player().seekToTime(CMTimeMakeWithSeconds(0, 1))
+                    exporter.player().seek(to: CMTimeMakeWithSeconds(0, 1))
                     GameScene.pause = false
                     GameScene.pauseInit = false
-                    self.gameNode.paused = false
+                    self.gameNode.isPaused = false
                     self.removeAllChildren()
                     gameNode.removeAllChildren()
                     Background.removeFromParent()
-                    Scene = GameScene(size : CGSizeMake(width, height))
-                    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                    Scene = GameScene(size : CGSize(width: width, height: height))
+                    View.presentScene(Scene, transition: SKTransition.crossFade(withDuration: 0.5))
                 case "Exit" :
-                    self.gameNode.paused = false
+                    self.gameNode.isPaused = false
                     for nodes in gameNode.children {
                         let node = nodes as SKNode
-                        node.runAction(staticNodesDisappearAction)
+                        node.run(staticNodesDisappearAction)
                     }
-                    gameNode.runAction(staticNodesDisappearAction)
+                    gameNode.run(staticNodesDisappearAction)
                     for nodes in self.children {
                         let node = nodes as SKNode
-                        node.runAction(staticNodesDisappearAction)
+                        node.run(staticNodesDisappearAction)
                     }
                     GameScene.pause = false
                     GameScene.pauseInit = false
-                    Scene = StartUpScene(size : CGSizeMake(width, height))
-                    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                    Scene = StartUpScene(size : CGSize(width: width, height: height))
+                    View.presentScene(Scene, transition: SKTransition.crossFade(withDuration: 0.5))
                 default:
                     break
                 }
@@ -289,15 +289,15 @@ class CustomScene: SKScene {
                         staticNodes[pos].removeAllActions()
                         staticNodes[pos].alpha = 0.4
 
-                        staticNodes[pos].runAction(SKAction.colorizeWithColor(UIColor.init(red: 202.0 / 255.0, green: 202.0 / 255.0, blue: 202.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
+                        staticNodes[pos].run(SKAction.colorize(with: UIColor.init(red: 202.0 / 255.0, green: 202.0 / 255.0, blue: 202.0 / 255.0, alpha: 1), colorBlendFactor: 1, duration: 0))
                         
                         
-                        let colorizeAction1 = SKAction.colorizeWithColor(UIColor.whiteColor(), colorBlendFactor: 1, duration: 0.5)
-                        colorizeAction1.timingMode = SKActionTimingMode.EaseIn
-                        let colorizeAction2 = SKAction.fadeAlphaTo(0.05, duration: 0.5)
-                        colorizeAction2.timingMode = SKActionTimingMode.EaseIn
-                        staticNodes[pos].runAction(SKAction.group([colorizeAction1, colorizeAction2]))
-                        displayingNote.runAction(appearAction)
+                        let colorizeAction1 = SKAction.colorize(with: UIColor.white, colorBlendFactor: 1, duration: 0.5)
+                        colorizeAction1.timingMode = SKActionTimingMode.easeIn
+                        let colorizeAction2 = SKAction.fadeAlpha(to: 0.05, duration: 0.5)
+                        colorizeAction2.timingMode = SKActionTimingMode.easeIn
+                        staticNodes[pos].run(SKAction.group([colorizeAction1, colorizeAction2]))
+                        displayingNote.run(appearAction)
                         
                         timeList[0].append(CurrentTime)
                         timeList[1].append(Double(pos))
@@ -309,7 +309,7 @@ class CustomScene: SKScene {
         }
     }
     
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         /* Called before each frame is rendered */
         if Init { startTime = Double(currentTime) + 3.9; Init = false }
         if !playing {
@@ -337,7 +337,7 @@ class CustomScene: SKScene {
                 exporter.play()
                 playing = true
                 gameNode.addChild(pauseButton)
-                pauseButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.5))
+                pauseButton.run(SKAction.fadeAlpha(to: 1, duration: 0.5))
                 countDownLabel.removeFromParent()
                 
             }
@@ -348,12 +348,12 @@ class CustomScene: SKScene {
                     
                     exporter.player().pause()
                     
-                    self.gameNode.paused = true
+                    self.gameNode.isPaused = true
                     gameNode.setStayPaused()
                     let pauseLabel = SKLabelNode(text: "PAUSED")
                     pauseLabel.fontSize = ratio * 70
                     pauseLabel.fontName = "SFUIDisplay-Ultralight"
-                    pauseLabel.position = CGPointMake(width / 2, height * 0.65 - pauseLabel.frame.height / 2)
+                    pauseLabel.position = CGPoint(x: width / 2, y: height * 0.65 - pauseLabel.frame.height / 2)
                     pauseLabel.zPosition = 300
                     pauseBackground.addChild(pauseLabel)
                     
@@ -366,7 +366,7 @@ class CustomScene: SKScene {
                     let resumeLabel = SKLabelNode(text: "Resume")
                     resumeLabel.fontSize = ratio * 45
                     resumeLabel.fontName = "SFUIDisplay-Ultralight"
-                    resumeLabel.position = CGPointMake(width / 3 - resumeLabel.frame.width / 2, height / 2 - pauseLabel.frame.height * 0.65 - resumeLabel.frame.height)
+                    resumeLabel.position = CGPoint(x: width / 3 - resumeLabel.frame.width / 2, y: height / 2 - pauseLabel.frame.height * 0.65 - resumeLabel.frame.height)
                     resumeLabel.zPosition = 300
                     resumeLabel.name = "Resume"
                     pauseBackground.addChild(resumeLabel)
@@ -375,7 +375,7 @@ class CustomScene: SKScene {
                     let restartLabel = SKLabelNode(text: "Restart")
                     restartLabel.fontSize = ratio * 45
                     restartLabel.fontName = "SFUIDisplay-Ultralight"
-                    restartLabel.position = CGPointMake(width / 2, height / 2 - pauseLabel.frame.height * 0.65 - restartLabel.frame.height)
+                    restartLabel.position = CGPoint(x: width / 2, y: height / 2 - pauseLabel.frame.height * 0.65 - restartLabel.frame.height)
                     restartLabel.zPosition = 300
                     restartLabel.name = "Restart"
                     pauseBackground.addChild(restartLabel)
@@ -384,7 +384,7 @@ class CustomScene: SKScene {
                     let exitLabel = SKLabelNode(text: "Exit")
                     exitLabel.fontSize = ratio * 45
                     exitLabel.fontName = "SFUIDisplay-Ultralight"
-                    exitLabel.position = CGPointMake(width / 3 * 2 + restartLabel.frame.width / 2, height / 2 - pauseLabel.frame.height * 0.65 - exitLabel.frame.height)
+                    exitLabel.position = CGPoint(x: width / 3 * 2 + restartLabel.frame.width / 2, y: height / 2 - pauseLabel.frame.height * 0.65 - exitLabel.frame.height)
                     exitLabel.zPosition = 300
                     exitLabel.name = "Exit"
                     pauseBackground.addChild(exitLabel)
@@ -410,9 +410,9 @@ class CustomScene: SKScene {
                     if CurrentTime > 0 {
                         exporter.play()
                         countDownLabel.removeFromParent()
-                        pauseButton.runAction(SKAction.fadeAlphaTo(1, duration: 0.5))
+                        pauseButton.run(SKAction.fadeAlpha(to: 1, duration: 0.5))
                         self.gameNode.unsetStayPaused()
-                        self.gameNode.paused = false
+                        self.gameNode.isPaused = false
                         GameScene.pauseInit = false
                     }
                     
@@ -436,22 +436,22 @@ class CustomScene: SKScene {
                     //}
                     
                     // end of game
-                    if CurrentTime > Double(exporter.Song().playbackDuration) {
+                    if CurrentTime > Double(exporter.song().playbackDuration) {
 
                         if !FileClass.isExist(String(exporter.songID())+"_custom.mss")
-                        { MSSFile.CreateFile(String(exporter.songID())+"_custom.mss"); MSSFile.OpenFile(String(exporter.songID())+"_custom.mss") }
+                        { MSSFile.createFile(String(exporter.songID())+"_custom.mss"); MSSFile.openFile(String(exporter.songID())+"_custom.mss") }
                         else
-                        { MSSFile.OpenFile(String(exporter.songID())+"_custom.mss"); MSSFile.Write("") }
+                        { MSSFile.openFile(String(exporter.songID())+"_custom.mss"); MSSFile.write("") }
                         
                         var WriteString = ""
-                        for var i: Int = 0; i < timeList[0].count; ++i {
+                        for i: Int in 0 ..< timeList[0].count {
                             WriteString += String(timeList[0][i]) + "\t" + String(Int(timeList[1][i])) + "\n"
                         }
-                        MSSFile.Write(WriteString)
+                        MSSFile.write(WriteString)
                         
                         
-                            Scene = ConfirmScene(size : CGSizeMake(width, height))
-                            View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                            Scene = ConfirmScene(size : CGSize(width: width, height: height))
+                            View.presentScene(Scene, transition: SKTransition.crossFade(withDuration: 0.5))
                         
                         
                     }

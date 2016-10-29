@@ -18,24 +18,24 @@ class AboutScene: SKScene {
     var Background = SKSpriteNode()
     var touch_particle: [Int : SKEmitterNode] = [:]
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         
-        Stage = GameStage.About
+        Stage = GameStage.about
         
-        self.view?.multipleTouchEnabled = true
+        self.view?.isMultipleTouchEnabled = true
         
         backButton.fontName = "SFUIDisplay-Ultralight"
         backButton.name = "backButton"
         backButton.fontSize = 32 * ratio
-        backButton.position = CGPointMake(width / 8, height / 8 - backButton.frame.height / 2)
+        backButton.position = CGPoint(x: width / 8, y: height / 8 - backButton.frame.height / 2)
         
         positionLabel.fontName = "SFUIDisplay-Ultralight"
         positionLabel.fontSize = 40 * ratio
-        positionLabel.position = CGPointMake(width / 2, (height - backButton.position.y - backButton.frame.height) / 2 + 20 * ratio + positionLabel.frame.height)
+        positionLabel.position = CGPoint(x: width / 2, y: (height - backButton.position.y - backButton.frame.height) / 2 + 20 * ratio + positionLabel.frame.height)
         
         nameLabel.fontName = "SFUIDisplay-Ultralight"
         nameLabel.fontSize = 60 * ratio
-        nameLabel.position = CGPointMake(width / 2, (height - backButton.position.y - backButton.frame.height) / 2 - 10 * ratio)
+        nameLabel.position = CGPoint(x: width / 2, y: (height - backButton.position.y - backButton.frame.height) / 2 - 10 * ratio)
         
         Background = backgroundDark.copy() as! SKSpriteNode
         
@@ -44,45 +44,45 @@ class AboutScene: SKScene {
         addChild(positionLabel)
         addChild(nameLabel)
     }
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
-            let location = touch.locationInNode(self)
+            let location = touch.location(in: self)
             let particle = touch_particle[touch.hash]
             if (particle != nil) {
-                particle!.runAction(SKAction.moveTo(location, duration: 0))
+                particle!.run(SKAction.move(to: location, duration: 0))
                 particle!.particleBirthRate = 250 + 300 * touch.force
             }
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let particle = touch_particle[touch.hash]
             if (particle != nil)
             {
                 particle!.particleBirthRate = 0
                 for child in particle!.children {
-                    child.runAction(SKAction.sequence([SKAction.waitForDuration(1), SKAction.removeFromParent()]))
+                    child.run(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.removeFromParent()]))
                 }
-                particle!.runAction(SKAction.sequence([SKAction.waitForDuration(1), SKAction.removeFromParent()]))
+                particle!.run(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.removeFromParent()]))
             }
             touch_particle[touch.hash] = nil
         }
     }
     
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         if (touches != nil) {
-            touchesEnded(touches!, withEvent: nil)
+            touchesEnded(touches, with: nil)
         }
     }
     
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         /* Called when a touch begins */
         
         for touch in touches {
-            let location = touch.locationInNode(self)
-            let node = self.nodeAtPoint(location)
+            let location = touch.location(in: self)
+            let node = self.atPoint(location)
             
             let particle = Particle.copy() as! SKEmitterNode
             particle.name = "particle" + String(touch.hash)
@@ -95,8 +95,8 @@ class AboutScene: SKScene {
                 switch node.name!{
                 case  "backButton":
                     SaveSetting()
-                    Scene = StartUpScene(size : CGSizeMake(width, height))
-                    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                    Scene = StartUpScene(size : CGSize(width: width, height: height))
+                    View.presentScene(Scene, transition: SKTransition.crossFade(withDuration: 0.5))
                 default:
                     break
                 }
@@ -106,7 +106,7 @@ class AboutScene: SKScene {
         }
     }
     
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         /* Called before each frame is rendered */
     }
 }

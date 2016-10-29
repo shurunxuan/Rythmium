@@ -14,26 +14,29 @@ class Note: SKShapeNode {
     
     convenience init(time: Double, center : CGPoint, radius : CGFloat = 10) {
         
-        let path = CGPathCreateMutable()
+        let path = CGMutablePath()
         self.init()
         NoteSize = radius
         Time = time
         self.setScale(0.5)
         self.alpha = 0
         self.position = center
-        CGPathAddEllipseInRect(path, nil, CGRect(origin: CGPoint(x: -radius / 2, y: -radius / 2), size: CGSize(width: radius, height: radius)))
+        //var transform = CGAffineTransform.identity
+        let rect = CGRect.init(origin: CGPoint(x: -radius / 2, y: -radius / 2), size: CGSize(width: radius, height: radius))
+        path.addEllipse(in: rect)
+        //CGPathAddEllipseInRect(path, &transform, CGRect(origin: CGPoint(x: -radius / 2, y: -radius / 2), size: CGSize(width: radius, height: radius)))
         self.path = path
         self.glowWidth = 0
         self.lineWidth = 4.0
         self.strokeColor = brightColorWithHue(CGFloat(arc4random_uniform(360)) / 360.0)
-        self.antialiased = true
+        self.isAntialiased = true
         
     }
 }
 
-func brightColorWithHue(hue: CGFloat) -> UIColor {
+func brightColorWithHue(_ hue: CGFloat) -> UIColor {
     if colorfulTheme
     { return UIColor.init(hue: hue, saturation: 0.15, brightness: 1, alpha: 1) }
     else
-    { return UIColor.whiteColor() }
+    { return UIColor.white }
 }

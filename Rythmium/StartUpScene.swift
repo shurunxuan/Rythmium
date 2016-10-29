@@ -19,9 +19,9 @@ class StartUpScene: SKScene {
     
     var touch_particle: [Int : SKEmitterNode] = [:]
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         
-        Stage = GameStage.StartUp
+        Stage = GameStage.startUp
         
         titleLabel.fontName = "SFUIDisplay-Ultralight"
         startGameButton.fontName = "SFUIDisplay-Ultralight"
@@ -37,16 +37,16 @@ class StartUpScene: SKScene {
         settingButton.name = "settingButton"
         aboutButton.name = "aboutButton"
         
-        titleLabel.position = CGPointMake(width / 2, height * 17 / 24 - titleLabel.frame.height / 2.0)
-        settingButton.position = CGPointMake(width / 2, height / 3 - settingButton.frame.height * 1.5)
-        startGameButton.position = CGPointMake(width / 2, settingButton.position.y + settingButton.frame.height * 1.5)
-        aboutButton.position = CGPointMake(width - aboutButton.frame.width * 0.55, aboutButton.frame.height * 0.55)
+        titleLabel.position = CGPoint(x: width / 2, y: height * 17 / 24 - titleLabel.frame.height / 2.0)
+        settingButton.position = CGPoint(x: width / 2, y: height / 3 - settingButton.frame.height * 1.5)
+        startGameButton.position = CGPoint(x: width / 2, y: settingButton.position.y + settingButton.frame.height * 1.5)
+        aboutButton.position = CGPoint(x: width - aboutButton.frame.width * 0.55, y: aboutButton.frame.height * 0.55)
         
         if backgroundDark.texture == nil {
             let num = Int(arc4random() % 5)
-            backgroundDark = SKSpriteNode(texture: SKTexture(image: UIImage(CGImage: backgrounds[num].texture!.CGImage()).applyDarkEffect()))
-            backgroundDark.size = CGSizeMake(width, height)
-            backgroundDark.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame))
+            backgroundDark = SKSpriteNode(texture: SKTexture(image: UIImage(cgImage: backgrounds[num].texture!.cgImage()).applyDarkEffect()))
+            backgroundDark.size = CGSize(width: width, height: height)
+            backgroundDark.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
             backgroundDark.zPosition = -1000
         }
         Background = backgroundDark.copy() as! SKSpriteNode
@@ -60,44 +60,44 @@ class StartUpScene: SKScene {
         restarted = false
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
-            let location = touch.locationInNode(self)
+            let location = touch.location(in: self)
             let particle = touch_particle[touch.hash]
             if (particle != nil) {
-                particle!.runAction(SKAction.moveTo(location, duration: 0))
+                particle!.run(SKAction.move(to: location, duration: 0))
                 particle!.particleBirthRate = 250 + 300 * touch.force
             }
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let particle = touch_particle[touch.hash]
             if (particle != nil)
             {
                 particle!.particleBirthRate = 0
                 for child in particle!.children {
-                    child.runAction(SKAction.sequence([SKAction.waitForDuration(1), SKAction.removeFromParent()]))
+                    child.run(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.removeFromParent()]))
                 }
-                particle!.runAction(SKAction.sequence([SKAction.waitForDuration(1), SKAction.removeFromParent()]))
+                particle!.run(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.removeFromParent()]))
             }
             touch_particle[touch.hash] = nil
         }
     }
     
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         if (touches != nil) {
-            touchesEnded(touches!, withEvent: nil)
+            touchesEnded(touches, with: nil)
         }
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         /* Called when a touch begins */
         
         for touch in touches {
-            let location = touch.locationInNode(self)
-            let node = self.nodeAtPoint(location)
+            let location = touch.location(in: self)
+            let node = self.atPoint(location)
             
             let particle = Particle.copy() as! SKEmitterNode
             particle.name = "particle" + String(touch.hash)
@@ -109,14 +109,14 @@ class StartUpScene: SKScene {
             if node.name != nil {
                 switch node.name!{
                 case "startGameButton":
-                    Scene = ChooseScene(size : CGSizeMake(width, height))
-                    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                    Scene = ChooseScene(size : CGSize(width: width, height: height))
+                    View.presentScene(Scene, transition: SKTransition.crossFade(withDuration: 0.5))
                 case "settingButton":
-                    Scene = SettingScene(size : CGSizeMake(width, height))
-                    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                    Scene = SettingScene(size : CGSize(width: width, height: height))
+                    View.presentScene(Scene, transition: SKTransition.crossFade(withDuration: 0.5))
                 case "aboutButton":
-                    Scene = AboutScene(size : CGSizeMake(width, height))
-                    View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+                    Scene = AboutScene(size : CGSize(width: width, height: height))
+                    View.presentScene(Scene, transition: SKTransition.crossFade(withDuration: 0.5))
                 default:
                     break
                 }
@@ -126,7 +126,7 @@ class StartUpScene: SKScene {
         }
     }
     
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         /* Called before each frame is rendered */
     }
 }

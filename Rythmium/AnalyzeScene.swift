@@ -33,16 +33,16 @@ class AnalyzeScene: SKScene {
     
     var touch_particle: [Int : SKEmitterNode] = [:]
     
-    override func didMoveToView(view: SKView) {
-        Stage = GameStage.Analyze
-        self.view?.multipleTouchEnabled = true
+    override func didMove(to view: SKView) {
+        Stage = GameStage.analyze
+        self.view?.isMultipleTouchEnabled = true
         
         for label in analyzingLabels {
             label.fontName = "SFUIDisplay-Ultralight"
             label.fontSize = 40 * ratio
         }
-        analyzingLabels[0].position = CGPointMake(width / 2, height / 2)
-        analyzingLabels[1].position = CGPointMake(width / 2, height / 2 - analyzingLabels[1].frame.height)
+        analyzingLabels[0].position = CGPoint(x: width / 2, y: height / 2)
+        analyzingLabels[1].position = CGPoint(x: width / 2, y: height / 2 - analyzingLabels[1].frame.height)
         
         Background = backgroundDark.copy() as! SKSpriteNode
         self.addChild(Background)
@@ -52,32 +52,32 @@ class AnalyzeScene: SKScene {
         self.addChild(analyzingLabels[0])
         if !needFFT {
             analyzingLabels[0].text = "LOADING..."
-            analyzingLabels[0].position = CGPointMake(width / 2, height / 2 - analyzingLabels[0].frame.height / 2)
+            analyzingLabels[0].position = CGPoint(x: width / 2, y: height / 2 - analyzingLabels[0].frame.height / 2)
         } else {
             self.addChild(analyzingLabels[1])
         }
         
         for label in analyzingLabels {
-            label.runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.fadeOutWithDuration(1), SKAction.fadeInWithDuration(1)])))
+            label.run(SKAction.repeatForever(SKAction.sequence([SKAction.fadeOut(withDuration: 1), SKAction.fadeIn(withDuration: 1)])))
         }
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async(execute: {
             
-            if self.needFFT || visualizationType != visualization.None {
+            if self.needFFT || visualizationType != visualization.none {
                 if !restarted {
-                    exporter.Export()
+                    exporter.export()
                     Left.removeAll()
-                    self.CafFile.OpenFile("export-pcm.caf")
-                    self.CafFile.Peek(4088)
-                    let fileLength1 = 256 * 256 * 256 * self.CafFile.ReadBinary(1) + 256 * 256 * self.CafFile.ReadBinary(1)
-                    let fileLength2 = 256 * self.CafFile.ReadBinary(1) + self.CafFile.ReadBinary(1) + 4092
+                    self.CafFile.openFile("export-pcm.caf")
+                    self.CafFile.peek(4088)
+                    let fileLength1 = 256 * 256 * 256 * self.CafFile.readBinary(1) + 256 * 256 * self.CafFile.readBinary(1)
+                    let fileLength2 = 256 * self.CafFile.readBinary(1) + self.CafFile.readBinary(1) + 4092
                     let fileLength = fileLength1 + fileLength2
-                    self.CafFile.Peek(4096)
+                    self.CafFile.peek(4096)
                     
                     Left.reserveCapacity(fileLength / 4)
-                    while self.CafFile.OFFSET() != fileLength {
-                        let d : Int16 = self.CafFile.ReadBinary()
-                        self.CafFile.Peek(self.CafFile.OFFSET() + 2)
+                    while self.CafFile.offset() != fileLength {
+                        let d : Int16 = self.CafFile.readBinary()
+                        self.CafFile.peek(self.CafFile.offset() + 2)
                         Left.append(d)
                     }
                     
@@ -88,50 +88,50 @@ class AnalyzeScene: SKScene {
                 }
             }
             
-            dispatch_async(dispatch_get_main_queue(), {
-                Scene = GameScene(size : CGSizeMake(width, height))
-                View.presentScene(Scene, transition: SKTransition.crossFadeWithDuration(0.5))
+            DispatchQueue.main.async(execute: {
+                Scene = GameScene(size : CGSize(width: width, height: height))
+                View.presentScene(Scene, transition: SKTransition.crossFade(withDuration: 0.5))
             })
         })
     }
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
-            let location = touch.locationInNode(self)
+            let location = touch.location(in: self)
             let particle = touch_particle[touch.hash]
             if (particle != nil) {
-                particle!.runAction(SKAction.moveTo(location, duration: 0))
+                particle!.run(SKAction.move(to: location, duration: 0))
                 particle!.particleBirthRate = 250 + 300 * touch.force
             }
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let particle = touch_particle[touch.hash]
             if (particle != nil)
             {
                 particle!.particleBirthRate = 0
                 for child in particle!.children {
-                    child.runAction(SKAction.sequence([SKAction.waitForDuration(1), SKAction.removeFromParent()]))
+                    child.run(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.removeFromParent()]))
                 }
-                particle!.runAction(SKAction.sequence([SKAction.waitForDuration(1), SKAction.removeFromParent()]))
+                particle!.run(SKAction.sequence([SKAction.wait(forDuration: 1), SKAction.removeFromParent()]))
             }
             touch_particle[touch.hash] = nil
         }
     }
     
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         if (touches != nil) {
-            touchesEnded(touches!, withEvent: nil)
+            touchesEnded(touches, with: nil)
         }
     }
     
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         /* Called when a touch begins */
         
         for touch in touches {
-            let location = touch.locationInNode(self)
+            let location = touch.location(in: self)
             
             let particle = Particle.copy() as! SKEmitterNode
             particle.name = "particle" + String(touch.hash)
@@ -142,7 +142,7 @@ class AnalyzeScene: SKScene {
         }
     }
     
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         /* Called before each frame is rendered */
         
         
@@ -153,7 +153,7 @@ class AnalyzeScene: SKScene {
     
     
     
-    func FFT(WriteFilePath: String, fileLength: Int) {
+    func FFT(_ WriteFilePath: String, fileLength: Int) {
         
         var spec = [Double]()
         var sample = [Double]()
@@ -179,7 +179,8 @@ class AnalyzeScene: SKScene {
         spec_high.reserveCapacity(nframes / FFTlength + 10)
         spec_ehigh.reserveCapacity(nframes / FFTlength + 10)
         
-        for var i: Int = 0; i < nframes; i += FFTlength {
+        for var k in 0 ..< nframes / FFTlength {
+            var i = k * FFTlength
             if i + FFTlength >= nframes { break }
             let block = Array(Left[i ..< i + 2048])
             var block_fft = fft(block)
@@ -197,30 +198,30 @@ class AnalyzeScene: SKScene {
         VU_high.reserveCapacity(Count + 1)
         VU_ehigh.reserveCapacity(Count + 1)
         
-        for var i: Int = 0; i < Count; i++ {
+        for i: Int in 0 ..< Count {
             var sum: Double = 0
             var j: Int = 0;
-            for j = 0; j < 256; j++ {
+            for j in 0 ..< 256 {
                 if j + i < Count {
                     sum += Double(255 - j) * spec[j + i] } }
             VU.append(2 * sum / ((510.0 - Double(j)) * (Double(j) + 1.0)))
             sum = 0
-            for j = 0; j < 256; j++ {
+            for j in 0 ..< 256 {
                 if j + i < Count {
                     sum += Double(255 - j) * spec_low[j + i] } }
             VU_low.append(2 * sum / ((510.0 - Double(j)) * (Double(j) + 1.0)))
             sum = 0
-            for j = 0; j < 256; j++ {
+            for j in 0 ..< 256 {
                 if j + i < Count {
                     sum += Double(255 - j) * spec_mid[j + i] } }
             VU_mid.append(2 * sum / ((510.0 - Double(j)) * (Double(j) + 1.0)))
             sum = 0
-            for j = 0; j < 256; j++ {
+            for j in 0 ..< 256 {
                 if j + i < Count {
                     sum += Double(255 - j) * spec_high[j + i] } }
             VU_high.append(2 * sum / ((510.0 - Double(j)) * (Double(j) + 1.0)))
             sum = 0
-            for j = 0; j < 256; j++ {
+            for j in 0 ..< 256 {
                 if j + i < Count {
                     sum += Double(255 - j) * spec_ehigh[j + i] } }
             VU_ehigh.append(2 * sum / ((510.0 - Double(j)) * (Double(j) + 1.0)))
@@ -230,12 +231,12 @@ class AnalyzeScene: SKScene {
         
         var i: Int = spec.count - 1
         while spec[i] < 100
-        { i-- }
+        { i -= 1 }
         Count = sample.count
         while sample[i] >= sample[Count - 1] - 30
-        { i-- }
+        { i -= 1 }
         Count = VU.count
-        for var a: Int = i; a < Count; a++ {
+        for a: Int in i ..< Count {
             VU[a] = VU[i]
             VU_low[a] = VU_low[i]
             VU_mid[a] = VU_mid[i]
@@ -258,7 +259,7 @@ class AnalyzeScene: SKScene {
         
         var timeList = [[Double](), [Double](), [Double](), [Double](), [Double]()]
         var timeListFirstElementStrength = [Double]()
-        for var i: Int = 0; i < 5; ++i {
+        for i: Int in 0 ..< 5 {
             timeList[i].reserveCapacity(500)
             timeList[i].append(0)
         }
@@ -266,13 +267,13 @@ class AnalyzeScene: SKScene {
         timeListFirstElementStrength.append(0)
         
         let WriteFile = FileClass()
-        WriteFile.OpenFile(WriteFilePath)
+        WriteFile.openFile(WriteFilePath)
         
         Count = sample.count
         
         
         
-        for var i: Int = 1; i < Count - 1; i++ {
+        for i: Int in 1 ..< Count - 1 {
             if spec[i + 1] > spec[i]
             { sampleIncrease += spec[i + 1] - spec[i] }
             else {
@@ -293,7 +294,7 @@ class AnalyzeScene: SKScene {
             }
         }
         
-        for var i: Int = 1; i < Count - 1; ++i {
+        for i: Int in 1 ..< Count - 1 {
             
             
             if spec_low[i + 1] > spec_low[i]
@@ -303,13 +304,13 @@ class AnalyzeScene: SKScene {
                 if interval >= 0.1 {
                     if notePointer >= timeList[0].count { notePointer = timeList[0].count - 1 }
                     while timeList[0][notePointer] < sample[i] && notePointer < timeList[0].count - 1 {
-                        ++notePointer
+                        notePointer += 1
                     }
                     while timeList[0][notePointer - 1] >= sample[i] && notePointer > 0 {
-                        --notePointer
+                        notePointer -= 1
                     }
                     if sample[i] - timeList[0][notePointer - 1] < timeList[0][notePointer] - sample[i] {
-                        --notePointer
+                        notePointer -= 1
                     }
                     if abs(sample[i] - timeList[0][notePointer]) < 0.1 {
                         timeList[1][notePointer] = sampleIncrease_low / VU_low[i]
@@ -325,13 +326,13 @@ class AnalyzeScene: SKScene {
                 if interval >= 0.1 {
                     if notePointer >= timeList[0].count { notePointer = timeList[0].count - 1 }
                     while timeList[0][notePointer] < sample[i] && notePointer < timeList[0].count - 1 {
-                        ++notePointer
+                        notePointer += 1
                     }
                     while timeList[0][notePointer - 1] >= sample[i] && notePointer > 0 {
-                        --notePointer
+                        notePointer -= 1
                     }
                     if sample[i] - timeList[0][notePointer - 1] < timeList[0][notePointer] - sample[i] {
-                        --notePointer
+                        notePointer -= 1
                     }
                     if abs(sample[i] - timeList[0][notePointer]) < 0.1 {
                         timeList[2][notePointer] = sampleIncrease_mid / VU_mid[i]
@@ -347,13 +348,13 @@ class AnalyzeScene: SKScene {
                 if interval >= 0.1 {
                     if notePointer >= timeList[0].count { notePointer = timeList[0].count - 1 }
                     while timeList[0][notePointer] < sample[i] && notePointer < timeList[0].count - 1 {
-                        ++notePointer
+                        notePointer += 1
                     }
                     while timeList[0][notePointer - 1] >= sample[i] && notePointer > 0 {
-                        --notePointer
+                        notePointer -= 1
                     }
                     if sample[i] - timeList[0][notePointer - 1] < timeList[0][notePointer] - sample[i] {
-                        --notePointer
+                        notePointer -= 1
                     }
                     if abs(sample[i] - timeList[0][notePointer]) < 0.1 {
                         timeList[3][notePointer] = sampleIncrease_high / VU_high[i] / 1.8
@@ -369,13 +370,13 @@ class AnalyzeScene: SKScene {
                 if interval >= 0.1 {
                     if notePointer >= timeList[0].count { notePointer = timeList[0].count - 1 }
                     while timeList[0][notePointer] < sample[i] && notePointer < timeList[0].count - 1 {
-                        ++notePointer
+                        notePointer += 1
                     }
                     while timeList[0][notePointer - 1] >= sample[i] && notePointer > 0 {
-                        --notePointer
+                        notePointer -= 1
                     }
                     if sample[i] - timeList[0][notePointer - 1] < timeList[0][notePointer] - sample[i] {
-                        --notePointer
+                        notePointer -= 1
                     }
                     if abs(sample[i] - timeList[0][notePointer]) < 0.1 {
                         timeList[4][notePointer] = sampleIncrease_ehigh / VU_ehigh[i] / 2.5
@@ -388,17 +389,17 @@ class AnalyzeScene: SKScene {
         
         var writeString: String = ""
         let count = timeList[0].count
-        for var i: Int = 0; i < count; i++ {
+        for i: Int in 0 ..< count {
             if timeListFirstElementStrength[i] > 0.1 || i == 0 {
                 writeString += (String(timeListFirstElementStrength[i]) + "\t" + String(timeList[0][i]) + "\t" + String(timeList[1][i]) + "\t" + String(timeList[2][i]) + "\t" + String(timeList[3][i]) + "\t" + String(timeList[4][i]) + "\n")
             }
         }
         
-        WriteFile.Write(writeString)
+        WriteFile.write(writeString)
         
         //CafFile.DeleteFile()
-        CafFile.OpenFile("export.m4a")
-        CafFile.DeleteFile()
+        CafFile.openFile("export.m4a")
+        CafFile.deleteFile()
         
     }
 }
