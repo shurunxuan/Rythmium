@@ -94,7 +94,7 @@ BOOL coreAudioCanOpenURL (NSURL* url) {
     //pickerController.prompt = @"Choose song to export";
     pickerController.allowsPickingMultipleItems = NO;
     pickerController.delegate = self;
-    [self presentViewController:pickerController animated:YES completion:nil];
+    [self.parentViewController presentViewController:pickerController animated:YES completion:nil];
 }
 
 -(void) Export {
