@@ -65,7 +65,9 @@ class AnalyzeScene: SKScene {
             
             if self.needFFT || visualizationType != visualization.none {
                 if !restarted {
+                    NSLog("export start")
                     exporter.export()
+                    NSLog("export complete")
                     Left.removeAll()
                     self.CafFile.openFile("export-pcm.caf")
                     self.CafFile.peek(4088)
@@ -154,7 +156,7 @@ class AnalyzeScene: SKScene {
     
     
     func FFT(_ WriteFilePath: String, fileLength: Int) {
-        
+        NSLog("FFT Called")
         var spec = [Double]()
         var sample = [Double]()
         var VU = [Double]()
@@ -180,7 +182,7 @@ class AnalyzeScene: SKScene {
         spec_ehigh.reserveCapacity(nframes / FFTlength + 10)
         
         for var k in 0 ..< nframes / FFTlength {
-            var i = k * FFTlength
+            let i = k * FFTlength
             if i + FFTlength >= nframes { break }
             let block = Array(Left[i ..< i + 2048])
             var block_fft = fft(block)
@@ -200,7 +202,7 @@ class AnalyzeScene: SKScene {
         
         for i: Int in 0 ..< Count {
             var sum: Double = 0
-            var j: Int = 0;
+            let j: Int = 0;
             for j in 0 ..< 256 {
                 if j + i < Count {
                     sum += Double(255 - j) * spec[j + i] } }
@@ -390,8 +392,13 @@ class AnalyzeScene: SKScene {
         var writeString: String = ""
         let count = timeList[0].count
         for i: Int in 0 ..< count {
-            if timeListFirstElementStrength[i] > 0.1 || i == 0 {
-                writeString += (String(timeListFirstElementStrength[i]) + "\t" + String(timeList[0][i]) + "\t" + String(timeList[1][i]) + "\t" + String(timeList[2][i]) + "\t" + String(timeList[3][i]) + "\t" + String(timeList[4][i]) + "\n")
+            if timeListFirstElementStrength[i] > 0.001 || i == 0 {
+                writeString += String(timeListFirstElementStrength[i]) + "\t"
+                writeString += String(timeList[0][i]) + "\t"
+                writeString += String(timeList[1][i]) + "\t"
+                writeString += String(timeList[2][i]) + "\t"
+                writeString += String(timeList[3][i]) + "\t"
+                writeString += String(timeList[4][i]) + "\n"
             }
         }
         
@@ -400,7 +407,7 @@ class AnalyzeScene: SKScene {
         //CafFile.DeleteFile()
         CafFile.openFile("export.m4a")
         CafFile.deleteFile()
-        
+        NSLog("FFT Completed")
     }
 }
 

@@ -169,7 +169,7 @@ class GameScene: SKScene {
                 } else {
                     let Bar = SKShapeNode()
                     let path = CGMutablePath()
-                    var transform = CGAffineTransform.identity
+                    let transform = CGAffineTransform.identity
                     let zeroPoint = CGPoint.init(x: 0, y: 0)
                     path.addArc(center: zeroPoint, radius: 1, startAngle: -3.1415926535 / 1.05 / CGFloat(barCount), endAngle: 3.1415926535 / 1.05 / CGFloat(barCount), clockwise: false, transform: transform)
                     path.addLine(to: zeroPoint)
@@ -337,6 +337,7 @@ class GameScene: SKScene {
                 }
             }
         } else {
+            NSLog(String(exporter.songID())+".mss")
             MSSFile.openFile(String(exporter.songID())+".mss")
             let MSSString = MSSFile.read()
             var MSSList = MSSString?.components(separatedBy: "\n")
@@ -725,9 +726,10 @@ class GameScene: SKScene {
                     let block = fft(Array(Left[i ..< i + s]))
                     
                     for bar: Int in 0 ..< barCount {
-                        var x = sum(Array(block[Int(a1) - 1 ..< Int(a1 * q)]))
+                        let a1q = a1 * q
+                        var x = sum(Array(block[Int(a1) - 1 ..< Int(a1q)]))
                         x -= block[Int(a1) - 1] * Double(a1 - floor(a1))
-                        x += block[Int(a1 * q)] * Double(a1 * q - floor(a1 * q))
+                        x += block[Int(a1q)] * Double(a1q - floor(a1q))
                         x *= (1.0 + Double(barCount - bar) / Double(barCount) * 3.0)
                         if visualizationType == visualization.spectrumNormal {
                             spectrumBars[bar].run(SKAction.scaleY(to: CGFloat(x) / log(CGFloat(barCount)) * 2 / 30000.0 * height, duration: 0.05))
