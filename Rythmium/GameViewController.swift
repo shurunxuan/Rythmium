@@ -177,6 +177,10 @@ class GameViewController: UIViewController {
         return true
     }
     
+    override func preferredScreenEdgesDeferringSystemGestures() -> UIRectEdge {
+        return .all
+    }
+    
     override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
         if UIDevice.current.userInterfaceIdiom == .phone {
             return .landscape
